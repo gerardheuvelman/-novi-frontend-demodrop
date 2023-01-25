@@ -36,3 +36,78 @@
     transform: rotate(360deg);
   }
 }
+
+/*NIEUWE CSS VAN REACT OPDRACHT HIERONDER*/
+
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Roboto+Condensed:wght@300;400;700&display=swap');
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #dd3038;
+  --secondary: #e7613a;
+  --secondary-light: #FDF4F2;
+  --black: #292929;
+  --white: #FFFFFF;
+}
+
+body {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 300;
+  color: var(--black);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Quicksand', sans-serif;
+}
+
+h1 {
+  font-size: 65px;
+}
+
+h2 {
+  font-size: 42px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+a,
+a:link,
+a:visited {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* De buitenste container is altijd de volledige schermbreedte. Het is een flexbox container die zijn inhoud altijd netjes horizontaal centreert */
+.outer-content-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+/*De binnenste container is maximaal 1400px breed, zodat het er ook goed uitziet op brede schermen.
+Hij mag krimpen als het scherm minder breed wordt, maar niet groeien als er meer ruimte is.*/
+.inner-content-container {
+  flex-basis: 1200px;
+  flex-shrink: 1;
+  flex-grow: 0;
+  /*We voegen margin toe aan de linker- en rechterkant, zodat de content nooit helemaal tegen de rand gedrukt kan worden*/
+  margin: 0 20px;
+  /*We zorgen er ook voor dat deze flex-item op haar beurt ook weer een flexbox container is, waarin alle children onder elkaar komen te staan*/
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+footer {
+  color: var(--white);
+  background-color: var(--black);
+  padding: 20px 0;
+  text-align: center;
+}
