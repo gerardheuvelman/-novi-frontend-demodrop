@@ -9,7 +9,7 @@ function AuthContextProvider({ children }) {
   const [auth, setAuth] = useState({
     isAuth: false,
     user: null,
-    status: 'pending'
+    status: 'pending',
   });
   const navigate = useNavigate();
 
@@ -31,39 +31,41 @@ function AuthContextProvider({ children }) {
         localStorage.removeItem( 'token' )
       }
     } else {
-      // Wehn there is no JWT, we do nothing
+      // When there is no JWT, we do nothing
       setAuth( {
         ...auth,
         isAuth: false,
         user: null,
-        status: "done"
+        status: "done",
       } )
     }
   }, [] )
 
-  function login( jwt ) {
-    console.log( "Thus user has been logged in 🔓." )
+  function login( jwt, redirect ) {
+    console.log( "This user has been logged in 🔓." )
     localStorage.setItem('token', jwt);
     const decodedToken = jwt_decode(jwt);
-    void fetchUserData(jwt, decodedToken.sub, "/profile");
+    console.log('decodedToken: ',decodedToken);
+    void fetchUserData(jwt, decodedToken.sub, redirect);
   }
 
   async function fetchUserData(token, id, redirect){
-    try {
-      const response =await axios.get(`http://localhost:3000/600/users/${id}`,{
+        try {
+      const response =await axios.get(`http://localhost:8080/users/${id}`,{
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         }
       })
-      console.log(response);
+      console.log('fetchUserData(token, id, redirect): ', response.data);
       setAuth({
         ...auth,
         isAuth: true,
         user: {
           email: response.data.email,
-          id: response.data.id,
-          username: response.data.username
+          // id: response.data.id, BESTAAT NIET IN MIJN BACKEND
+          username: response.data.username,
+          authority: response.data.authorities[0].authority
         },
         status: 'done'
       });

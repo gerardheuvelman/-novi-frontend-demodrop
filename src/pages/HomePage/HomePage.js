@@ -2,10 +2,12 @@ import React, {useEffect, useState} from 'react';
 import './HomePage.css';
 import axios from 'axios';
 import {Link, useNavigate} from 'react-router-dom';
-import Header from '../../components/header/Header';
+import Header from '../../components/Header/Header';
 import logo from '../../assets/DemoDropLogo.png';
 import producer from '../../assets/producer-image.png';
 import dj from '../../assets/dj-image.png';
+import DemoTile from "../../components/DemoTile/DemoTile";
+import styles from './HomePage.module.scss';
 
 function HomePage() {
     const [demos, setDemos] = useState([]);
@@ -15,7 +17,7 @@ function HomePage() {
     useEffect(() => {
         async function fetchShortDemoList() {
             try {
-                const response = await axios.get('http://localhost:8080/demos/toptwelve');
+                const response = await axios.get('http://localhost:8080/demos/?limit=12');
                 console.log(response.data);
                 setDemos(response.data);
             } catch (e) {
@@ -37,13 +39,8 @@ function HomePage() {
                     <div className="inner-content-container">
                         <h2>Listen to our latest demos</h2>
                         <div className="demos-article-container">
-
                             {demos.map((demo) => {
-                                return <article className="demo-article" key={demo.demoId}>
-                                        <p>{demo.username}</p>
-                                        <h3>{demo.title}</h3>
-                                        <p><Link to={`/demos/${demo.demoId}`}>{demo.title}</Link></p>
-                                    </article>
+                                return <DemoTile demo={demo} key={demo.demoId}/>
                             })}
                         </div>
                     </div>

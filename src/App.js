@@ -1,38 +1,60 @@
 import React, {useContext} from 'react';
 import HomePage from './pages/HomePage/HomePage';
-import {Navigate, Route, Routes} from "react-router-dom";
-import Profile from './pages/Profile/Profile';
-import LogIn from './pages/LogIn/LogIn';
-import Register from './pages/Register/Register';
+import {Navigate, Route, Routes, useLocation} from "react-router-dom";
+import UserProfilePage from './pages/UserProfilePage/UserProfilePage';
+import UserLogInPage from './pages/UserLogInPage/UserLogInPage';
+import UserRegisterPage from './pages/UserRegisterPage/UserRegisterPage';
 import {AuthContext} from './context/AuthContext';
 import './App.css';
-import DemoDetails from "./pages/DemoDetails/DemoDetails";
-import DemoList from "./pages/DemoList/DemoList";
-import DemoForm from "./pages/DemoForm/DemoForm";
-import ConversationList from "./pages/ConversationList/ConversationList";
+import DemoDetailsPage from "./pages/DemoDetailsPage/DemoDetailsPage";
+import DemoListPage from "./pages/DemoListPage/DemoListPage";
+import DemoCreatePage from "./pages/DemoCreatePage/DemoCreatePage";
+import ConversationListPage from "./pages/ConversationListPage/ConversationListPage";
+import DemoDeletePage from "./pages/DemoDeletePage/DemoDeletePage";
+import AdminControlPanel from "./pages/AdminControlPanel/AdminControlPanel";
+import UserListPage from "./pages/UserListPage/UserListPage";
+import ConversationDetailsPage from "./pages/ConversationDetailsPage/ConversationDetailsPage";
+import UserChangePasswordPage from "./pages/UserChangePasswordPage/UserChangePasswordPage";
+import ConversationEditPage from "./pages/ConversationEditPage/ConversationEditPage";
+import ConversationCreatePage from "./pages/ConversationCreatePage/ConversationCreatePage";
+import DemoEditPage from "./pages/DemoEditPage/DemoEditPage";
+import UserChangeEmailPage from "./pages/UserChangeEmailPage/UserChangeEmailPage";
+import styles from './App.module.scss';
+import Footer from "./components/Footer/Footer";
 
 function App() {
-    const {isAuth} = useContext(AuthContext);
+    const location = useLocation();
+    console.log(location);
+    const currenLocation = location.pathname;
+    const {isAuth, user} = useContext(AuthContext);
     return (
         <>
             <div className="content">
                 <Routes>
                     <Route exact path="/" element={<HomePage/>}/>
-                    <Route path="/demos" element={<DemoList/>}/>
-                    <Route path="/demos/drop" element={<DemoForm mode='create'/>}/> {/* LET OP. Later auth aanzetten op deze route*/}
-                    <Route path="/demos/drop/:id" element={<DemoForm mode='update'/>}/> {/* LET OP. Later auth aanzetten op deze route*/}
-                    <Route path="/users/**/conversations" element={<ConversationList mode='update'/>}/> {/* LET OP. Later auth aanzetten op deze route*/}
-                    <Route path="/demos/:id" element={<DemoDetails/>}/>
-                    <Route path="/profile" element={isAuth ? <Profile/> : <Navigate to="/"/>}/> {/* LET OP: auth werkt nog niet tot aansluiting front end en back end*/}
-                    <Route path="/login" element={<LogIn/>}/>
-                    <Route path="/register" element={<Register/>}/>
+                    <Route path="/demos" element={<DemoListPage mode='all' limit={0}/>}/>
+                    <Route path="/demos/drop" element={isAuth ? <DemoCreatePage/> : <UserLogInPage redirect={currenLocation}/>}/>
+                    <Route path="/demos/edit/:demoId" element={isAuth ? <DemoEditPage/> : <UserLogInPage redirect={currenLocation}/>}/>
+                    <Route path="/demos/delete/:demoIid" element={isAuth ? <DemoDeletePage/> : <UserLogInPage redirect={currenLocation}/>}/>
+                    <Route path="/users/:username/profile" element={isAuth ? <UserProfilePage/> : <UserLogInPage redirect={currenLocation}/>}/>
+                    <Route path="/users/:username/demos" element={isAuth ? <DemoListPage mode='personal' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
+                    <Route path="/users/:username/conversations" element={isAuth ? <ConversationListPage mode='personal' limit={0}/> :<UserLogInPage redirect={currenLocation}/>}/>
+                    <Route path="/users/:username/favdemos" element={isAuth ? <DemoListPage mode='fav' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
+                    <Route path="/users/:username/change-password" element={isAuth ? <UserChangePasswordPage/> : <UserLogInPage redirect={currenLocation}/>}/>
+                    <Route path="/users/:username/change-email" element={isAuth ? <UserChangeEmailPage/> : <UserLogInPage redirect={currenLocation}/>}/>
+                    <Route path="/demos/:demoId" element={<DemoDetailsPage/>}/>
+                    <Route path="/login" element={isAuth ? <Navigate to={`/users/${user.username}/profile`}/>  : <UserLogInPage redirect={currenLocation}/>}/>
+                    <Route path="/register" element={<UserRegisterPage/>}/>
+                    <Route path="/admin" element={(isAuth  && (user.authority === "ROLE_ADMIN")) ? <AdminControlPanel/> : <UserLogInPage redirect={currenLocation}/>}/>
+                    <Route path="/admin/users" element={(isAuth  && (user.authority === "ROLE_ADMIN")) ? <UserListPage mode='all' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
+                    <Route path="/admin/demos" element={(isAuth  && (user.authority === "ROLE_ADMIN")) ? <DemoListPage mode='all' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
+                    <Route path="/admin/conversations" element={(isAuth  && (user.authority === "ROLE_ADMIN")) ? <ConversationListPage mode='all' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
+                    <Route path="/conversations/:conversationId" element={isAuth ? <ConversationDetailsPage mode='personal'/> : <UserLogInPage redirect={currenLocation}/>}/>
+                    <Route path="/demos/:demoId/inquire" element={isAuth ? <ConversationCreatePage/> : <UserLogInPage redirect={currenLocation}/>}/>
+                    <Route path="/conversations/:id/reply" element={isAuth ? <ConversationEditPage/> : <UserLogInPage redirect={currenLocation}/>}/>
                 </Routes>
             </div>
-            <footer className="outer-content-container">
-                <div className="inner-content-container">
-                    In opdracht van NOVI Hogeschool © 2023
-                </div>
-            </footer>
+            <Footer/>
         </>
     );
 }
