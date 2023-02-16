@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import './ConversationCreatePage.css';
 import Header from "../../components/Header/Header";
 import {useParams} from "react-router-dom";
 import ConversationForm from "../../components/ConversationForm/ConversationForm";
 import styles from './ConversationCreatePage.module.scss';
+import Footer from "../../components/Footer/Footer";
+import CommonPageComponent from "../../components/CommonPageComponent/CommonPageComponent";
+import CommonFormComponent from "../../components/CommonFormComponent/CommonFormComponent";
 
 function ConversationCreatePage() {
 
@@ -20,6 +22,7 @@ function ConversationCreatePage() {
             <main>
                 <ConversationForm mode='create' prefillConversation={blankConversation}/>
             </main>
+            <Footer/>
         </>
     );
 }

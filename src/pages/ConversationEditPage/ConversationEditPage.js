@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import './ConversationEditPage.css';
 import axios from 'axios';
 import Header from "../../components/Header/Header";
 import { useParams} from "react-router-dom";
 import ConversationForm from "../../components/ConversationForm/ConversationForm";
 import styles from './ConversationEditPage.module.scss';
+import Footer from "../../components/Footer/Footer";
 
 function ConversationEditPage() {
     const {conversationId} = useParams();
+    console.log(conversationId);
     const [conversation, setConversation] = useState({});
     const storedToken = localStorage.getItem("token");
 
@@ -35,8 +36,10 @@ function ConversationEditPage() {
                 <h1>Reply to a received message</h1>
             </Header>
             <main>
+                {console.log(conversation)}
                 <ConversationForm mode='update' prefillConversation={conversation}/>
             </main>
+            <Footer/>
         </>
     );
 }

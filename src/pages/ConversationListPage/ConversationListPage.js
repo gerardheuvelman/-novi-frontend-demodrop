@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
-import './ConversationListPage.css';
 import Header from "../../components/Header/Header";
 import authContext, {AuthContext} from "../../context/AuthContext";
 import ConversationList from "../../components/ConversationList/ConversationList";
 import styles from './ConversationListPage.module.scss';
+import Footer from "../../components/Footer/Footer";
 
 function ConversationListPage({mode, limit}) {
     const {user} = useContext(AuthContext);
@@ -22,6 +22,7 @@ function ConversationListPage({mode, limit}) {
                     <ConversationList mode={mode} limit={limit}></ConversationList>
                 </div>
             </main>
+            <Footer/>
         </>
     );
 }

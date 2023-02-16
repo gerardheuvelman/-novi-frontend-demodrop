@@ -1,10 +1,10 @@
 import React, { useEffect, useState} from 'react';
-import './DemoEditPage.css';
 import axios from 'axios';
 import Header from '../../components/Header/Header';
 import {useParams} from "react-router-dom";
 import DemoForm from "../../components/DemoForm/DemoForm";
 import styles from './DemoEditPage.module.scss';
+import Footer from "../../components/Footer/Footer";
 
 function DemoEditPage() {
     const { demoId } = useParams();
@@ -23,15 +23,19 @@ function DemoEditPage() {
         void fetchDemo();
     }, []);
 
+    console.log('demo: ', demo);
+
     return (
         <>
             <Header>
                 <h1>Demo upload page</h1>
+                {console.log('title: ', demo.title)}
                 <h4>{`Edit demo "${demo.title}"`}</h4>
             </Header>
             <main>
                 <DemoForm mode='update' prefillDemo={demo}/>
             </main>
+            <Footer/>
         </>
     );
 }

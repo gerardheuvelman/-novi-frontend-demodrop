@@ -1,11 +1,12 @@
 import styles from './InputComponent.module.scss';
 
-function InputComponent({ inputType, inputName, inputLabel, inputId, validationRules, register, errors }) {
+function InputComponent({ value, inputType, inputName, inputLabel, inputId, validationRules, register, errors }) {
     return (
         <>
             <label htmlFor={inputId}>
                 {inputLabel}
                 <input
+                    value={value}
                     type={inputType}
                     id={inputId}
                     {...register(inputName, validationRules)}

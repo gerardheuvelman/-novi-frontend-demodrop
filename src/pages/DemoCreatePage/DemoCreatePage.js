@@ -1,8 +1,8 @@
 import React, { useEffect, useState} from 'react';
-import './DemoCreatePage.css';
 import Header from '../../components/Header/Header';
 import DemoForm from "../../components/DemoForm/DemoForm";
 import styles from './DemoCreatePage.module.scss';
+import Footer from "../../components/Footer/Footer";
 
 function DemoCreatePage() {
 
@@ -21,8 +21,10 @@ function DemoCreatePage() {
                 <h4>Create a new demo</h4>
             </Header>
             <main>
+
                 <DemoForm mode='create' prefillDemo={blankDemo}/>
             </main>
+            <Footer/>
         </>
     );
 }

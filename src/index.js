@@ -5,7 +5,6 @@ import AuthContextProvider from './context/AuthContext';
 import App from './App';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import styles from './index.module.scss';
 
 ReactDOM.render(
     <React.StrictMode> // TODO voor opleveren van het project verwijderen!!

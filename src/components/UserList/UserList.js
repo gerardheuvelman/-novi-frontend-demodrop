@@ -1,7 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
-import './UserList.css';
-import Header from "../Header/Header";
 import {Link} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
 import styles from './UserList.module.scss';

@@ -6,6 +6,7 @@ import Header from "../../components/Header/Header";
 import { useForm } from 'react-hook-form';
 import InputComponent from "../../components/InputComponent/InputComponent";
 import styles from './UserLogInPage.module.scss';
+import Footer from "../../components/Footer/Footer";
 
 
 function UserLogInPage({redirect}) {
@@ -97,6 +98,7 @@ function UserLogInPage({redirect}) {
                 </form>
                 <p>Don't have an account yet? Please <Link to="/register">Register</Link> first.</p>
             </main>
+            <Footer/>
         </>
     );
 }

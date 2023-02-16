@@ -6,6 +6,7 @@ import Header from "../../components/Header/Header";
 import { useForm } from 'react-hook-form';
 import InputComponent from "../../components/InputComponent/InputComponent";
 import styles from './UserRegisterPage.module.scss';
+import Footer from "../../components/Footer/Footer";
 
 function UserRegisterPage() {
     const [submitted, toggleSubmitted] = useState(false);
@@ -127,6 +128,7 @@ function UserRegisterPage() {
             </form>
             <p>Have an account already? Sign in <Link to="/login">here</Link> .</p>
         </main>
+        <Footer/>
     </>
   );
 }

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import './DemoDetails.css';
 import { ReactComponent as BackIcon } from '../../assets/back.svg';
 import styles from './DemoDetails.module.scss';
 
-function DemoDetails(demo) {
+function DemoDetails({demo}) {
   const { demoId } = useParams();
   console.log('DemoDetails received the following demo parameter: ', demo );
+    // console.log(demo.file.fileName);
 
   return (
     <>
@@ -23,7 +23,7 @@ function DemoDetails(demo) {
                 <h3>BPM</h3>
                 <p>{demo.bpm}</p>
                 <h3>Filename</h3>
-                <p>{demo.file.fileName}</p>
+                <p>{demo.audioFile.fileName}</p>
                 <h3>Genre</h3>
                 <p>{demo.genre.name}</p>
                 <h3>producer</h3>

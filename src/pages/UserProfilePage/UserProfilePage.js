@@ -4,6 +4,7 @@ import authContext, {AuthContext} from "../../context/AuthContext";
 import axios from "axios";
 import Header from "../../components/Header/Header";
 import styles from './UserProfilePage.module.scss';
+import Footer from "../../components/Footer/Footer";
 
 function UserProfilePage() {
     const [privateUserData, setPrivateUserData] = useState("")
@@ -53,6 +54,7 @@ function UserProfilePage() {
                     <p>Back to the <Link to="/">Home page</Link></p>
                 </section>
             </main>
+            <Footer/>
         </>
     );
 }

@@ -6,6 +6,7 @@ import Header from "../../components/Header/Header";
 import {useForm} from 'react-hook-form';
 import InputComponent from "../../components/InputComponent/InputComponent";
 import styles from './UserChangeEmailPage.module.scss';
+import Footer from "../../components/Footer/Footer";
 
 function UserChangePasswordPage() {
     const {user} = useContext(AuthContext);
@@ -94,6 +95,7 @@ function UserChangePasswordPage() {
                 </form>
                 <p><Link to={`/users/${user.username}/profile`}>Back</Link> to your profile page</p>
             </main>
+            <Footer/>
         </>
     );
 }

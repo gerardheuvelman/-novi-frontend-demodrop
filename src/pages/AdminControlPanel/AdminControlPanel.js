@@ -7,6 +7,7 @@ import UserList from "../../components/UserList/UserList";
 import DemoList from "../../components/DemoList/DemoList";
 import ConversationList from "../../components/ConversationList/ConversationList";
 import styles from './AdminControlPanel.module.scss';
+import Footer from "../../components/Footer/Footer";
 
 function AdminControlPanel(props) {
     const [users, setUsers] = useState([]);
@@ -58,6 +59,7 @@ function AdminControlPanel(props) {
                     </div>
                 </section>
             </main>
+            <Footer/>
         </>
 
     );

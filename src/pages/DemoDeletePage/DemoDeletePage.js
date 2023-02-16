@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from "../../components/Header/Header";
 import styles from './DemoDeletePage.module.scss';
+import Footer from "../../components/Footer/Footer";
 
 function DemoDeletePage(props) {
     return (
@@ -12,6 +13,8 @@ function DemoDeletePage(props) {
             <main>
                 <h1>To be written</h1>
             </main>
+            <Footer/>
+
         </>
     );
 }

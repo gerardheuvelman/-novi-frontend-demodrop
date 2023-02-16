@@ -1,29 +1,31 @@
 import React, {useContext, useEffect, useState} from 'react';
-import './ConversationForm.css';
 import axios from 'axios';
 import {useNavigate, useParams} from "react-router-dom";
 import {useForm} from 'react-hook-form';
 import InputComponent from "../../components/InputComponent/InputComponent";
 import {AuthContext} from "../../context/AuthContext";
-import styles from './ConversatinoForm.module.scss';
+import styles from './ConversationForm.module.scss';
 
 function ConversationForm({mode, prefillConversation}) {
-    const {demoId, conversationId } = useParams(); // When in create mode, demoId is populated, when in update mode, id will be populated
+    const {demoId, conversationId } = useParams(); // When in create mode, demoId is populated, when in update mode, conversationId will be populated
     const {isAuth, user} = useContext(AuthContext);
-    const [conversation, setConversation] = useState({});
     const [createSuccess, toggleCreateSuccess] = useState(false);
     const [updateSuccess, toggleUpdateSuccess] = useState(false);
     const storedToken = localStorage.getItem("token");
     const navigate = useNavigate();
+
+    console.log(prefillConversation.subject)
+    console.log(prefillConversation.body)
     const {handleSubmit, formState: {errors}, register, watch} = useForm({
         mode: 'onTouched',
         defaultValues: {
-            'subject': conversation.subject,
-            'body': conversation.body,
+            subject: "test", //prefillConversation.subject,
+            body: prefillConversation.body
         }
     });
 
     console.log(mode);
+    console.log(conversationId);
 
     async function handleFromSubmit(data) {
         if (mode === 'create') {
@@ -80,13 +82,13 @@ function ConversationForm({mode, prefillConversation}) {
 
     return (
         <>
-            <div className="page-container">
                 {mode === 'create' && <h1>Start a new conversation</h1>}
                 {createSuccess === true && <p>Message has been sent!</p>}
                 {mode === 'update' && <h1>Reply to conversation</h1>}
                 {updateSuccess === true && <p>Your reply has been sent!</p>}
                 <form onSubmit={handleSubmit(handleFromSubmit)}>
                     <InputComponent
+                        // value={prefillConversation.subject}
                         inputType="text"
                         inputName="subject"
                         inputId="subject-field"
@@ -112,6 +114,7 @@ function ConversationForm({mode, prefillConversation}) {
                     <label htmlFor="body-field`">
                         Body:
                         <textarea
+                            // value={prefillConversation.body}
                             name="body"
                             id="body-field"
                             rows="4"
@@ -138,7 +141,6 @@ function ConversationForm({mode, prefillConversation}) {
                         {mode === 'update' && <h1>Update</h1>}
                     </button>
                 </form>
-            </div>
         </>
     );
 }

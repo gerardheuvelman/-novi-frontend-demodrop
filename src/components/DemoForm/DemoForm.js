@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import './DemoForm.css';
 import axios from 'axios';
 import InputComponent from '../../components/InputComponent/InputComponent';
 import {useParams} from "react-router-dom";
@@ -32,7 +31,27 @@ function DemoForm({mode, prefillDemo}) {
             try {
                 const response = await axios.get('http://localhost:8080/genres');
                 console.log('fetchGenres(): ', response.data);
-                setGenreList(response.data);
+                // SORT THE LIST BEFORE SETTING THE STATE VARIABLE
+                setGenreList(response.data.sort((a,b) => {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                }));
+                // console.log('unsorted genreList: ', genreList)
+                genreList.sort((a,b) => {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name< b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                // console.log('sorted genreList: ', genreList)
             } catch (e) {
                 console.error(e);
             }
@@ -67,7 +86,7 @@ function DemoForm({mode, prefillDemo}) {
                 title: title,
                 length: length,
                 bpm: bpm,
-                file: null,
+                audioFile: null,
                 genre: {name: genre}
             }, {
                 headers: {
@@ -106,9 +125,9 @@ function DemoForm({mode, prefillDemo}) {
 
     async function sendFileWithDemoId(demoId, {file}) {
         console.log("now sending file to be associated with demo :", demoId);
-        console.log('file: ', file);
+        console.log('file: ', file[0]);
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("file", file[0]);
         console.log(formData);
         try {
             const result = await axios.post(`http://localhost:8080/demos/${demoId}/file`, formData,

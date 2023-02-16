@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
-import './UserListPage.css';
 import Header from "../../components/Header/Header";
 import UserList from "../../components/UserList/UserList";
 import styles from './UserListPage.module.scss';
+import Footer from "../../components/Footer/Footer";
 
 function UserListPage({mode, limit}) {
 
@@ -17,6 +17,7 @@ function UserListPage({mode, limit}) {
                     <UserList mode={mode} limit={limit}></UserList>
                 </div>
             </main>
+            <Footer/>
         </>
     );
 }

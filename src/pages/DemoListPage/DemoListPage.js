@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
-import './DemoListPage.css';
 import Header from "../../components/Header/Header";
 import {AuthContext} from "../../context/AuthContext";
 import DemoList from "../../components/DemoList/DemoList";
 import styles from './DemoListPage.module.scss';
+import Footer from "../../components/Footer/Footer";
 
 function DemoListPage({mode, limit}) { // VALUES:  'all ', 'personal' or 'fav'
     const {user} = useContext(AuthContext);
@@ -23,6 +23,7 @@ function DemoListPage({mode, limit}) { // VALUES:  'all ', 'personal' or 'fav'
                     <DemoList mode={mode} limit={limit}></DemoList>
                 </div>
             </main>
+            <Footer/>
         </>
     );
 }

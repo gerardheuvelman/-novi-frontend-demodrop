@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
-import './DemoList.css';
 import {Link} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
 import FavButton from "../FavButton/FavButton";
@@ -94,8 +93,7 @@ function DemoList({mode, limit}) { // VALUES:  'all ', 'personal' or 'fav'
                 </thead>
                 <tbody>
                 {demos.map((demo) => {
-
-
+                    {console.log('demo: ', demo)}
                     // De key moet op het buitenste element staan en uniek zijn
                     return <tr key={demo.demoId}>
                         <td>{demo.createdDate}</td>
@@ -103,7 +101,7 @@ function DemoList({mode, limit}) { // VALUES:  'all ', 'personal' or 'fav'
                         <td>{demo.genre.name}</td>
                         <td>{demo.bpm}</td>
                         <td>{demo.length}</td>
-                        {mode === 'personal' && <td><Link to={`/demos/edit/${demo.demoId}`}>Edit</Link></td>}
+                        {mode === 'personal' && <td><Link to={`/demos/${demo.demoId}/edit`}>Edit</Link></td>}
                         {mode === 'personal' && <td><Link to={`/demos/delete/${demo.demoId}`}>Delete</Link></td>}
                         {user && <td><FavButton demoId={demo.demoId}></FavButton>
                         </td>}

@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import './ConversationDetailsPage.css';
 import Header from '../../components/Header/Header';
 import {AuthContext} from "../../context/AuthContext";
 import ConversationDetails from "../../components/ConversationDetails/ConversationDetails";
 import styles from './ConversationDetailsPage.module.scss';
+import Footer from "../../components/Footer/Footer";
 
 function ConversationDetailsPage() {
   const [conversation, setConversation] = useState({});
@@ -41,6 +41,7 @@ function ConversationDetailsPage() {
       <main>
         conversation ? <ConversationDetails conversation={conversation}/> : <p>Loading...</p>
       </main>
+      <Footer/>
     </>
   );
 }

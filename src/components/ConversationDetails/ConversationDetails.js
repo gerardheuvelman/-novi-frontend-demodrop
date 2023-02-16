@@ -1,12 +1,12 @@
 import React, {useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import './ConversationDetails.css';
 import { ReactComponent as BackIcon } from '../../assets/back.svg';
 import {AuthContext} from "../../context/AuthContext";
 import styles from './ConversationDetails.module.scss';
 
-function ConversationDetails(conversation) {
+function ConversationDetails({conversation}) {
   const { conversationId } = useParams();
+    console.log(conversationId);
   const {user} = useContext(AuthContext);
 
   return (
