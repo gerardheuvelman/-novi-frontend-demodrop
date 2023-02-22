@@ -1,16 +1,16 @@
 import React, { useEffect, useState} from 'react';
 import Header from '../../components/Header/Header';
 import DemoForm from "../../components/DemoForm/DemoForm";
-import styles from './DemoCreatePage.module.scss';
+import styles from './DemoCreatePage.module.css';
 import Footer from "../../components/Footer/Footer";
 
 function DemoCreatePage() {
 
     const blankDemo = {
-        title: "",
-        length: 0,
-        bpm: 0,
-        genre: {name: 'unknown'},
+        title: null,
+        length: null,
+        bpm: null,
+        genre: {name: 'Unknown'},
         file: null
     };
 

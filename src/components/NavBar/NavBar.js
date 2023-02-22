@@ -2,9 +2,8 @@ import React, {useContext, useState} from 'react';
 // import logo from '../../assets/DemoDropLogo.png';
 import {useNavigate, NavLink, Link} from 'react-router-dom';
 import authContext, {AuthContext} from '../../context/AuthContext';
-import styles from './NavBar.module.scss';
+import styles from './NavBar.module.css';
 import logo from '../../assets/DemoDropLogo.png';
-
 
 function NavBar() {
     const {isAuth, logout, user} = useContext(AuthContext);
@@ -16,26 +15,23 @@ function NavBar() {
             <div className='inner-container'>
                 <NavLink to="/"><img src={logo} alt="DemoDrop header logo"/></NavLink>
                 <ul>
-                    <li><NavLink to="/demos">Demo list</NavLink></li>
-                    <li><NavLink to="/demos/drop">Drop new demo</NavLink></li>
-                    <li>
-                        <a>test</a>
-                    </li>
+                    <li><NavLink className={styles['link']} to="/demos">Demo list</NavLink></li>
+                    <li><NavLink className={styles['link']} to="/demos/drop">Drop new demo</NavLink></li>
                     {isAuth ?
                         <>
                             <li>{user.email}</li>
-                            <li><NavLink className='link' to={`/users/${user.username}/demos`}>My demos</NavLink></li>
-                            <li><NavLink className='link' to={`/users/${user.username}/conversations`}>Inbox</NavLink>
+                            <li><NavLink className={styles['link']} to={`/users/${user.username}/demos`}>My demos</NavLink></li>
+                            <li><NavLink className={styles['link']} to={`/users/${user.username}/conversations`}>Inbox</NavLink>
                             </li>
-                            <li><NavLink className='link' to={`/users/${user.username}/profile`}>My profile</NavLink>
+                            <li><NavLink className={styles['link']} to={`/users/${user.username}/profile`}>My profile</NavLink>
                             </li>
-                            <li><NavLink className='link' to={`/users/${user.username}/favdemos`}>Favorites</NavLink>
+                            <li><NavLink className={styles['link']} to={`/users/${user.username}/favdemos`}>Favorites</NavLink>
                             </li>
                             <li>
-                                <button className='link' type="button" onClick={logout}>Log out</button>
+                                <button className={styles['link']} type="button" onClick={logout}>Log out</button>
                             </li>
                             {user.authority === 'ROLE_ADMIN' &&
-                                <li><NavLink to={`/admin`}>Admin Control Panel</NavLink></li>}
+                                <li><NavLink className={styles['link']} to={`/admin`}>Admin Control Panel</NavLink></li>}
                         </>
                         :
                         <>

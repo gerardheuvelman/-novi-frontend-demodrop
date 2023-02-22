@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './CommonFormComponent.module.scss';
+import styles from './CommonFormComponent.module.css';
 
 function CommonFormComponent({children}) {
     return (

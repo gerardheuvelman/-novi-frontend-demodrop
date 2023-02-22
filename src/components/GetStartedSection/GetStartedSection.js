@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './SetStartedSection.module.scss';
+import styles from './SetStartedSection.module.css';
 import {useNavigate} from "react-router-dom";
 
 function GetStartedSection({children}) {

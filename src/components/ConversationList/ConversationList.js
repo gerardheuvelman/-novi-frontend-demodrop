@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
 import {AuthContext} from "../../context/AuthContext";
 import {Link} from "react-router-dom";
-import styles from './ConversationList.module.scss';
+import styles from './ConversationList.module.css';
 
 function ConversationList({mode, limit}) {
     const [conversations, setConversations] = useState([]);
@@ -33,7 +33,7 @@ function ConversationList({mode, limit}) {
                         // , signal: controller.signal
                     });
                 }
-                console.log(response.data);
+                console.log(`GET /conversations?limit=${limit} yielded the following response: `, response);
                 setConversations(response.data);
             } catch (e) {
                 console.error(e);
@@ -48,7 +48,8 @@ function ConversationList({mode, limit}) {
             <table>
                 <thead>
                 <tr>
-                    <th>Date</th>
+                    <th>Created Date</th>
+                    <th>Latest Reply Date</th>
                     {mode === 'personal' && <th>User</th>}
                     {mode === 'all' && <th>Producer</th>}
                     {mode === 'all' && <th>Interested User</th>}
@@ -60,8 +61,9 @@ function ConversationList({mode, limit}) {
                 {conversations.map((conversation) => {
                     // De key moet op het buitenste element staan en uniek zijn
                     return <tr key={conversation.conversationId}>
+                        <td>{conversation.createdDate}</td>
                         <td>{conversation.latestReplyDate}</td>
-                        {mode === 'personal' && <td>{conversation.interestedUser.username}</td>}
+                        {mode === 'personal' && <td>{ user.username ===  conversation.producer.username ? conversation.interestedUser.username: conversation.producer.username }</td>}
                         {mode === 'all' && <td>{conversation.producer.username}</td>}
                         {mode === 'all' && <td>{conversation.interestedUser.username}</td>}
                         <td>{conversation.demo.title}</td>

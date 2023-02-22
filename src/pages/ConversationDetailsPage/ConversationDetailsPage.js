@@ -4,7 +4,7 @@ import axios from 'axios';
 import Header from '../../components/Header/Header';
 import {AuthContext} from "../../context/AuthContext";
 import ConversationDetails from "../../components/ConversationDetails/ConversationDetails";
-import styles from './ConversationDetailsPage.module.scss';
+import styles from './ConversationDetailsPage.module.css';
 import Footer from "../../components/Footer/Footer";
 
 function ConversationDetailsPage() {
@@ -39,7 +39,7 @@ function ConversationDetailsPage() {
         {/*{ Object.keys(conversation).length > 0 && <h4>a conversation between {conversation.producer} (producer of {conversation.demo.title}) and {conversation.interestedUser.username} (interested party)</h4>}*/}
       </Header>
       <main>
-        conversation ? <ConversationDetails conversation={conversation}/> : <p>Loading...</p>
+        {conversation ? <ConversationDetails conversation={conversation}/> : <p>Loading...</p>}
       </main>
       <Footer/>
     </>

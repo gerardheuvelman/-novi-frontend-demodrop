@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './HomePageMainComponent.module.scss';
+import styles from './HomePageMainComponent.module.css';
 
 function HomePageMainComponent({children}) {
     return (

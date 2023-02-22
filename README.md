@@ -1,3 +1,10 @@
+# KNOWN BUGS: 
+
+- Short pages are shorter than the height of the screen.
+- Reply to conversation . Changing the body does not actually change the body!
+
+
+
 # DemoDrop- a general purpose online music demo marketplace (front end web project)
 
 ## About

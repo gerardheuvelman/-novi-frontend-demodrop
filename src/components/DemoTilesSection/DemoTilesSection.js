@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import styles from './DemoTilesSection.module.scss';
+import styles from './DemoTilesSection.module.css';
 import DemoTile from "../DemoTile/DemoTile";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Header from '../../components/Header/Header';
-import styles from './HomePage.module.scss';
+import styles from './HomePage.module.css';
 import Footer from "../../components/Footer/Footer";
 import DemoTilesSection from "../../components/DemoTilesSection/DemoTilesSection";
 import CommendationsSection from "../../components/CommendationsSection/CommendationsSection";

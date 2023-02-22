@@ -5,27 +5,28 @@ import axios from "axios";
 import Header from "../../components/Header/Header";
 import {useForm} from 'react-hook-form';
 import InputComponent from "../../components/InputComponent/InputComponent";
-import styles from './UserChangePasswordPage.module.scss';
+import styles from './UserChangePasswordPage.module.css';
 import Footer from "../../components/Footer/Footer";
 
 function UserChangePasswordPage() {
     const {user} = useContext(AuthContext);
     const [newPassword, setNewPassword] = React.useState('');
-    const [confirmNewPassword, setConfirmNewPassword] = React.useState('');
     const storedToken = localStorage.getItem("token");
     const {handleSubmit, formState: {errors}, register, watch} = useForm({
         mode: 'onTouched',
     });
+    const [responseBody, setResponseBody] = useState(null)
 
     async function handleFormSubmit(data) {
        const controller = new AbortController();
         await submitNewPasswordAsync(data, controller);
     }
         async function submitNewPasswordAsync(data, controller) {
+            console.log('form data: ', data)
             try {
                 const response = await axios.patch(`http://localhost:8080/users/${user.username}/change-password`, {
                     username: null,
-                    password: data.password,
+                    password: data.newPassword,
                     email: null
                 }, {
                     headers: {
@@ -35,6 +36,7 @@ function UserChangePasswordPage() {
                     signal: controller.signal
                 });
                 console.log(response);
+                setResponseBody(response.data);
             } catch (e) {
                 console.log(e)
             }
@@ -51,6 +53,7 @@ function UserChangePasswordPage() {
                 <h4> ...for user {user.username} </h4>
             </Header>
             <main>
+                { responseBody && <h4>{responseBody}</h4>}
                 <form onSubmit={handleSubmit(handleFormSubmit)}>
                     <InputComponent
                         inputType="password"
@@ -85,11 +88,23 @@ function UserChangePasswordPage() {
                                 value: true,
                                 message: 'Confirm Password is required',
                             },
+                            validate: (val) => {
+                                if (watch('newPassword') !== val) {
+                                    return "Your passwords do no match!!";
+                                }
+                            }
+
+                            // validate: {
+                            //     value: (val) => {
+                            //         return (watch('newPassword') === val);
+                            //     },
+                            //     message: 'Confirm password must be equal to Password'
+                            // }
                         }}
                         register={register}
                         errors={errors}
                     />
-                    <button type="submit">Change password</button>
+                    <button type="submit" >Change password</button>
                 </form>
                 <p><Link to={`/users/${user.username}/profile`}>Back</Link> to your profile page</p>
             </main>

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './CommonDetailsComponent.module.scss';
+import styles from './CommonDetailsComponent.module.css';
 
 function CommonDetailsComponent({children}) {
     return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './CommonListComponent.module.scss';
+import styles from './CommonListComponent.module.css';
 
 function CommonListComponent({children}) {
     return (

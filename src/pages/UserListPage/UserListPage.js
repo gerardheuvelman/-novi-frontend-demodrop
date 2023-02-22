@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Header from "../../components/Header/Header";
 import UserList from "../../components/UserList/UserList";
-import styles from './UserListPage.module.scss';
+import styles from './UserListPage.module.css';
 import Footer from "../../components/Footer/Footer";
 
 function UserListPage({mode, limit}) {

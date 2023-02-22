@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import styles from './FavButton.module.scss';
+import styles from './FavButton.module.css';
 
 function FavButton({demoId}) {
     const [favStatus, setFavStatus] = useState(null);

@@ -1,11 +1,11 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {AuthContext} from '../../context/AuthContext';
 import axios from "axios";
 import Header from "../../components/Header/Header";
 import {useForm} from 'react-hook-form';
 import InputComponent from "../../components/InputComponent/InputComponent";
-import styles from './UserChangeEmailPage.module.scss';
+import styles from './UserChangeEmailPage.module.css';
 import Footer from "../../components/Footer/Footer";
 
 function UserChangePasswordPage() {
@@ -14,6 +14,7 @@ function UserChangePasswordPage() {
     const {handleSubmit, formState: {errors}, register, watch} = useForm({
         mode: 'onTouched',
     });
+    const [responseBody, setResponseBody] = useState(null)
 
     async function handleFormSubmit(data) {
        const controller = new AbortController();
@@ -33,6 +34,7 @@ function UserChangePasswordPage() {
                     signal: controller.signal
                 });
                 console.log(response);
+                setResponseBody(response.data);
             } catch (e) {
                 console.log(e)
             }
@@ -41,7 +43,6 @@ function UserChangePasswordPage() {
             console.log("Cleanup has been executed.")
             }
     }
-
     return (
         <>
             <Header>
@@ -49,6 +50,7 @@ function UserChangePasswordPage() {
                 <h4> ...for user {user.username} </h4>
             </Header>
             <main>
+                { responseBody && <h4>{responseBody}</h4>}
                 <form onSubmit={handleSubmit(handleFormSubmit)}>
                     <InputComponent
                         inputType="email"
@@ -64,29 +66,6 @@ function UserChangePasswordPage() {
                                 value:/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
                                 message: 'This is not a valid email address'
                             }
-                        }}
-                        register={register}
-                        errors={errors}
-                    />
-
-                    <InputComponent
-                        inputType="password"
-                        inputName="confirmPassword"
-                        inputId="confirmPassword-field"
-                        inputLabel="Confirm password:"
-                        validationRules={{
-                            required: {
-                                value: true,
-                                message: 'Confirm Password is required',
-                            },
-                            minLength: {
-                                value: 4,
-                                message: 'Password must be at least 4 characters long',
-                            },
-                            maxLength: {
-                                value: 30,
-                                message: 'Password may be a maximum of 30 characters ',
-                            },
                         }}
                         register={register}
                         errors={errors}

@@ -5,7 +5,7 @@ import axios from "axios";
 import Header from "../../components/Header/Header";
 import { useForm } from 'react-hook-form';
 import InputComponent from "../../components/InputComponent/InputComponent";
-import styles from './UserLogInPage.module.scss';
+import styles from './UserLogInPage.module.css';
 import Footer from "../../components/Footer/Footer";
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './CommendationsSection.module.scss';
+import styles from './CommendationsSection.module.css';
 import producer from "../../assets/producer-image.png";
 import dj from "../../assets/dj-image.png";
 

@@ -3,7 +3,7 @@ import axios from "axios";
 import Header from "../../components/Header/Header";
 import authContext, {AuthContext} from "../../context/AuthContext";
 import ConversationList from "../../components/ConversationList/ConversationList";
-import styles from './ConversationListPage.module.scss';
+import styles from './ConversationListPage.module.css';
 import Footer from "../../components/Footer/Footer";
 
 function ConversationListPage({mode, limit}) {

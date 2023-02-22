@@ -1,6 +1,6 @@
 import React from 'react';
 import NavBar from "../NavBar/NavBar";
-import styles from './Header.module.scss';
+import styles from './Header.module.css';
 
 function Header({ children }) {
   return (
@@ -8,7 +8,6 @@ function Header({ children }) {
       <div className="inner-content-container">
         <NavBar/>
         <div className="hero-content">
-            test
           {children}
         </div>
       </div>

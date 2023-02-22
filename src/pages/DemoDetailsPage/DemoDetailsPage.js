@@ -3,13 +3,15 @@ import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import Header from '../../components/Header/Header';
 import DemoDetails from "../../components/DemoDetails/DemoDetails";
-import styles from './DemoDetailsPage.module.scss';
+import styles from './DemoDetailsPage.module.css';
 import Footer from "../../components/Footer/Footer";
 
 function DemoDetailsPage() {
     const {demoId} = useParams();
     const [demo, setDemo] = useState(null);
-    useEffect(() => { // TODO moderniseren!!
+
+    useEffect(() => {
+        const controller  = new AbortController;
         async function fetchDemo() {
             try {
                 const response = await axios.get(`http://localhost:8080/demos/${demoId}`);
@@ -32,7 +34,7 @@ function DemoDetailsPage() {
                         <h4>Demo specifications</h4>
                     </Header>
                     <main>
-                        demo ? <DemoDetails demo={demo}/> : <p>Loading...</p>
+                        {demo ? <DemoDetails demo={demo}/> : <p>Loading...</p>}
                     </main>
                     <Footer/>
                 </>

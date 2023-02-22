@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import styles from './DemoTile.module.scss';
+import styles from './DemoTile.module.css';
 
 function DemoTile({demo}) {
     console.log(demo)

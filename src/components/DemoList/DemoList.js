@@ -3,7 +3,7 @@ import axios from "axios";
 import {Link} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
 import FavButton from "../FavButton/FavButton";
-import styles from './DemoList.module.scss';
+import styles from './DemoList.module.css';
 
 function DemoList({mode, limit}) { // VALUES:  'all ', 'personal' or 'fav'
     const [demos, setDemos] = useState([]);
@@ -12,12 +12,11 @@ function DemoList({mode, limit}) { // VALUES:  'all ', 'personal' or 'fav'
     const storedToken = localStorage.getItem('token');
     console.log(storedToken);
 
-    useEffect(() => { // TODO: Moderniseren
+    useEffect(() => {
         async function fetchAllDemos() {
             try {
                 const response = await axios.get(  `http://localhost:8080/demos?limit=${limit}`);
-                console.log(response.data);
-                console.log(response.data.genre)
+                console.log(`GET /demos?limit=${limit} yielded the following response: `, response.data);
                 setDemos(response.data);
             } catch (e) {
                 console.error(e);
@@ -86,6 +85,7 @@ function DemoList({mode, limit}) { // VALUES:  'all ', 'personal' or 'fav'
                     <th>Genre</th>
                     <th>BPM</th>
                     <th>Length</th>
+                    <th>File Name</th>
                     {mode === 'personal' && <th>Edit</th>}
                     {mode === 'personal' && <th>Delete</th>}
                     {user && <th>Favorite?</th>}
@@ -101,6 +101,7 @@ function DemoList({mode, limit}) { // VALUES:  'all ', 'personal' or 'fav'
                         <td>{demo.genre.name}</td>
                         <td>{demo.bpm}</td>
                         <td>{demo.length}</td>
+                        <td>{demo.audioFile.originalFileName}</td>
                         {mode === 'personal' && <td><Link to={`/demos/${demo.demoId}/edit`}>Edit</Link></td>}
                         {mode === 'personal' && <td><Link to={`/demos/delete/${demo.demoId}`}>Delete</Link></td>}
                         {user && <td><FavButton demoId={demo.demoId}></FavButton>

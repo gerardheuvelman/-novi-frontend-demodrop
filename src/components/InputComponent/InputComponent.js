@@ -1,4 +1,4 @@
-import styles from './InputComponent.module.scss';
+import styles from './InputComponent.module.css';
 
 function InputComponent({ value, inputType, inputName, inputLabel, inputId, validationRules, register, errors }) {
     return (

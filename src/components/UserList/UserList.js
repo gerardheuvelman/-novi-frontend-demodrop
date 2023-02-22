@@ -2,14 +2,14 @@ import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
 import {Link} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
-import styles from './UserList.module.scss';
+import styles from './UserList.module.css';
 
 function UserList({mode}, limit) {
     const [users, setUsers] = useState([]);
     const {isAuth, user} = useContext(AuthContext);
     const storedToken = localStorage.getItem("token");
 
-    useEffect(() => { // TODO: Moderniseren
+    useEffect(() => {
         async function fetchUsers() {
             try {
                 const response = await axios.get(`http://localhost:8080/users?limit=${limit}`,{
@@ -17,10 +17,8 @@ function UserList({mode}, limit) {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${storedToken}`,
                     }
-                    // , signal: controller.signal
                 });
-                // Plaats alle demos in de state zodat we het op de pagina kunnen gebruiken
-                console.log(response.data);
+                console.log(`GET /users?limit=${limit} yielded the following response: `, response);
                 setUsers(response.data);
             } catch (e) {
                 console.error(e);
