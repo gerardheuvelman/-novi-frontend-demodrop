@@ -1,19 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import {AuthContext} from "../../context/AuthContext";
-import axios from "axios";
 import Header from "../../components/Header/Header";
 import { useForm } from 'react-hook-form';
 import InputComponent from "../../components/InputComponent/InputComponent";
 import styles from './UserRegisterPage.module.css';
 import Footer from "../../components/Footer/Footer";
+import {PostRequest} from "../../helpers/axiosHelper";
 
 function UserRegisterPage() {
-    const [submitted, toggleSubmitted] = useState(false);
-    const { login } = useContext(AuthContext);
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [username, setUsername] = React.useState('');
     const navigate = useNavigate();
     const { handleSubmit, formState: { errors }, register, watch } = useForm({ mode: 'onTouched',
         defaultValues: {
@@ -28,27 +22,14 @@ function UserRegisterPage() {
     }
 
     async function registerAsync({email, username, password}) {
-        const controller = new AbortController();
-        try {
-            const response = await axios.post("http://localhost:8080/users", {
-                email: email,
-                username: username,
-                password: password,
-            }, {
-                signal: controller.signal,
-            });
-            console.log('RegisterAsync: ', response);
-            if (response.status === 201) {
-                navigate('/login');
-            } else console.error("Returned status from API call was not 201 Created")
-        }
-        catch(e) {
-            console.error(e)
-        }
-        return function cleanup() {
-            controller.abort(); // <--- Cancel request
-            console.log("Cleanup has been executed")
-        }
+        const response = await new PostRequest('/users',{
+            email: email,
+            username: username,
+            password: password,
+        }).invoke();
+        if (response.status === 201) {
+            navigate('/login');
+        } else console.error("Returned status from API call was not 201 Created");
     }
 
     return (

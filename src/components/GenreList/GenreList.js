@@ -4,8 +4,9 @@ import {Link} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
 import FavButton from "../FavButton/FavButton";
 import styles from './GenreList.module.css';
+import {GetRequest} from "../../helpers/axiosHelper";
 
-function GenreList({mode, limit}) { // Values for Mode: :  'all'
+function GenreList({mode, limit}) { // Values for Mode: :  'admin'
     const [genres, setGenres] = useState([]);
     const {isAuth, user} = useContext(AuthContext);
 
@@ -14,21 +15,16 @@ function GenreList({mode, limit}) { // Values for Mode: :  'all'
 
     useEffect(() => {
         async function fetchAllGenres() {
-            try {
-                const response = await axios.get(  `http://localhost:8080/genres?limit=${limit}`);
-                console.log(`GET /genres?limit=${limit} yielded the following response: `, response.data);
-                setGenres(response.data);
-            } catch (e) {
-                console.error(e);
-            }
+            const response = await new GetRequest(`/genres?limit=${limit}`).invoke();
+            setGenres(response.data);
         }
 
-        if (mode === 'all') {
+        if (mode === 'admin') {
             void fetchAllGenres();
             console.log('all genres loaded?')
         }
-    }, [mode]);
-    
+    }, []);
+
     console.log('genres: ', genres);
 
     return (
@@ -37,16 +33,18 @@ function GenreList({mode, limit}) { // Values for Mode: :  'all'
                 <thead>
                 <tr>
                     <th>Genre name</th>
-                    <th>Delete</th>
+                    {mode === 'admin' && <th>Delete</th>}
                 </tr>
                 </thead>
                 <tbody>
                 {genres.map((genre) => {
-                    {console.log('genre: ', genre)}
+                    {
+                        console.log('genre: ', genre)
+                    }
                     // De key moet op het buitenste element staan en uniek zijn
                     return <tr key={genre.name}>
                         <td>{genre.name}</td>
-                        <td><Link to={`/genres/delete/${genre.genreId}`}>Delete</Link></td>
+                        {mode === 'admin' && <td><Link to={`/genres/delete/${genre.genreId}`}>Delete</Link></td>}
                     </tr>
                 })}
                 </tbody>

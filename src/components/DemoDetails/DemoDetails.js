@@ -4,50 +4,32 @@ import {AuthContext} from '../../context/AuthContext';
 import styles from './DemoDetails.module.css';
 import FavButton from "../FavButton/FavButton";
 import axios from "axios";
+import DeleteButton from "../DeleteButton/DeleteButton";
+import {GetRequest} from "../../helpers/axiosHelper";
 
-function DemoDetails({demo}) {
+function DemoDetails({demo, mode}) { // mode: 'anon' 'user', 'personal' or 'admin'
     const {user} = useContext(AuthContext);
     console.log('DemoDetails received the following demo parameter: ', demo);
+    console.log('DemoDetails received the following mode parameter: ', mode);
 
     function downloadDemo() {
         const audioFileId = demo.audioFile.audioFileId;
-        const controller = new AbortController();
-        const storedToken = localStorage.getItem("token");
+        void fetchAudioFile();
 
         async function fetchAudioFile() {
-            try {
-                const response = await axios.get(`http://localhost:8080/audiofiles/${audioFileId}`, {
-                    responseType: 'blob', // IMPORTANT!!
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${storedToken}`,
-                    },
-                    signal: controller.signal
-                });
-                console.log(`GET http://localhost:8080/audiofiles/${audioFileId} yielded the following response`, response.data);
-                const downloadedFile = response.data;
-                // Now, create file link in browser's memory
-                const href = URL.createObjectURL(response.data);
-                // create "a" HTML element with href to file & click it programmatically
-                const link = document.createElement('a');
-                link.href = href;
-                link.setAttribute('download', downloadedFile.originalFilename); //or any other extension
-                document.body.appendChild(link);
-                link.click();
-
-                // clean up "a" element & remove ObjectURL
-                document.body.removeChild(link);
-                URL.revokeObjectURL(href);
-
-            } catch (e) {
-                console.log(e)
-            }
-        }
-
-        void fetchAudioFile();
-        return function cleanup() {
-            controller.abort(); // <--- cancel request
-            console.log("Cleanup has been executed")
+            const response = await new GetRequest(`/audiofiles/${audioFileId}`).invoke();
+            const downloadedFile = response.data;
+            // Now, create file link in browser's memory
+            const href = URL.createObjectURL(response.data);
+            // create "a" HTML element with href to file & click it programmatically
+            const link = document.createElement('a');
+            link.href = href;
+            link.setAttribute('download', downloadedFile.originalFilename); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+            // clean up "a" element & remove ObjectURL
+            document.body.removeChild(link);
+            URL.revokeObjectURL(href);
         }
     }
 
@@ -86,6 +68,9 @@ function DemoDetails({demo}) {
                             <p>
                                 <button onClick={downloadDemo}>Download mp3 file</button>
                             </p>
+                            {(mode === 'personal' || mode === 'admin') &&
+                                <p><DeleteButton entitiesName='demos' entityId={demo.demoId} mode='admin'>Delete this
+                                    demo</DeleteButton></p>}
                             <Link to="/">Back to home</Link>
                         </div>
                     )}

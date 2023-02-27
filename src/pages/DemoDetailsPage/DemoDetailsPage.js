@@ -1,27 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
-import axios from 'axios';
 import Header from '../../components/Header/Header';
 import DemoDetails from "../../components/DemoDetails/DemoDetails";
 import styles from './DemoDetailsPage.module.css';
 import Footer from "../../components/Footer/Footer";
+import {GetRequest} from "../../helpers/axiosHelper";
 
-function DemoDetailsPage() {
+function DemoDetailsPage({mode}) { // mode: 'anon' 'user', 'personal' or 'admin'
     const {demoId} = useParams();
     const [demo, setDemo] = useState(null);
 
     useEffect(() => {
-        const controller  = new AbortController;
-        async function fetchDemo() {
-            try {
-                const response = await axios.get(`http://localhost:8080/demos/${demoId}`);
-                console.log('`http://localhost:8080/demos/${demoId}` yields the following result: ', response);
-                setDemo(response.data);
-            } catch (e) {
-                console.error(e);
-            }
-        }
+        const controller = new AbortController;
 
+        async function fetchDemo() {
+            const response = await new GetRequest(`/demos/${demoId}`).invoke();
+            setDemo(response.data);
+        }
         void fetchDemo();
     }, []);
 
@@ -30,11 +25,12 @@ function DemoDetailsPage() {
             {demo &&
                 <>
                     <Header>
-                        <h1>"{demo.title}"</h1>
-                        <h4>Demo specifications</h4>
+                        {mode === 'user' && <h1>Demo specifications</h1>}
+                        {mode === 'admin' && <h1>Demo specifications (admin mode)</h1>}
+                        <h4>{` ...for demo "${demo.title}"`}</h4>
                     </Header>
                     <main>
-                        {demo ? <DemoDetails demo={demo}/> : <p>Loading...</p>}
+                        {demo ? <DemoDetails demo={demo} mode={mode}/> : <p>Loading...</p>}
                     </main>
                     <Footer/>
                 </>

@@ -5,18 +5,20 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useForm} from 'react-hook-form';
 import styles from './DemoForm.module.css';
 import {AuthContext} from "../../context/AuthContext";
-
+import {PostRequest, PutRequest} from "../../helpers/axiosHelper";
 
 function DemoForm({mode, prefillDemo}) {
+    const scheme = process.env.REACT_APP_SERVER_SCHEME;
+    const domain = process.env.REACT_APP_SERVER_DOMAIN;
+    const port = process.env.REACT_APP_SERVER_PORT;
     const [file, setFile] = useState([]);
     const {id} = useParams(); // BIJ MODE "CREATE" (POST) is dit "undefined"
-    const storedToken = localStorage.getItem('token');
     const [genreList, setGenreList] = useState([]);
     const [createSuccess, toggleCreateSuccess] = useState(false);
     const [updateSuccess, toggleUpdateSuccess] = useState(false);
     const [assignResponse, setAssignResponse] = useState(null);
-    const [emailSuccess, toggleEmailSuccess] = useState(false);
     const navigate = useNavigate();
+    const storedToken = localStorage.getItem('token');
     const {user} = useContext(AuthContext);
     const {handleSubmit, formState: {errors}, register, watch, setValue} = useForm({
         mode: 'onTouched',
@@ -28,13 +30,12 @@ function DemoForm({mode, prefillDemo}) {
             file: null
         }
     });
-    console.log('prefillDemo.genre.name: ', prefillDemo.genre.name)
     let fileWasSelected = false
 
     console.log('mode: ', mode);
     console.log('prefillDemo: ', prefillDemo);
 
-    useEffect(() => { // TODO: Moderniseren
+    useEffect(() => {
         async function fetchGenres() {
             try {
                 const response = await axios.get('http://localhost:8080/genres');
@@ -57,7 +58,6 @@ function DemoForm({mode, prefillDemo}) {
         void fetchGenres();
     }, []);
 
-
     async function handeDemoFormSubmit(data) {
         console.log('data: ', data);
         console.log('data.file: ', data.file);
@@ -77,64 +77,42 @@ function DemoForm({mode, prefillDemo}) {
                 await sendFileWithDemoId(updatedDemoId, data);
             }
         }
-        await sendConfirmationEmail();
-        // navigate(`/users/${user.username}/demos`); // even uitgezet, om te kunnen zien wat er bovenaan de pagina  komt te staan
+        navigate(`/users/${user.username}/demos`);
     }
 
     async function createDemo({title, length, bpm, genre}) {
-        console.log('genre: ', genre);
-        try {
-            const response = await axios.post('http://localhost:8080/demos', {
-                title: title,
-                length: length,
-                bpm: bpm,
-                audioFile: null,
-                genre: {name: genre}
-            }, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${storedToken}`
-                }
-            });
-            console.log('CreateDemo(): ', response);
-            toggleCreateSuccess(true);
-            return response.data.demoId;
-        } catch (e) {
-            console.error(e);
-        }
+        const response = await new PostRequest(`/demos`, {
+            title: title,
+            length: length,
+            bpm: bpm,
+            audioFile: null,
+            genre: {name: genre}
+        }).invoke();
+        toggleCreateSuccess(true);
+        return response.data.demoId;
     }
 
     async function updateDemo({title, length, bpm, genre}) {
-        try {
-            console.log('prefillDemo.demoId: ', prefillDemo.demoId);
-            const response = await axios.put(`http://localhost:8080/demos/${prefillDemo.demoId}`, {
-                title: title,
-                length: length,
-                bpm: bpm,
-                file: null,
-                genre: {name: genre}
-            }, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${storedToken}`
-                }
-            });
-            console.log('updateDemo(): ', response);
-            toggleUpdateSuccess(true);
-            return response.data.demoId;
-        } catch (e) {
-            console.error(e);
-        }
+        const response = await new PutRequest(`/demos/${prefillDemo.demoId}`, {
+            title: title,
+            length: length,
+            bpm: bpm,
+            file: null,
+            genre: {name: genre}
+        }).invoke();
+        toggleUpdateSuccess(true);
+        return response.data.demoId;
     }
-
+    // The method below cannot make use of the Axios POST helper method, because it does not support an alternative header value for "content-type".
     async function sendFileWithDemoId(demoId, {file}) {
+        const url = `${scheme}://${domain}:${port}/demos/${demoId}/file`
         console.log("now sending file to be associated with demo :", demoId);
         console.log('file: ', file[0]);
         const formData = new FormData();
         formData.append("file", file[0]);
         console.log(formData);
         try {
-            const result = await axios.post(`http://localhost:8080/demos/${demoId}/file`, formData,
+            const result = await axios.post(url, formData,
                 {
                     headers: {
                         "Content-Type": "multipart/form-data",
@@ -145,32 +123,6 @@ function DemoForm({mode, prefillDemo}) {
             setAssignResponse(result.data);
         } catch (e) {
             console.error(e)
-        }
-    }
-
-    async function sendConfirmationEmail() {
-        const controller = new AbortController();
-        const storedToken = localStorage.getItem("token");
-        try {
-            const response = await axios.post(`http://localhost:8080/email/sendsimple`,{
-                recipient:user.email,
-                msgBody: 'A demo was created or updated successfully.\nPerhaps as new file was also assigned.',
-                subject:'DEMO UPLOAD CONFIRMATION'
-            } , {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${storedToken}`,
-                },
-                signal: controller.signal
-            });
-            console.log('POST http://localhost:8080/email/sendsimple yielded the following response: ', response);
-            toggleEmailSuccess(true);
-        } catch (e) {
-            console.log(e)
-        }
-        return function cleanup() {
-            controller.abort(); // <--- cancel request
-            console.log("Cleanup has been executed")
         }
     }
 
@@ -250,7 +202,7 @@ function DemoForm({mode, prefillDemo}) {
 
                         <label htmlFor='genre-field'>
                             <select
-                                defaultValue={prefillDemo.genre.name} // WERKT NIET
+                                value={prefillDemo.genre.name}
                                 id='genre-field'
                                 {...register('genre', {
                                     required: {
@@ -261,7 +213,6 @@ function DemoForm({mode, prefillDemo}) {
                             >
                                 {genreList.map((genre) => {
                                     return <option
-                                        selected={genre.name === prefillDemo.genre.name}
                                         value={genre.name}
                                         key={genre.name}>
                                         {genre.name}
@@ -314,10 +265,10 @@ function DemoForm({mode, prefillDemo}) {
                 {createSuccess === true && <p>A new demo has been created!</p>}
                 {updateSuccess === true && <p>This demo has been successfully updated!</p>}
                 {assignResponse && <p>A new audio file has been assigned to this demo!</p>}
-                {emailSuccess === true && <p>{`A confirmation email was sent to ${user.email}!`}</p>}
             </div>
         </>
     );
 }
+
 
 export default DemoForm;

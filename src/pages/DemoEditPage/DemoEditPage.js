@@ -1,30 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
 import Header from '../../components/Header/Header';
 import {useParams} from "react-router-dom";
 import DemoForm from "../../components/DemoForm/DemoForm";
 import styles from './DemoEditPage.module.css';
 import Footer from "../../components/Footer/Footer";
+import {GetRequest} from "../../helpers/axiosHelper";
 
 function DemoEditPage() {
     const {demoId} = useParams();
     const [demo, setDemo] = useState(null);
 
-    useEffect(() => { // TODO: Moderniseren
+    useEffect(() => {
         async function fetchDemo() {
-            try {
-                const response = await axios.get(`http://localhost:8080/demos/${demoId}`);
-                console.log(`http://localhost:8080/demos/${demoId} yields the following response: `, response);
-                setDemo(response.data);
-            } catch (e) {
-                console.error(e);
-            }
+            const response = await new GetRequest(`/demos/${demoId}`).invoke();
+            setDemo(response.data);
         }
-
         void fetchDemo();
     }, []);
-
-    console.log('demo: ', demo);
 
     return (
         <>

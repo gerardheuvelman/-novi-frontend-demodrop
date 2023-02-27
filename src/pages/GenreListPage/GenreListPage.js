@@ -5,14 +5,14 @@ import GenreList from "../../components/GenreList/GenreList";
 import styles from './GenreListPage.module.css';
 import Footer from "../../components/Footer/Footer";
 
-function GenreListPage({mode, limit}) { // Vavules for "mode":  'all'
+function GenreListPage({mode, limit}) { // Values for "mode":  'admin'
     const {user} = useContext(AuthContext);
 
     return (
         <>
             <Header>
-                {mode === 'all' && <h1>Genre list</h1>}
-                {mode === 'all' && <h4>a list of all music genres</h4>}
+                {mode === 'admin' && <h1>Genre list (admin mode)</h1>}
+                {mode === 'admin' && <h4>full CRUD access to music genres</h4>}
             </Header>
             <main>
                 <div className="page-container">

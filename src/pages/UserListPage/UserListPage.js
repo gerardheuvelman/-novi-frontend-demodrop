@@ -4,7 +4,7 @@ import UserList from "../../components/UserList/UserList";
 import styles from './UserListPage.module.css';
 import Footer from "../../components/Footer/Footer";
 
-function UserListPage({mode, limit}) {
+function UserListPage({mode, limit}) { // mode has only one possible value: 'admin'
 
     return (
         <>

@@ -14,9 +14,11 @@ function DemoListPage({mode, limit}) { // Values for "mode":  'all ', 'personal'
                 {mode === 'all' && <h1>Demo list</h1>}
                 {mode === 'personal' && <h1>Personal Demo list</h1>}
                 {mode === 'fav' && <h1>Favorite Demo list</h1>}
+                {mode === 'admin' && <h1>Demo list (admin mode)</h1>}
                 {mode === 'all' && <h4>a list of all our demos</h4>}
                 {mode === 'personal' && <h4>a list of demos produced by {user.username}</h4>}
                 {mode === 'fav' && <h4>a list of {user.username}'s favorite demos</h4>}
+                {mode === 'admin' && <h4>Full CRUD access to DEmo's</h4>}
             </Header>
             <main>
                 <div className="page-container">

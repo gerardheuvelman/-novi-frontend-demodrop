@@ -1,45 +1,25 @@
 import React, {useContext, useEffect, useState} from 'react';
-import axios from "axios";
 import {AuthContext} from "../../context/AuthContext";
 import {Link} from "react-router-dom";
 import styles from './ConversationList.module.css';
+import {GetRequest} from "../../helpers/axiosHelper";
+import {DateTime} from "../../helpers/dateTimeHelper";
 
-function ConversationList({mode, limit}) {
+function ConversationList({mode, limit}) { // mode: 'personal' or 'admin'
     const [conversations, setConversations] = useState([]);
     const {user} = useContext(AuthContext);
     console.log(mode);
 
-    useEffect(() => { // TODO: Moderniseren
-        const storedToken = localStorage.getItem("token");
-
+    useEffect(() => {
         async function fetchConversations() {
-            try {
                 let response = '';
                 if (mode === 'personal') {
-                    response = await axios.get(`http://localhost:8080/users/${user.username}/conversations?limit=${limit}`, {
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${storedToken}`,
-                        }
-                        // , signal: controller.signal
-                    });
-
-                } else if (mode = 'all') {
-                    response = await axios.get(`http://localhost:8080/conversations?limit=${limit}`,{
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${storedToken}`,
-                        }
-                        // , signal: controller.signal
-                    });
+                    response = await new GetRequest(`/users/${user.username}/conversations?limit=${limit}`).invoke();
+                } else if (mode = 'admin') {
+                    response = await new GetRequest(`/conversations?limit=${limit}`).invoke();
                 }
-                console.log(`GET /conversations?limit=${limit} yielded the following response: `, response);
-                setConversations(response.data);
-            } catch (e) {
-                console.error(e);
+                setConversations(response.data)
             }
-        }
-
         void fetchConversations();
     }, []);
 
@@ -48,27 +28,32 @@ function ConversationList({mode, limit}) {
             <table>
                 <thead>
                 <tr>
-                    <th>Created Date</th>
-                    <th>Latest Reply Date</th>
+                    <th>Date</th>
+                    <th>Time</th>
                     {mode === 'personal' && <th>User</th>}
-                    {mode === 'all' && <th>Producer</th>}
-                    {mode === 'all' && <th>Interested User</th>}
+                    {mode === 'admin' && <th>Producer</th>}
+                    {mode === 'admin' && <th>Interested User</th>}
                     <th>Demo</th>
                     <th>Subject</th>
+                    {mode === 'admin' && <th>Edit</th>}
                 </tr>
                 </thead>
                 <tbody>
                 {conversations.map((conversation) => {
+                    const dateTimeLatestReply = new DateTime(conversation.latestReplyDate);
+
                     // De key moet op het buitenste element staan en uniek zijn
                     return <tr key={conversation.conversationId}>
-                        <td>{conversation.createdDate}</td>
-                        <td>{conversation.latestReplyDate}</td>
+                        <td>{dateTimeLatestReply.getDateString()}</td>
+                        <td>{dateTimeLatestReply.getTimeString()}</td>
                         {mode === 'personal' && <td>{ user.username ===  conversation.producer.username ? conversation.interestedUser.username: conversation.producer.username }</td>}
-                        {mode === 'all' && <td>{conversation.producer.username}</td>}
-                        {mode === 'all' && <td>{conversation.interestedUser.username}</td>}
+                        {mode === 'admin' && <td>{conversation.producer.username}</td>}
+                        {mode === 'admin' && <td>{conversation.interestedUser.username}</td>}
                         <td>{conversation.demo.title}</td>
                         <td><Link to={`/conversations/${conversation.conversationId}`}>{conversation.subject}</Link>
                         </td>
+                        {mode === 'admin' && <td><Link to={`/admin/conversations/${conversation.conversationId}`}>Edit</Link></td>}
+
                     </tr>
                 })}
                 </tbody>

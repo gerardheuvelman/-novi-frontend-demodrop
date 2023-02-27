@@ -1,7 +1,6 @@
 # KNOWN BUGS: 
 
 - Short pages are shorter than the height of the screen.
-- Reply to conversation . Changing the body does not actually change the body!
 
 
 
@@ -36,6 +35,10 @@ Installation steps:
 
 1. first, install and run the backend portion of this application (see link above.)
 2. Clone this project (front end)
-3. load it into your IDE.
-4. in the console, type  "npm install" to install dependencies 
-5. Once done, type "npm start" in the console. A browser window will open, showing the web app.
+3. load it into your IDE
+4. In the console, type  "npm install" to install dependencies
+5. In the .env file (located at the project root folder). fill in the following information:
+   REACT_APP_SERVER_SCHEME=<http or https>
+   REACT_APP_SERVER_DOMAIN=<eg: localhost>
+   REACT_APP_SERVER_PORT=<eg: 8080, 80 or 443>
+6. Once done, type "npm start" in the console. A browser window will open, showing the web app.

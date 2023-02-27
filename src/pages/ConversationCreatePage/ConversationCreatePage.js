@@ -4,59 +4,43 @@ import {useParams} from "react-router-dom";
 import ConversationForm from "../../components/ConversationForm/ConversationForm";
 import styles from './ConversationCreatePage.module.css';
 import Footer from "../../components/Footer/Footer";
-import axios from "axios";
-
-const storedToken = localStorage.getItem("token");
-
+import {GetRequest} from "../../helpers/axiosHelper";
 
 function ConversationCreatePage() {
     const {demoId} = useParams();
-    console.log('demoId: ', demoId);
-    const [demo, setDemo] = useState(null);
-    const [newConversation, setNewConversation] = useState(null);
+    console.log('demoId from params: ', demoId);
+    const [freshNewConversation, setFreshNewConversation] = useState(null);
 
-    // Fetch the demo details:
     useEffect(() => {
         async function fetchDemoDetails() {
-            console.log('Now trying to fetch demo details...');
-            try {
-                const response = await axios.get(`http://localhost:8080/demos/${demoId}`, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${storedToken}`
-                    }
-                })
-                console.log(`http://localhost:8080/demos/${demoId} yielded the following response: `, response);
-                setDemo(response.data);
-                setNewConversation(
-                    {
-                    subject: "",
+            console.log('Now making GET request to fetch the demo details: ' )
+            const response = await new GetRequest(`/demos/${demoId}`).invoke();
+            console.log('fetchDemoDetails() response: ',response);
+            setFreshNewConversation(
+                {
+                    subject: `inq: "${response.data.title}"`,
                     body: "",
-                    producer: {
-                        username: response.data.user.username,
-                        email:  response.data.user.email
+                    demo:
+                        {
+                        demoId: response.data.demoId,
+                        title:  response.data.title
+                        }
                     }
-                })
-            } catch (e) {
-                console.log(e)
-            }
+            )
         }
-
         void fetchDemoDetails();
-    }, [])
-
-    const blankConversation = {
-
-    };
-
+    }, []);
 
     return (
         <>
             <Header>
                 <h1>Inquire about a demo</h1>
+                {/*{console.log('freshNewConversation just before accessing it in the page header: ', freshNewConversation)}*/}
+                {/*<h4>{`... for demo "${freshNewConversation.demo.title}"`}</h4>*/}
             </Header>
             <main>
-                {(demo && newConversation) && <ConversationForm demo={demo} mode='create' prefillConversation={newConversation}/>}
+                {/*{console.log('freshNewConversation in return statement: ',freshNewConversation)}*/}
+                {freshNewConversation && <ConversationForm mode='create' prefillConversation={freshNewConversation}/>}
             </main>
             <Footer/>
         </>
