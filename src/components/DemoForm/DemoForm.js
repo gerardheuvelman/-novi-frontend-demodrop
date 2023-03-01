@@ -17,6 +17,7 @@ function DemoForm({mode, prefillDemo}) {
     const [createSuccess, toggleCreateSuccess] = useState(false);
     const [updateSuccess, toggleUpdateSuccess] = useState(false);
     const [assignResponse, setAssignResponse] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState('');
     const navigate = useNavigate();
     const storedToken = localStorage.getItem('token');
     const {user} = useContext(AuthContext);
@@ -77,7 +78,7 @@ function DemoForm({mode, prefillDemo}) {
                 await sendFileWithDemoId(updatedDemoId, data);
             }
         }
-        navigate(`/users/${user.username}/demos`);
+        // navigate(`/users/${user.username}/demos`);
     }
 
     async function createDemo({title, length, bpm, genre}) {
@@ -124,6 +125,17 @@ function DemoForm({mode, prefillDemo}) {
         } catch (e) {
             console.error(e)
         }
+    }
+
+    function handleFileChange(e) {
+        // save the chosen file
+        const uploadedFile = e.target.files[0];
+        console.log('uploadedFile: ', uploadedFile);
+        // Save in a state variable:
+        setFile(uploadedFile);
+        // Create a URL that we can use to bind to an <audio> element
+        setPreviewUrl(URL.createObjectURL(uploadedFile));
+        setPreviewUrl(URL.createObjectURL(uploadedFile));
     }
 
     return (
@@ -202,7 +214,7 @@ function DemoForm({mode, prefillDemo}) {
 
                         <label htmlFor='genre-field'>
                             <select
-                                value={prefillDemo.genre.name}
+                                defaultValue={prefillDemo.genre.name}
                                 id='genre-field'
                                 {...register('genre', {
                                     required: {
@@ -225,10 +237,12 @@ function DemoForm({mode, prefillDemo}) {
                         {mode === 'create' &&
                             <InputComponent
                                 inputType="file"
+                                fileAccept='.mp3'
                                 inputName="file"
                                 inputId="file-field"
                                 inputLabel="Select an audioFile:"
                                 validationRules={{
+                                    onChange: (e) => {handleFileChange(e)},
                                     required: {
                                         value: true,
                                         message: 'Selecting a file is required',
@@ -241,19 +255,22 @@ function DemoForm({mode, prefillDemo}) {
                         {mode === 'update' &&
                             <InputComponent
                                 inputType="file"
+                                fileAccept='.mp3'
                                 inputName="file"
                                 inputId="file-field"
                                 inputLabel="Select a new audioFile:"
                                 validationRules={{
+                                    onChange: (e) => {handleFileChange(e)},
                                     required: {
                                         value: false,
-                                        message: 'Selecting a new file is not required',
+                                        message: 'Selecting a file is not required',
                                     },
                                 }}
                                 register={register}
                                 errors={errors}
                             />}
 
+                        {previewUrl && <audio controls><source src={previewUrl} type="audio/mpeg" id="myAudio"/></audio>}
 
                         <button type="submit">
                             {mode === 'create' && <h1>Create</h1>}

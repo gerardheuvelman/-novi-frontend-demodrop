@@ -1,6 +1,8 @@
 # KNOWN BUGS: 
 
 - Short pages are shorter than the height of the screen.
+- When logging in as a admin, the user control panel navbar option does not show up  in about 60% of the logins.
+
 
 
 

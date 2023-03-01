@@ -30,6 +30,7 @@ function NavBar() {
                             <li>
                                 <button className={styles['link']} type="button" onClick={logout}>Log out</button>
                             </li>
+                            {console.log('user.authority: ', user.authority)}
                             {user.authority === 'ROLE_ADMIN' &&
                                 <li><NavLink className={styles['link']} to={`/admin`}>Admin Control Panel</NavLink></li>}
                         </>

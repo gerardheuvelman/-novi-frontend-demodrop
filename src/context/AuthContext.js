@@ -39,7 +39,7 @@ function AuthContextProvider({children}) {
     }, [])
 
     function login(jwt, redirect) {
-        console.log("This user has been logged in 🔓.")
+        console.log("This user has been logged in 🔓.");
         localStorage.setItem('token', jwt);
         const decodedToken = jwt_decode(jwt);
         console.log('decodedToken: ', decodedToken);

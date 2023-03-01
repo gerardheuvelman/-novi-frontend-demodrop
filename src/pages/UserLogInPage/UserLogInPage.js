@@ -25,7 +25,7 @@ function UserLogInPage({redirect}) {
                     username: data.username,
                     password: data.password,
                 });
-                console.log('handleSubmit()', response.data);
+                console.log('handleLoginSubmit(data) yielded the following response: ', response);
                 login(response.data.jwt, redirect);
             } catch (e) {
                 console.log('error object', e)
