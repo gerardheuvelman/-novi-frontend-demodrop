@@ -50,8 +50,8 @@ function ConversationList({mode, limit}) { // mode: 'personal' or 'admin'
                         {mode === 'admin' && <td>{conversation.producer.username}</td>}
                         {mode === 'admin' && <td>{conversation.interestedUser.username}</td>}
                         <td>{conversation.demo.title}</td>
-                        <td><Link to={`/conversations/${conversation.conversationId}`}>{conversation.subject}</Link>
-                        </td>
+                        {mode !== 'admin' && <td><Link to={`/conversations/${conversation.conversationId}`}>{conversation.subject}</Link></td>}
+                        {mode === 'admin' && <td>{conversation.subject}</td>}
                         {mode === 'admin' && <td><Link to={`/admin/conversations/${conversation.conversationId}`}>Edit</Link></td>}
 
                     </tr>

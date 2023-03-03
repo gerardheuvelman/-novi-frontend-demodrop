@@ -1,30 +1,24 @@
 import styles from './AccountStateToggleButton.module.css';
-
 import React, {useEffect, useState} from 'react';
-import axios from "axios";
 import {GetRequest, PatchRequest} from "../../helpers/axiosHelper";
 
-function AccountStateToggleButton({username}) {
-    const [accountStatus, toggleAccountStatus] = useState(null);
-
-    useEffect(() => {
-        async function fetchAccountStatus() {
-            const response = await new GetRequest(`/users/${username}/getstatus`).invoke();
-            toggleAccountStatus(response.data);
-        }
-    }, []);
+function AccountStateToggleButton({user}) {
+    console.log('user: ',user)
+    const [accountStatus, toggleAccountStatus] = useState(user.enabled);
+    console.log('accountStatus: ', accountStatus)
 
     async function submitAccountStatus(desiredStatus) {
-        const response = await new PatchRequest(`/users/${username}/setstatus?status=${desiredStatus}`).invoke();
+        const response = await new PatchRequest(`/users/${user.username}/setstatus?status=${desiredStatus}`).invoke();
         toggleAccountStatus(response.data);
     }
 
     return (
-        <>
-            <button type={"button"} onClick={() => submitAccountStatus(!accountStatus)}>{accountStatus? "Account is currently ENABLED. Press to disable" : "Account is currently DISABLED. press to enable" }</button>
-        </>
+            <span>
+                {console.log('accountStatus: ', accountStatus)}
+                {accountStatus? "Account is enabled " : "Account is disabled " }
+                <button type={"button"} onClick={() => submitAccountStatus(!accountStatus)}>{accountStatus? "Press to disable" : "Press to enable" }</button>
+            </span>
     );
-
 }
 
 export default AccountStateToggleButton;

@@ -74,7 +74,8 @@ function DemoList({mode, limit}) { // modes:  'anon' 'user', 'personal', 'fav', 
                     return <tr key={demo.demoId}>
                         <td>{dateTimeCreated.getDateString()}</td>
                         <td>{dateTimeCreated.getTimeString()}</td>
-                        <td><Link to={`/demos/${demo.demoId}`}>{demo.title}</Link></td>
+                        {mode !== 'admin' && <td><Link to={`/admin/demos/${demo.demoId}`}>{demo.title}</Link></td>}
+                        {mode === 'admin' && <td>{demo.title}</td>}
                         <td>{demo.genre.name}</td>
                         <td>{demo.bpm}</td>
                         <td>{demo.length}</td>

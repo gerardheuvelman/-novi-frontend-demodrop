@@ -1,5 +1,4 @@
 import React, {useContext, useState} from 'react';
-// import logo from '../../assets/DemoDropLogo.png';
 import {useNavigate, NavLink, Link} from 'react-router-dom';
 import authContext, {AuthContext} from '../../context/AuthContext';
 import styles from './NavBar.module.css';
@@ -10,10 +9,20 @@ function NavBar() {
     const navigate = useNavigate();
     const [mobileMenu, toggleMobileMenu] = useState(true)
 
+    let roles;
+    if (isAuth) {
+        roles = user.authorities.map ((authority) =>{
+            return authority.authority;
+        })
+    }
+
+
+
+    console.log('roles: ',roles)
+
     return (
         <nav className='outer-container'>
             <div className='inner-container'>
-                <NavLink to="/"><img src={logo} alt="DemoDrop header logo"/></NavLink>
                 <ul>
                     <li><NavLink className={styles['link']} to="/demos">Demo list</NavLink></li>
                     <li><NavLink className={styles['link']} to="/demos/drop">Drop new demo</NavLink></li>
@@ -30,8 +39,8 @@ function NavBar() {
                             <li>
                                 <button className={styles['link']} type="button" onClick={logout}>Log out</button>
                             </li>
-                            {console.log('user.authority: ', user.authority)}
-                            {user.authority === 'ROLE_ADMIN' &&
+
+                            {roles.includes("ROLE_ADMIN") &&
                                 <li><NavLink className={styles['link']} to={`/admin`}>Admin Control Panel</NavLink></li>}
                         </>
                         :

@@ -7,7 +7,7 @@ import styles from './ConversationDetailsPage.module.css';
 import Footer from "../../components/Footer/Footer";
 import {GetRequest} from "../../helpers/axiosHelper";
 
-function ConversationDetailsPage() {
+function ConversationDetailsPage({mode}) {
     const [conversation, setConversation] = useState({});
     const {conversationId} = useParams();
 
@@ -27,7 +27,7 @@ function ConversationDetailsPage() {
                 {/*{ Object.keys(conversation).length > 0 && <h4>a conversation between {conversation.producer} (producer of {conversation.demo.title}) and {conversation.interestedUser.username} (interested party)</h4>}*/}
             </Header>
             <main>
-                {conversation ? <ConversationDetails conversation={conversation}/> : <p>Loading...</p>}
+                {conversation ? <ConversationDetails conversation={conversation} mode={mode}/> : <p>Loading...</p>}
             </main>
             <Footer/>
         </>

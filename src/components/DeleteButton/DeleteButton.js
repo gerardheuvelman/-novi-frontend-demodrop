@@ -5,7 +5,7 @@ import axios from "axios";
 import ModalMessageWindow from '../ModalMessageWindow/ModalMessageWindow';
 import {DeleteRequest} from "../../helpers/axiosHelper";
 
-function DeleteButton({username, entitiesName, entityId, mode, children}) {  // !entities must be plural! Mode: 'anon','user','owner','admin'
+function DeleteButton({username, entitiesName, entityId, mode, children}) {  // !entities must be plural! Mode: 'anon','user','owner' or 'admin'
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const token = localStorage.getItem( 'token' );

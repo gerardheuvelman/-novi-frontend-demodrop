@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
-import {AuthContext} from "../../context/AuthContext";
 import styles from './UserList.module.css';
 import {GetRequest} from "../../helpers/axiosHelper";
 
@@ -24,10 +23,8 @@ function UserList({mode, limit}) { // currently, mode can only be "admin"
                 <tr>
                     <th>Created Date</th>
                     <th>Username</th>
-                    <th>Password</th>
-                    <th>Enabled</th>
-                    <th>API key</th>
                     <th>Email</th>
+                    <th>Enabled</th>
                     {mode === 'admin' && <th>Edit</th>}
                 </tr>
                 </thead>
@@ -35,11 +32,16 @@ function UserList({mode, limit}) { // currently, mode can only be "admin"
                 {users.map((user) => {
                     return <tr key={user.username}>
                         <td>{user.createdDate}</td>
-                        <td><Link to={`/users/${user.username}/profile`}>{user.username}</Link></td>
-                        <td>{user.password}</td>
-                        <td>{user.enabled}</td>
-                        <td>{user.apikey}</td>
+                        {mode === 'user' && <td><Link to={`/admin/users/${user.username}`}>{user.username}</Link></td>}
+                        {mode === 'admin' && <td>{user.username}</td>}
                         <td>{user.email}</td>
+                        <td>
+                            <input
+                                type="checkbox"
+                                checked={user.enabled}
+                                readOnly
+                            />
+                        </td>
                         {mode === 'admin' && <td><Link to={`/admin/users/${user.username}`}>Edit</Link></td>}
                     </tr>
                 })}

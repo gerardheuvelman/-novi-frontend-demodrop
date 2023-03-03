@@ -53,19 +53,21 @@ Hij mag krimpen als het scherm minder breed wordt, maar niet groeien als er meer
   justify-content: center;
 }
 
-body {
+html,body {
+  height: 100%;
   font-family: 'Roboto Condensed', sans-serif;
   font-weight: 300;
   color: var(--black);
 }
 
 header {
+  height: 400px; /* adjust to your header's height */
   background-color: var(--primary);
 }
 
 main {
+  min-height: calc(100% - 500px); /* adjust to your header and footer's height */
   background-color: yellow;
-
 }
 
 section {
@@ -77,6 +79,7 @@ article {
 }
 
 footer {
+  height: 100px; /* adjust to your footer's height */
   color: var(--white);
   background-color: var(--black);
   padding: 20px 0;

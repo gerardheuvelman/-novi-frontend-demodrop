@@ -8,60 +8,54 @@ import DeleteButton from "../DeleteButton/DeleteButton";
 import {DateTime} from "../../helpers/dateTimeHelper";
 
 function DemoDetails({demo, mode}) { // mode: 'anon' 'user', 'personal' or 'admin'
-    const [audioFile, setAudioFile] = useState(null);
     const {user} = useContext(AuthContext);
     const jwt = localStorage.getItem("token");
-    console.log('DemoDetails received the following demo parameter: ', demo);
-    console.log('DemoDetails received the following mode parameter: ', mode);
 
     const dateTimeCreated = new DateTime(demo.createdDate);
     const createdDate = dateTimeCreated.getDateString();
     const createdTime = dateTimeCreated.getTimeString();
 
+    const scheme = process.env.REACT_APP_SERVER_SCHEME;
+    const domain = process.env.REACT_APP_SERVER_DOMAIN;
+    const port = process.env.REACT_APP_SERVER_PORT;
+    const url = `/audiofiles/${demo.audioFile.audioFileId}`;
+    const fullUrl = scheme + '://' + domain + ':' + port + url;
+
     useEffect(() => {
         async function fetchAudioFile() {
-            // DOt the GET request to fetch tehe file:
-            const scheme = process.env.REACT_APP_SERVER_SCHEME;
-            const domain = process.env.REACT_APP_SERVER_DOMAIN;
-            const port = process.env.REACT_APP_SERVER_PORT;
-            const url = `/audiofiles/${demo.audioFile.audioFileId}`;
-            const fullUrl = scheme + '://' + domain + ':' + port + url;
-            const controller = new AbortController;
-            let response;
-            try {
-                response = await axios.get(fullUrl, {
-                    signal: controller.signal, headers: {
-                        "Content-Type": 'audio/mpeg', Authorization: `Bearer ${jwt}`,
-                    }
-                });
-                console.log(`GET ${url} yielded the following response: `, response);
-                setAudioFile(response.data);
-
-                const audioElement = document.getElementById('myAudio');
-                const sourceElement = audioElement.querySelector('source');
-                sourceElement.src = response.data.url; // KLOPT DIT??
-                console.log('sourceElement.src: ', sourceElement.src);
-                audioElement.load();
-
-            } catch (e) {
-                console.error(e)
-            }
-            controller.abort();
-            console.log("Cleanup code for GET request has been executed");
+            fetch(fullUrl)
+                .then(response => response.arrayBuffer())
+                .then(buffer => {
+                    const audioElement = document.querySelector('audio');
+                    const sourceElement = document.querySelector('#mp3Source');
+                    const blob = new Blob([buffer], { type: 'audio/mpeg' });
+                    const url = URL.createObjectURL(blob);
+                    sourceElement.setAttribute('src', url);
+                    audioElement.load();
+                })
+                .catch(error => console.log(error));
         }
-
         void fetchAudioFile();
     }, []);
 
     function downloadDemo() {
-        const audioFileId = demo.audioFile.audioFileId;
-        // Do more..
-
+        fetch(fullUrl)
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = demo.audioFile.originalFileName;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => console.log(error));
     }
 
     return (
         <>
-
             <section className="outer-content-container demo-specifications">
                 <div className="inner-content-container">
                     {Object.keys(demo).length > 0 && (<div className="demo-specification-details">
@@ -82,8 +76,12 @@ function DemoDetails({demo, mode}) { // mode: 'anon' 'user', 'personal' or 'admi
                         <p>{demo.audioFile.audioFileId}</p>
                         <h3>Filename</h3>
                         <p>{demo.audioFile.originalFileName}</p>
-
-                        <p><audio controls><source type="audio/mpeg" id="myAudio"/></audio></p>
+                        <p>
+                            <audio controls>
+                                <source id="mp3Source" type="audio/mpeg"/>
+                                Your browser does not support the audio element.
+                            </audio>
+                        </p>
 
                         {user && <span><strong>Favorite list:</strong><FavButton demoId={demo.demoId}></FavButton></span>}
                         {/*Only show this link if it is YOUR demo*/}
@@ -92,9 +90,9 @@ function DemoDetails({demo, mode}) { // mode: 'anon' 'user', 'personal' or 'admi
                         {/*only show this link if it is NOT your demo*/}
                         {(user.username !== demo.user.username) &&
                             <p><Link to={`/demos/${demo.demoId}/inquire`}>Inquire about this demo</Link></p>}
-                        {audioFile && <p>
-                            <button type='button' onClick={downloadDemo}>Download mp3 file</button>
-                        </p>}
+                         <p>
+                            <button id="downloadBtn" type='button' onClick={downloadDemo}>Download mp3 file</button>
+                        </p>
                         {(mode === 'personal' || mode === 'admin') &&
                             <p><DeleteButton entitiesName='demos' entityId={demo.demoId} mode='admin'>Delete this
                                 demo</DeleteButton></p>}

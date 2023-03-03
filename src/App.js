@@ -25,6 +25,17 @@ function App() {
     console.log(location);
     const currenLocation = location.pathname;
     const {isAuth, user} = useContext(AuthContext);
+
+    console.log('isAuth: ',isAuth)
+    console.log('user: ',user)
+
+    let roles = null
+    if (isAuth){
+        roles = user.authorities.map ((authority) =>{
+            return authority.authority;
+        })
+    }
+
     return (
         <>
             <Routes>
@@ -41,18 +52,18 @@ function App() {
                 <Route path="/demos/:demoId" element={<DemoDetailsPage/>}/>
                 <Route path="/login" element={isAuth ? <Navigate to={`/users/${user.username}/profile`}/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route path="/register" element={<UserRegisterPage/>}/>
-                <Route path="/conversations/:conversationId" element={isAuth ? <ConversationDetailsPage mode='personal'/> : <UserLogInPage redirect={currenLocation}/>}/>
+                <Route path="/conversations/:conversationId" element={isAuth ? <ConversationDetailsPage mode='user'/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route path="/demos/:demoId/inquire" element={isAuth ? <ConversationCreatePage/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route path="/conversations/:conversationId/reply" element={isAuth ? <ConversationEditPage/> : <UserLogInPage redirect={currenLocation}/>}/>
                 {/*ADMIN ROUTES*/}
-                <Route path="/admin" element={(isAuth && (user.authority === "ROLE_ADMIN")) ? <AdminControlPanel/> : <UserLogInPage redirect={currenLocation}/>}/>
-                <Route path="/admin/users" element={(isAuth && (user.authority === "ROLE_ADMIN")) ? <UserListPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
-                <Route path="/admin/demos" element={(isAuth && (user.authority === "ROLE_ADMIN")) ? <DemoListPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
-                <Route path="/admin/conversations" element={(isAuth && (user.authority === "ROLE_ADMIN")) ? <ConversationListPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
-                <Route path="/admin/genres" element={(isAuth && (user.authority === "ROLE_ADMIN")) ? <GenreListPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
-                <Route path="/admin/users/:username" element={(isAuth && (user.authority === "ROLE_ADMIN")) ? <UserProfilePage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
-                <Route path="/admin/demos/:demoId" element={(isAuth && (user.authority === "ROLE_ADMIN")) ? <DemoDetailsPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
-                <Route path="/admin/conversations/:conversationId" element={(isAuth && (user.authority === "ROLE_ADMIN")) ? <ConversationDetailsPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
+                <Route path="/admin" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <AdminControlPanel/> : <UserLogInPage redirect={currenLocation}/>}/>
+                <Route path="/admin/users" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <UserListPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
+                <Route path="/admin/demos" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <DemoListPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
+                <Route path="/admin/conversations" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <ConversationListPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
+                <Route path="/admin/genres" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <GenreListPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
+                <Route path="/admin/users/:username" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <UserProfilePage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
+                <Route path="/admin/demos/:demoId" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <DemoDetailsPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
+                <Route path="/admin/conversations/:conversationId" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <ConversationDetailsPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
             </Routes>
         </>
     );
