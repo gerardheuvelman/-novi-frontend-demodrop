@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import HomePage from './pages/HomePage/HomePage';
 import {Navigate, Route, Routes, useLocation} from "react-router-dom";
-import UserProfilePage from './pages/UserProfilePage/UserProfilePage';
+import UserDetailsPage from './pages/UserDetailsPage/UserDetailsPage';
 import UserLogInPage from './pages/UserLogInPage/UserLogInPage';
 import UserRegisterPage from './pages/UserRegisterPage/UserRegisterPage';
 import {AuthContext} from './context/AuthContext';
@@ -43,7 +43,7 @@ function App() {
                 <Route path="/demos" element={isAuth? <DemoListPage mode='user' limit={0}/> : <DemoListPage mode='anon' limit={100}/> }/>
                 <Route path="/demos/drop" element={isAuth ? <DemoCreatePage/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route path="/demos/:demoId/edit" element={isAuth ? <DemoEditPage/> : <UserLogInPage redirect={currenLocation}/>}/>
-                <Route path="/users/:username/profile" element={isAuth ? <UserProfilePage/> : <UserLogInPage redirect={currenLocation}/>}/>
+                <Route path="/users/:username/profile" element={isAuth ? <UserDetailsPage/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route path="/users/:username/demos" element={isAuth ? <DemoListPage mode='personal' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route path="/users/:username/conversations" element={isAuth ? <ConversationListPage mode='personal' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route path="/users/:username/favdemos" element={isAuth ? <DemoListPage mode='fav' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
@@ -61,7 +61,7 @@ function App() {
                 <Route path="/admin/demos" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <DemoListPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route path="/admin/conversations" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <ConversationListPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route path="/admin/genres" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <GenreListPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
-                <Route path="/admin/users/:username" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <UserProfilePage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
+                <Route path="/admin/users/:username" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <UserDetailsPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route path="/admin/demos/:demoId" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <DemoDetailsPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route path="/admin/conversations/:conversationId" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <ConversationDetailsPage mode='admin' limit={0}/> : <UserLogInPage redirect={currenLocation}/>}/>
             </Routes>

@@ -2,9 +2,9 @@ import {Link} from "react-router-dom";
 import AccountStateToggleButton from "../AccountStateToggleButton/AccountStateToggleButton";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import React from "react";
-import styles from './UserProfile.module.css';
+import styles from './UserDetails.module.css';
 
-function UserProfile({userDetails, mode}) {
+function UserDetails({userDetails, mode}) {
     return <>
         <section>
             <h2>Personal details</h2>
@@ -23,4 +23,4 @@ function UserProfile({userDetails, mode}) {
     </>;
 }
 
-export default UserProfile;
+export default UserDetails;

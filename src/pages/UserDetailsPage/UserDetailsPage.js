@@ -2,12 +2,12 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Link, NavLink, useParams} from 'react-router-dom';
 import {AuthContext} from "../../context/AuthContext";
 import Header from "../../components/Header/Header";
-import styles from './UserProfilePage.module.css';
+import styles from './UserDetailsPage.module.css';
 import Footer from "../../components/Footer/Footer";
 import {GetRequest} from "../../helpers/axiosHelper";
-import UserProfile from "../../components/UserProfile/UserProfile";
+import UserDetails from "../../components/UserDetails/UserDetails";
 
-function UserProfilePage({mode}) { // mode: 'personal' or 'admin'
+function UserDetailsPage({mode}) { // mode: 'personal' or 'admin'
     const {user} = useContext(AuthContext); // This is the PRINCIPAL user!
     const {username} = useParams(); // Used to fetch user details
     const [userDetails, setUserDetails] = useState(null);
@@ -31,7 +31,7 @@ function UserProfilePage({mode}) { // mode: 'personal' or 'admin'
             </Header>
             {userDetails &&
                 <main>
-                    <UserProfile userDetails={userDetails} mode={mode}/>
+                    <UserDetails userDetails={userDetails} mode={mode}/>
                 </main>
             }
             <Footer/>
@@ -39,4 +39,4 @@ function UserProfilePage({mode}) { // mode: 'personal' or 'admin'
     );
 }
 
-export default UserProfilePage;
+export default UserDetailsPage;
