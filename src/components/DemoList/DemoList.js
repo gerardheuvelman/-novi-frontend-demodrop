@@ -6,7 +6,7 @@ import styles from './DemoList.module.css';
 import {GetRequest} from "../../helpers/axiosHelper";
 import {DateTime} from "../../helpers/dateTimeHelper";
 
-function DemoList({mode, limit}) { // modes:  'anon' 'user', 'personal', 'fav', or 'admin'
+function DemoList({mode, limit}) { // modes:  'anon', 'personal', 'fav', or 'admin'
     const [demos, setDemos] = useState([]);
     const {isAuth, user} = useContext(AuthContext);
 
@@ -54,6 +54,7 @@ function DemoList({mode, limit}) { // modes:  'anon' 'user', 'personal', 'fav', 
                     <th>Date</th>
                     <th>Time</th>
                     <th>Title</th>
+                    {mode !== 'personal' && <th>Producer</th>}
                     <th>Genre</th>
                     <th>BPM</th>
                     <th>Length</th>
@@ -64,18 +65,20 @@ function DemoList({mode, limit}) { // modes:  'anon' 'user', 'personal', 'fav', 
                 </thead>
                 <tbody>
                 {demos.map((demo) => {
-                    {
-                        console.log('single demo: ', demo)
-                    }
-
                     const dateTimeCreated = new DateTime(demo.createdDate);
 
                     // De key moet op het buitenste element staan en uniek zijn
                     return <tr key={demo.demoId}>
                         <td>{dateTimeCreated.getDateString()}</td>
                         <td>{dateTimeCreated.getTimeString()}</td>
-                        {mode !== 'admin' && <td><Link to={`/admin/demos/${demo.demoId}`}>{demo.title}</Link></td>}
+
+                        {(mode === 'anon' || mode === 'fav') && <td><Link to={`/demos/${demo.demoId}`}>{demo.title}</Link></td>}
+                        {mode === 'personal' && <td><Link to={`/users/${demo.user.username}/demos/${demo.demoId}`}>{demo.title}</Link></td>}
                         {mode === 'admin' && <td>{demo.title}</td>}
+
+                        {(mode !== 'admin' && mode !== 'personal') && <td><Link to={`/users/${demo.user.username}/profile`}>{demo.user.username}</Link></td>}
+                        {mode === 'admin' && <td><Link to={`/admin/users/${demo.user.username}`}>{demo.user.username}</Link></td>}
+
                         <td>{demo.genre.name}</td>
                         <td>{demo.bpm}</td>
                         <td>{demo.length}</td>

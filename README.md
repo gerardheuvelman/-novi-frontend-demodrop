@@ -1,6 +1,7 @@
 # KNOWN BUGS: 
 
 - Short pages are shorter than the height of the screen.
+- Error in messsage winwow ui
 - 
 # TODO:
 - user profile must have a "auth" mode, viewable by other users. This mode must include a button "View all demo's" for this user.

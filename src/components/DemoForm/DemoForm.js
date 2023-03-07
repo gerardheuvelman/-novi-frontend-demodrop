@@ -106,7 +106,7 @@ function DemoForm({mode, prefillDemo}) {
     }
     // The method below cannot make use of the Axios POST helper method, because it does not support an alternative header value for "content-type".
     async function sendFileWithDemoId(demoId, {file}) {
-        const url = `${scheme}://${domain}:${port}/demos/${demoId}/file`
+        const url = `${scheme}://${domain}:${port}/demos/${demoId}/upload`
         console.log("now sending file to be associated with demo :", demoId);
         console.log('file: ', file[0]);
         const formData = new FormData();

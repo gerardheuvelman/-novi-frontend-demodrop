@@ -25,8 +25,4 @@ const ModalMessageWindow = ({ children, redirectRoute }) => {
     );
 };
 
-// ModalMessageWindow.propTypes = {
-//     message: PropTypes.string.isRequired,
-// };
-
 export default ModalMessageWindow;

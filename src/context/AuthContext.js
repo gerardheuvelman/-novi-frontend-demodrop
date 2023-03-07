@@ -54,7 +54,7 @@ function AuthContextProvider({children}) {
                 user: {
                     email: response.data.email,
                     username: response.data.username,
-                    authorities: response.data.authorities // WATCH OUT THIS IS AN ARRRAY!
+                    authorities: response.data.authorities
                 },
                 status: 'done'
             });

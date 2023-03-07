@@ -9,16 +9,27 @@ function NavBar() {
     const navigate = useNavigate();
     const [mobileMenu, toggleMobileMenu] = useState(true)
 
+    function getGreeting() {
+        const date = new Date();
+        const hours = date.getHours();
+
+        if (hours >= 5 && hours < 12) {
+            return "Good morning, ";
+        } else if (hours >= 12 && hours < 18) {
+            return "Good afternoon, ";
+        } else if (hours >= 18 && hours < 22) {
+            return "Good evening, ";
+        } else {
+            return "Good night, ";
+        }
+    }
+
     let roles;
     if (isAuth) {
         roles = user.authorities.map ((authority) =>{
             return authority.authority;
         })
     }
-
-
-
-    console.log('roles: ',roles)
 
     return (
         <nav className='outer-container'>
@@ -28,11 +39,11 @@ function NavBar() {
                     <li><NavLink className={styles['link']} to="/demos/drop">Drop new demo</NavLink></li>
                     {isAuth ?
                         <>
-                            <li>{user.email}</li>
+                            <li><span> {getGreeting()} <strong>{`${user.username}!`}</strong>!</span></li>
                             <li><NavLink className={styles['link']} to={`/users/${user.username}/demos`}>My demos</NavLink></li>
                             <li><NavLink className={styles['link']} to={`/users/${user.username}/conversations`}>Inbox</NavLink>
                             </li>
-                            <li><NavLink className={styles['link']} to={`/users/${user.username}/profile`}>My profile</NavLink>
+                            <li><NavLink className={styles['link']} to={`/users/${user.username}/myprofile`}>My profile</NavLink>
                             </li>
                             <li><NavLink className={styles['link']} to={`/users/${user.username}/favdemos`}>Favorites</NavLink>
                             </li>

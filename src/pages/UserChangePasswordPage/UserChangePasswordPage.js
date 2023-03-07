@@ -15,17 +15,14 @@ function UserChangePasswordPage() {
     });
     const [responseBody, setResponseBody] = useState(null)
 
-    async function handleFormSubmit(data) {
-        const controller = new AbortController();
-        await submitNewPasswordAsync(data, controller);
-    }
-
     async function submitNewPasswordAsync(data) {
+        console.log('data: ', data);
         const response = await new PatchRequest(`/users/${user.username}/change-password`,{
             username: null,
             password: data.newPassword,
             email: null
-        });
+        }).invoke();
+        console.log('response: ',response);
         setResponseBody(response.data);
     }
 
@@ -37,7 +34,7 @@ function UserChangePasswordPage() {
             </Header>
             <main>
                 {responseBody && <h4>{responseBody}</h4>}
-                <form onSubmit={handleSubmit(handleFormSubmit)}>
+                <form onSubmit={handleSubmit(submitNewPasswordAsync)}>
                     <InputComponent
                         inputType="password"
                         inputName="newPassword"

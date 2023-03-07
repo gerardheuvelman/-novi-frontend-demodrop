@@ -33,7 +33,8 @@ function ConversationList({mode, limit}) { // mode: 'personal' or 'admin'
                     {mode === 'personal' && <th>User</th>}
                     {mode === 'admin' && <th>Producer</th>}
                     {mode === 'admin' && <th>Interested User</th>}
-                    <th>Demo</th>
+                    {mode === 'admin' && <th>Demo Id</th>}
+                    <th>Demo title</th>
                     <th>Subject</th>
                     {mode === 'admin' && <th>Edit</th>}
                 </tr>
@@ -49,6 +50,7 @@ function ConversationList({mode, limit}) { // mode: 'personal' or 'admin'
                         {mode === 'personal' && <td>{ user.username ===  conversation.producer.username ? conversation.interestedUser.username: conversation.producer.username }</td>}
                         {mode === 'admin' && <td>{conversation.producer.username}</td>}
                         {mode === 'admin' && <td>{conversation.interestedUser.username}</td>}
+                        {mode === 'admin' && <td><Link to={`/admin/demos/${conversation.demo.demoId}`}>{conversation.demo.demoId}</Link></td>}
                         <td>{conversation.demo.title}</td>
                         {mode !== 'admin' && <td><Link to={`/conversations/${conversation.conversationId}`}>{conversation.subject}</Link></td>}
                         {mode === 'admin' && <td>{conversation.subject}</td>}

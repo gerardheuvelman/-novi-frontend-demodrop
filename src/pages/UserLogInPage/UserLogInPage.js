@@ -11,7 +11,7 @@ import Footer from "../../components/Footer/Footer";
 
 function UserLogInPage({redirect}) {
     const {login} = useContext(AuthContext);
-    const [forbidden, toggleForbidden] = React.useState(false);
+    const [forbidden, toggleForbidden] = React.useState(null);
     const { handleSubmit, formState: { errors }, register, watch } = useForm({ mode: 'onTouched',
         defaultValues: {
             'username': null,

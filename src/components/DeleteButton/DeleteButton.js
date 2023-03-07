@@ -4,40 +4,59 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import ModalMessageWindow from '../ModalMessageWindow/ModalMessageWindow';
 import {DeleteRequest} from "../../helpers/axiosHelper";
+import ModalConfirmWindow from "../ModalConfirmWindow/ModalConfirmWindow";
 
 function DeleteButton({username, entitiesName, entityId, mode, children}) {  // !entities must be plural! Mode: 'anon','user','owner' or 'admin'
     const navigate = useNavigate();
-    const [showModal, setShowModal] = useState(false);
-    const token = localStorage.getItem( 'token' );
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [showMessage, setShowMessage] = useState(false);
+    const [responseMessage, setResponseMessage] = useState(null)
+    const token = localStorage.getItem('token');
+
+    async function handleClick() {
+        setShowConfirm(true);
+    }
+
+    async function cancelDelete() {
+        setShowConfirm(false);
+    }
+
+    async function confirmDelete() {
+        const responseMessage = await deleteEntityAsync();
+        setShowConfirm(false);
+        setShowMessage(true);
+    }
 
     async function deleteEntityAsync() {
         const response = await new DeleteRequest(`/${entitiesName}/${entityId}`).invoke();
-        if (response.status === 200) {
-            setShowModal(true);
-        } else console.error("Returned status from API call was NOT 200 OK");
+        setResponseMessage(response);
     }
 
     return (
         <>
-            <button onClick={deleteEntityAsync}>
+            <button onClick={handleClick}>
                 {children}
             </button>
-            {(showModal && mode === 'admin') &&
+            {showConfirm &&
+                <ModalConfirmWindow cancelCallback={cancelDelete} confirmCallback={confirmDelete}>
+                    {`You are about to (permanently  delete ${entitiesName} `}
+                </ModalConfirmWindow>
+            }
+            {(showMessage && mode === 'admin') &&
                 <ModalMessageWindow redirectRoute={`/admin/${entitiesName}`}>
-                    {`Deletion successful. Press the button to return to the Admin list of ${entitiesName}`}
+                    {`${responseMessage}\nPress the button to return to the list of ${entitiesName} (admin mode)`}
                 </ModalMessageWindow>
             }
-            {(showModal && mode === 'personal') &&
+            {(showMessage && mode === 'personal') &&
                 <ModalMessageWindow redirectRoute={`/users/${username}/${entitiesName}`}>
-                    {`Deletion successful. Press the button to return to your personal list of ${entitiesName}`}
+                    {`${responseMessage}\nPress the button to return to your personal list of ${entitiesName}`}
                 </ModalMessageWindow>
             }
-            {(showModal && mode === 'all') &&
+            {(showMessage && mode === 'all') &&
                 <ModalMessageWindow redirectRoute={`/${entitiesName}`}>
-                    {`Deletion successful. Press the button to return to the full list of ${entitiesName}`}
+                    {`${responseMessage}\nPress the button to return to the full list of ${entitiesName}`}
                 </ModalMessageWindow>
             }
-
         </>
     );
 }

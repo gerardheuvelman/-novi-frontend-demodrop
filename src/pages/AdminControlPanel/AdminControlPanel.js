@@ -10,6 +10,7 @@ import styles from './AdminControlPanel.module.css';
 import Footer from "../../components/Footer/Footer";
 import GenreList from "../../components/GenreList/GenreList";
 import {useNavigate} from "react-router-dom";
+import AudioFileList from "../../components/AudioFileList/AudioFileList";
 
 function AdminControlPanel(props) {
     const [users, setUsers] = useState([]);
@@ -32,6 +33,10 @@ function AdminControlPanel(props) {
 
     function redirectToGenreControlPanel() {
         navigate('/admin/genres');
+    }
+
+    function redirectToAudioFileControlPanel() {
+        navigate('/admin/audiofiles');
     }
 
     return (
@@ -65,6 +70,15 @@ function AdminControlPanel(props) {
                         <ConversationList mode='admin' limit={6}/>
                         <button type="button" onClick= {redirectToConversationControlPanel}>
                             Conversation Control Panel
+                        </button>
+                    </div>
+                </section>
+                <section className="outer-content-container">
+                    <div className="inner-content-container">
+                        <h2>Latest audio files:</h2>
+                        <AudioFileList mode='admin' limit={6}/>
+                        <button type="button" onClick= {redirectToAudioFileControlPanel}>
+                            File Control Panel
                         </button>
                     </div>
                 </section>

@@ -1,28 +1,27 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import {AuthContext} from '../../context/AuthContext';
-import styles from './DemoDetails.module.css';
+import styles from './AudioFileDetails.module.css';
 import FavButton from "../FavButton/FavButton";
-import axios from "axios";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import {DateTime} from "../../helpers/dateTimeHelper";
+import {GetRequest, PutRequest} from "../../helpers/axiosHelper";
 
-function DemoDetails({demo, mode}) { // mode: 'anon', 'personal' or 'admin'
+function AudioFileDetails({audioFile, mode}) { // mode: 'admin'
     const {user} = useContext(AuthContext);
-    const dateTimeCreated = new DateTime(demo.createdDate);
+    const dateTimeCreated = new DateTime(audioFile.createdDate);
     const createdDate = dateTimeCreated.getDateString();
     const createdTime = dateTimeCreated.getTimeString();
 
     const scheme = process.env.REACT_APP_SERVER_SCHEME;
     const domain = process.env.REACT_APP_SERVER_DOMAIN;
     const port = process.env.REACT_APP_SERVER_PORT;
-    const url = `/demos/${demo.demoId}/download`;
+    const url = `/demos/${audioFile.demo.demoId}/download`;
     const fullUrl = scheme + '://' + domain + ':' + port + url;
-
-    console.log('DemoDetails mode: ', mode);
 
     useEffect(() => {
         async function fetchAudioFile() {
+            {console.log('fullUrl: ',fullUrl)}
             fetch(fullUrl)
                 .then(response => response.arrayBuffer())
                 .then(buffer => {
@@ -38,14 +37,14 @@ function DemoDetails({demo, mode}) { // mode: 'anon', 'personal' or 'admin'
         void fetchAudioFile();
     }, []);
 
-    function downloadDemo() {
+    function downloadAudioFile() {
         fetch(fullUrl)
             .then(response => response.blob())
             .then(blob => {
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = demo.audioFile.originalFileName;
+                a.download = audioFile.originalFileName;
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
@@ -56,52 +55,38 @@ function DemoDetails({demo, mode}) { // mode: 'anon', 'personal' or 'admin'
 
     return (
         <>
-            <section className="outer-content-container demo-specifications">
+            <section className="outer-content-container audiofile-specifications">
                 <div className="inner-content-container">
-                    {demo && (<div className="demo-specification-details">
+                    {Object.keys(audioFile).length > 0 && (<div className="audiofile-specification-details">
                         <h3>Created date</h3>
                         <p>{createdDate}</p>
                         <h3>Created time</h3>
                         <p>{createdTime}</p>
-                        <h3>Title</h3>
-                        <p>{demo.title}</p>
-                        <h3>producer</h3>
-                        <p>{demo.user.username}</p>
-                        <h3>Length</h3>
-                        <p>{demo.length}</p>
-                        <h3>BPM</h3>
-                        <p>{demo.bpm}</p>
-                        <h3>Genre</h3>
-                        <p>{demo.genre.name}</p>
-                        <h3>audio file ID</h3>
-                        <p>{demo.audioFile.audioFileId}</p>
-                        <h3>Filename</h3>
-                        <p>{demo.audioFile.originalFileName}</p>
+                        <h3>Audio file ID</h3>
+                        <p>{audioFile.audioFileId}</p>
+                        <h3>File name</h3>
+                        <p>{audioFile.originalFileName}</p>
                         <p>
                             <audio controls>
                                 <source id="mp3Source" type="audio/mpeg"/>
                                 Your browser does not support the audio element.
                             </audio>
                         </p>
-                        {user && <span><strong>Favorite list:</strong><FavButton demoId={demo.demoId}></FavButton></span>}
-                        {/*Only show this link if You arre logged in and the demo it is YOUR demo*/}
-                        {(user && (user.username === demo.user.username)) &&
-                            <p><Link to={`/demos/${demo.demoId}/edit`}>Edit this demo</Link></p>}
-                        {/*only show this link if you are logged in and it is NOT your demo*/}
-                        {(user && (user.username === demo.user.username)) &&
-                            <p><Link to={`/demos/${demo.demoId}/inquire`}>Inquire about this demo</Link></p>}
+                            <p><Link to={`/demos/${audioFile.audioFileId}/edit`}>Edit this demo</Link></p>
                          <p>
-                            <button id="downloadBtn" type='button' onClick={downloadDemo}>Download mp3 file</button>
+                            <button id="downloadBtn" type='button' onClick={downloadAudioFile}>Download mp3 file</button>
                         </p>
-                        {(mode === 'personal' || mode === 'admin') &&
-                            <p><DeleteButton entitiesName='demos' entityId={demo.demoId} mode='admin'>Delete this
-                                demo</DeleteButton></p>}
-                        {mode !== 'admin' && <Link to="/">Back to home</Link>}
-                        {mode === 'admin' && <Link to="/admin/demos">Back to Demo Control Panel</Link>}
+                        <h3>demo Id</h3>
+                        <p>{audioFile.demo.demoId}</p>
+                        <h3>demo title</h3>
+                        <p>{audioFile.demo.title}</p>
+                        {mode === 'admin' &&
+                            <p><DeleteButton entitiesName='demos' entityId={audioFile.demo.demoId} mode='admin'>Delete</DeleteButton> the demo related to this file</p>}
+                        {mode === 'admin' &&  <Link to="/">Back to File control page</Link>}
                     </div>)}
                 </div>
             </section>
         </>);
 }
 
-export default DemoDetails;
+export default AudioFileDetails;
