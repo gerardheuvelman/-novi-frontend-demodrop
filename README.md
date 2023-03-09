@@ -2,6 +2,7 @@
 
 - Short pages are shorter than the height of the screen.
 - Error in messsage winwow ui
+- if you on favorite demos and then click on demolist in the navbar, it will stil show the favlist
 - 
 # TODO:
 - user profile must have a "auth" mode, viewable by other users. This mode must include a button "View all demo's" for this user.

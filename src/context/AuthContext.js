@@ -39,12 +39,13 @@ function AuthContextProvider({children}) {
     }, [])
 
     function login(jwt, redirect) {
-        console.log("This user has been logged in 🔓.");
         localStorage.setItem('token', jwt);
+        console.log("This user has been logged in 🔓.");
         const decodedToken = jwt_decode(jwt);
         console.log('decodedToken: ', decodedToken);
         void fetchUserData(jwt, decodedToken.sub, redirect);
     }
+
 
     async function fetchUserData(token, id, redirect) {
         const response = await new GetRequest(`/users/${id}`).invoke();
