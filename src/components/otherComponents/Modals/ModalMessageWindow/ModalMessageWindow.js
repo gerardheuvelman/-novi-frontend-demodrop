@@ -1,13 +1,11 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import styles from './ModalMessageWindow.module.css';
 
-const ModalMessageWindow = ({ children, redirectRoute }) => {
-    let navigate = useNavigate();
+const ModalMessageWindow = ({ onClose, children }) => {
 
     const handleClose = () => {
-        navigate(redirectRoute);
+        onClose();
     };
 
     return (

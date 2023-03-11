@@ -32,11 +32,11 @@ function DemoListPage({mode}) { // Values for "mode":  'anon', 'user', 'personal
                 {mode === 'owner' && <h4>a list of demos produced by me</h4>}
                 {mode === 'fav' && <h4>a list of {user.username}'s favorite demos</h4>}
                 {mode === 'genre' && <h4>a list of all demos of genre {genre}</h4>}
-                {mode === 'admin' && <h4>Full CRUD access to DEmo's</h4>}
+                {mode === 'admin' && <h4>Full CRUD access to all demos</h4>}
             </Header>
             <main>
                 <div className="page-container">
-                    <DemoList mode={mode}/>
+                    <DemoList mode={mode} limit={0} genre={{genre}}/>
                 </div>
                 <p><Link onClick={() => window.history.back()} to="#">{` <<Back`}</Link></p>
             </main>

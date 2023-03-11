@@ -91,14 +91,9 @@ function DemoDetails({demo, mode}) { // mode: 'anon', 'personal', 'owner' or 'ad
                         {/*only show this link if you are logged in and it is NOT your demo*/}
                         {(user && (user.username === demo.user.username)) &&
                             <p><Link to={`/demos/${demo.demoId}/inquire`}>Inquire about this demo</Link></p>}
-                         <p>
-                            <button id="downloadBtn" type='button' onClick={downloadDemo}>Download mp3 file</button>
-                        </p>
-                        {(mode === 'owner' || mode === 'admin') &&
-                            <p><DeleteButton entityName='demo' entityId={demo.demoId} mode='admin'>Delete this
-                                demo</DeleteButton></p>}
-                        <p><Link onClick={() => window.history.back()} to="#">{` <<Back`}</Link></p>
-
+                         <p><button id="downloadBtn" type='button' onClick={downloadDemo}>Download mp3 file</button></p>
+                        {(mode === 'admin') && <td><Link to={`/admin/demos/${demo.demoId}/edit`}>Edit this demo</Link></td>}
+                        {(mode === 'owner' || mode === 'admin') && <p><DeleteButton entityName='demo' entityId={demo.demoId} friendlyId={demo.title} mode='admin'>Delete this demo</DeleteButton></p>}
                     </div>)}
                 </div>
             </section>

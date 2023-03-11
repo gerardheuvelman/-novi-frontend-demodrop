@@ -2,11 +2,12 @@ import React, {useContext, useState} from 'react';
 import Header from "../../../components/otherComponents/structuralComponents/Header/Header";
 import {Link, redirect} from "react-router-dom";
 import {AuthContext} from '../../../context/AuthContext';
-import UserList from "../../../components/listComponents/UserList/UserList";
-import styles from './UserControlPanel.module.css';
+import styles from './AudioFileControlPanel.module.css';
 import Footer from "../../../components/otherComponents/structuralComponents/Footer/Footer";
+import DemoList from "../../../components/listComponents/DemoList/DemoList";
+import AudioFileList from "../../../components/listComponents/AudioFileList/AudioFileList";
 
-function UserControlPanel({mode}) { // mode: 'admin'
+function AudioFileControlPanel({mode}) { // mode: 'admin'
 
     const {user} = useContext(AuthContext);
     console.log('User object:', user);
@@ -14,15 +15,14 @@ function UserControlPanel({mode}) { // mode: 'admin'
     return (
         <>
             <Header>
-                <h1>User control panel</h1>
+                <h1>Audio file control panel</h1>
                 <h2>Welcome, {user.username} </h2>
             </Header>
             <main>
                 <section>
-                    <p><Link to={'/admin/users/createuser'}>Create new user</Link></p>
-                    <p><Link to={'/admin/users/createadmin'}>Create new admin user</Link></p>
+                    <p><Link to={'/admin/audiofiles/createaudiofile'}>Create new audio file (Not on disk)</Link></p>
                 </section>
-                <UserList mode={mode} limit={0} ></UserList>
+                <AudioFileList mode={mode} limit={0} ></AudioFileList>
             </main>
             <Footer/>
         </>
@@ -30,4 +30,4 @@ function UserControlPanel({mode}) { // mode: 'admin'
     );
 }
 
-export default UserControlPanel;
+export default AudioFileControlPanel;

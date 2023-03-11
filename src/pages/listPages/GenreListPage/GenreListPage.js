@@ -13,9 +13,9 @@ function GenreListPage({mode, limit}) { // Values for "mode":  'anon',  'admin'
         <>
             <Header>
                 {mode === 'anon' && <h1>Music Genres</h1>}
-                {mode === 'admin' && <h1>Genre list (admin mode)</h1>}
-                {mode === 'anon' && <h4>Click on a genre to see a list of demos of that genre</h4>}
-                {mode === 'admin' && <h4>full CRUD access to music genres</h4>}
+                {mode === 'admin' && <h1>Music genres (admin mode)</h1>}
+                {mode === 'anon' && <h2>Click on a genre to see a list of demos of that genre</h2>}
+                {mode === 'admin' && <h2>full CRUD access to music genres</h2>}
             </Header>
             <main>
                 <div className="page-container">

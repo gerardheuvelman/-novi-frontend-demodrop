@@ -64,13 +64,13 @@ function ConversationForm({mode, prefillConversation}) { // mode: 'create' or 'u
     }
 
     return (
-        <>
+        <div className="page-container">
             {/*{mode === 'create' &&*/}
             {/*    <h4>{`Start a new conversation with user ${prefillConversation.producer.username} about demo ${prefillConversation.demo.title}`}</h4>}*/}
             {/*{mode === 'update' &&*/}
             {/*    <h4>{`Reply to user ${(user.username === prefillConversation.producer.username) ? prefillConversation.interestedUser.username : prefillConversation.producer.username}`}</h4>}*/}
-            <form onSubmit={handleSubmit(handleFromSubmit)}>
-                {prefillConversation &&
+            {prefillConversation &&
+                <form onSubmit={handleSubmit(handleFromSubmit)}>
                     <>
                         <InputComponent
                             inputType="text"
@@ -119,16 +119,14 @@ function ConversationForm({mode, prefillConversation}) { // mode: 'create' or 'u
                             >
                             </textarea>
                         </label>
-                        <button type="submit">
-                            <h1>Send</h1>
-                        </button>
+                        {<button type="submit">Send</button>}
 
                     </>
-                }
-            </form>
+                </form>
+            }
             {createSuccess === true && <p>Message has been sent!</p>}
             {updateSuccess === true && <p>Your reply has been sent!</p>}
-        </>
+        </div>
     );
 }
 

@@ -38,7 +38,7 @@ function NavBar() {
                     <li><NavLink className={styles['link']} to="/">Home</NavLink></li>
 
                     {isAuth && <li><NavLink className={styles['link']} to="/demos">Demo list</NavLink></li>}
-                    {!isAuth && <li><NavLink className={styles['link']} to="/demos4all">Our demos</NavLink></li>}
+                    {!isAuth && <li><NavLink className={styles['link']} to="/demos">Our demos</NavLink></li>}
 
                     <li><NavLink className={styles['link']} to="/genres">Genres</NavLink></li>
 
@@ -47,7 +47,7 @@ function NavBar() {
                         <>
                             <li><span> {getGreeting()} <strong>{`${user.username}!`}</strong>!</span></li>
                             <li><NavLink className={styles['link']} to={`/users/${user.username}/mydemos`}>My demos</NavLink></li>
-                            <li><NavLink className={styles['link']} to={`/users/${user.username}/conversations`}>Inbox</NavLink>
+                            <li><NavLink className={styles['link']} to={`/users/${user.username}/myconversations`}>Inbox</NavLink>
                             </li>
                             <li><NavLink className={styles['link']} to={`/users/${user.username}/myprofile`}>My profile</NavLink>
                             </li>

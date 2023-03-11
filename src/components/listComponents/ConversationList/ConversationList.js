@@ -5,16 +5,16 @@ import styles from './ConversationList.module.css';
 import {GetRequest} from "../../../helpers/axiosHelper";
 import {DateTime} from "../../../helpers/dateTimeHelper";
 
-function ConversationList({mode, limit}) { // mode: 'personal' or 'admin'
+function ConversationList({mode, limit}) { // mode: 'owner' or 'admin'
     const [conversations, setConversations] = useState([]);
     const {user} = useContext(AuthContext);
-    console.log(mode);
+    console.log('Mode of ConversationList: ', mode);
 
     useEffect(() => {
         async function fetchConversations() {
                 let response = '';
-                if (mode === 'personal') {
-                    response = await new GetRequest(`/users/${user.username}/conversations?limit=${limit}`).invoke();
+                if (mode === 'owner') {
+                    response = await new GetRequest(`/users/${user.username}/conversations`).invoke();
                 } else if (mode = 'admin') {
                     response = await new GetRequest(`/conversations?limit=${limit}`).invoke();
                 }
@@ -30,7 +30,7 @@ function ConversationList({mode, limit}) { // mode: 'personal' or 'admin'
                 <tr>
                     <th>Date</th>
                     <th>Time</th>
-                    {mode === 'personal' && <th>User</th>}
+                    {mode === 'owner' && <th>User</th>}
                     {mode === 'admin' && <th>Producer</th>}
                     {mode === 'admin' && <th>Interested User</th>}
                     {mode === 'admin' && <th>Demo Id</th>}
@@ -41,21 +41,22 @@ function ConversationList({mode, limit}) { // mode: 'personal' or 'admin'
                 </thead>
                 <tbody>
                 {conversations.map((conversation) => {
-                    const dateTimeLatestReply = new DateTime(conversation.latestReplyDate);
+                    const dateTimeCreated = new DateTime(conversation.createdDate);
 
                     // De key moet op het buitenste element staan en uniek zijn
                     return <tr key={conversation.conversationId}>
-                        <td>{dateTimeLatestReply.getDateString()}</td>
-                        <td>{dateTimeLatestReply.getTimeString()}</td>
-                        {mode === 'personal' && <td>{ user.username ===  conversation.producer.username ? conversation.interestedUser.username: conversation.producer.username }</td>}
-                        {mode === 'admin' && <td>{conversation.producer.username}</td>}
-                        {mode === 'admin' && <td>{conversation.interestedUser.username}</td>}
+                        <td>{dateTimeCreated.getDateString()}</td>
+                        <td>{dateTimeCreated.getTimeString()}</td>
+                        {mode === 'owner' && <td><Link to={`/users/${user.username ===  conversation.producer.username ? conversation.interestedUser.username: conversation.producer.username }`}>{user.username ===  conversation.producer.username ? conversation.interestedUser.username: conversation.producer.username }</Link></td>}
+                        {mode === 'admin' && <td><Link to={`/admin/users/${conversation.producer.username}`}>{conversation.producer.username}</Link></td>}
+                        {mode === 'admin' && <td><Link to={`/admin/users/${conversation.interestedUser.username}`}>{conversation.interestedUser.username}</Link></td>}
+
                         {mode === 'admin' && <td><Link to={`/admin/demos/${conversation.demo.demoId}`}>{conversation.demo.demoId}</Link></td>}
                         <td>{conversation.demo.title}</td>
                         {mode !== 'admin' && <td><Link to={`/conversations/${conversation.conversationId}`}>{conversation.subject}</Link></td>}
                         {mode === 'admin' && <td>{conversation.subject}</td>}
-                        {mode === 'admin' && <td><Link to={`/admin/conversations/${conversation.conversationId}`}>Edit</Link></td>}
-
+                        {mode === 'admin' && <td><Link to={`/admin/conversations/${conversation.conversationId}`}>View</Link></td>}
+                        {mode === 'admin' && <td><Link to={`/admin/conversations/${conversation.conversationId}/edit`}>Edit</Link></td>}
                     </tr>
                 })}
                 </tbody>

@@ -30,8 +30,8 @@ function AudioFileList({mode, limit}) { // modes: 'admin'
                     <th>Time</th>
                     <th>Audiofile ID</th>
                     <th>Original filename</th>
-                    <th>Demo ID</th>
                     <th>Demo Title</th>
+                    {(mode === 'admin') && <th>View</th>}
                     {(mode === 'admin') && <th>Edit</th>}
                 </tr>
                 </thead>
@@ -47,9 +47,9 @@ function AudioFileList({mode, limit}) { // modes: 'admin'
                         <td>{dateTimeCreated.getTimeString()}</td>
                         {mode === 'admin' && <td>{audioFile.audioFileId}</td>}
                         <td>{audioFile.originalFileName}</td>
-                        <td><Link to={`/admin/demos/${audioFile.demo.demoId}`}>{audioFile.demo.demoId}</Link></td>
-                        <td>{audioFile.demo.title}</td>
-                        {(mode === 'admin') && <td><Link to={`/admin/audiofiles/${audioFile.audioFileId}`}>Edit</Link></td>}
+                        <td><Link to={`/admin/demos/${audioFile.demo.demoId}`}>{audioFile.demo.title}</Link></td>
+                        {(mode === 'admin') && <td><Link to={`/admin/audiofiles/${audioFile.audioFileId}`}>View</Link></td>}
+                        {(mode === 'admin') && <td><Link to={`/admin/audiofiles/${audioFile.audioFileId}/edit`}>Edit</Link></td>}
                     </tr>
                 })}
                 </tbody>

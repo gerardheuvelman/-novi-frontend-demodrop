@@ -272,11 +272,8 @@ function DemoForm({mode, prefillDemo}) {
 
                         {previewUrl && <audio controls><source src={previewUrl} type="audio/mpeg" id="myAudio"/></audio>}
 
-                        <button type="submit">
-                            {mode === 'create' && <h1>Create</h1>}
-                            {mode === 'update' && <h1>Update</h1>}
-                        </button>
-                    </form>
+                        {mode === 'create' && <button type="submit">Create</button>}
+                        {mode === 'update' && <button type="submit">Update</button>}                    </form>
 
                 }
                 {createSuccess === true && <p>A new demo has been created!</p>}

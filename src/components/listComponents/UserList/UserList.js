@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import styles from './UserList.module.css';
 import {GetRequest} from "../../../helpers/axiosHelper";
+import {DateTime} from "../../../helpers/dateTimeHelper";
 
 function UserList({mode, limit}) { // currently, mode can only be "admin"
     const [users, setUsers] = useState([]);
@@ -21,7 +22,8 @@ function UserList({mode, limit}) { // currently, mode can only be "admin"
             <table>
                 <thead>
                 <tr>
-                    <th>Created Date</th>
+                    <th>Date</th>
+                    <th>Time</th>
                     <th>Username</th>
                     <th>Email</th>
                     <th>Enabled</th>
@@ -30,8 +32,10 @@ function UserList({mode, limit}) { // currently, mode can only be "admin"
                 </thead>
                 <tbody>
                 {users.map((user) => {
+                    const dateTimeCreated = new DateTime(user.createdDate);
                     return <tr key={user.username}>
-                        <td>{user.createdDate}</td>
+                        <td>{dateTimeCreated.getDateString()}</td>
+                        <td>{dateTimeCreated.getTimeString()}</td>
                         {mode === 'user' && <td><Link to={`/admin/users/${user.username}`}>{user.username}</Link></td>}
                         {mode === 'admin' && <td>{user.username}</td>}
                         <td>{user.email}</td>
@@ -42,7 +46,8 @@ function UserList({mode, limit}) { // currently, mode can only be "admin"
                                 readOnly
                             />
                         </td>
-                        {mode === 'admin' && <td><Link to={`/admin/users/${user.username}`}>Edit</Link></td>}
+                        {mode === 'admin' && <td><Link to={`/admin/users/${user.username}`}>View</Link></td>}
+                        {mode === 'admin' && <td><Link to={`/admin/users/${user.username}/edit`}>Edit</Link></td>}
                     </tr>
                 })}
                 </tbody>

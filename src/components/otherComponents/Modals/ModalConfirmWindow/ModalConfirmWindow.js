@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import styles from './ModalConfirmWindow.module.css';
 
-const ModalConfirmWindow = ({ cancelCallback, confirmCallback,  children}) => {
+const ModalConfirmWindow = ({formData, cancelCallback, confirmCallback,  children}) => {
 
     const handleCancel = () => {
         cancelCallback();
@@ -19,6 +19,9 @@ const ModalConfirmWindow = ({ cancelCallback, confirmCallback,  children}) => {
         <span className={styles.close} onClick={handleCancel}>
           &times;
         </span>
+                <p>
+                    {formData.toString()}
+                </p>
                 <p>{children}</p>
                 <button className={styles.cancelButton} onClick={handleCancel}>
                     Cancel

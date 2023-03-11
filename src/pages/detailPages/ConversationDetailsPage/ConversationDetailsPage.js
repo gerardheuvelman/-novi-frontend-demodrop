@@ -7,7 +7,7 @@ import styles from './ConversationDetailsPage.module.css';
 import Footer from "../../../components/otherComponents/structuralComponents/Footer/Footer";
 import {GetRequest} from "../../../helpers/axiosHelper";
 
-function ConversationDetailsPage({mode}) {
+function ConversationDetailsPage({mode}) { // Modes: 'owner' or 'admin'
     const [conversation, setConversation] = useState({});
     const {conversationId} = useParams();
 
@@ -22,8 +22,10 @@ function ConversationDetailsPage({mode}) {
     return (
         <>
             <Header>
-                <h1>Conversation Details </h1>
-                <h4>{`...for conversation ${conversationId}`}</h4>
+                {mode === 'owner' && <h1>Message details </h1>}
+                {mode === 'admin' && <h1>Conversation details </h1>}
+                { mode === 'owner' && <h4>{`...for message with subject "${conversation.subject}"`}</h4>}
+                { mode === 'admin' && <h4>{`...for conversation "${conversationId}"`}</h4>}
                 {/*{ Object.keys(conversation).length > 0 && <h4>a conversation between {conversation.producer} (producer of {conversation.demo.title}) and {conversation.interestedUser.username} (interested party)</h4>}*/}
             </Header>
             <main>

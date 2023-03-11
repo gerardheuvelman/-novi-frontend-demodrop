@@ -5,27 +5,16 @@ import FavButton from "../../otherComponents/buttons/FavButton/FavButton";
 import styles from './DemoList.module.css';
 import {GetRequest} from "../../../helpers/axiosHelper";
 import {DateTime} from "../../../helpers/dateTimeHelper";
-import {logDOM} from "@testing-library/react";
 
-function DemoList({mode}) { // modes:  'anon', 'user', 'personal', 'owner', 'fav', or 'admin'
+function DemoList({mode, limit, genre}) { // modes:  'anon', 'user', 'personal', 'owner', 'fav', or 'admin'
     const [demos, setDemos] = useState([]);
     const {isAuth, user} = useContext(AuthContext);
     const userFromParams = useParams();
     const location = useLocation();
-    const [genre, setGenre] = useState(null);
-    const [limit, setLimit] = useState(null);
+    // const [genre, setGenre] = useState(null);
 
     console.log('Mode of DemoList component: ', mode);
-
-    useEffect(() => {
-        const queryParams = new URLSearchParams(location.search);
-        const genreParam = queryParams.get('genre');
-        const limitParam = queryParams.get('limit');
-        setGenre(genreParam || '');
-        setLimit(limitParam || '');
-    }, [location.search]);
-    console.log('Limit from query string: ',limit);
-    console.log('Genre from query string: ',genre);
+    console.log('Genre of DemoList component: ', genre);
 
     useEffect(() => {
         async function fetchDemos() {
@@ -36,7 +25,7 @@ function DemoList({mode}) { // modes:  'anon', 'user', 'personal', 'owner', 'fav
         if (mode === 'anon' || mode === 'user' || mode === 'admin') {
             void fetchDemos();
         }
-    }, []);
+    }, [mode]);
 
     useEffect(() => {
         async function fetchMyDemos() {
@@ -74,14 +63,14 @@ function DemoList({mode}) { // modes:  'anon', 'user', 'personal', 'owner', 'fav
 
     useEffect(() => {
         async function fetchDemosByGenre() {
-            const response = await new GetRequest(`/demos/bygenre?genre=${genre}&limit=${limit}`).invoke();
+            const response = await new GetRequest(`/demos/bygenre?genre=${genre.genre}&limit=${limit}`).invoke();
             setDemos(response.data);
         }
-        if (mode === 'genre' && genre) {
+        if (mode === 'genre' && genre!== null) {
             void fetchDemosByGenre();
             console.log('demos by genre loaded?');
         }
-    }, [mode]);
+    }, [mode, genre]);
 
 
     console.log('demos: ', demos);
@@ -99,6 +88,7 @@ function DemoList({mode}) { // modes:  'anon', 'user', 'personal', 'owner', 'fav
                     <th>BPM</th>
                     <th>Length</th>
                     {mode !== 'anon' && <th>File Name</th>}
+                    {(mode === 'admin') && <th>View</th>}
                     {(mode === 'admin') && <th>Edit</th>}
                     {(isAuth && mode !== 'admin' && mode !== 'owner') && <th>Favorite?</th>}
                 </tr>
@@ -130,7 +120,8 @@ function DemoList({mode}) { // modes:  'anon', 'user', 'personal', 'owner', 'fav
                         <td>{demo.bpm}</td>
                         <td>{demo.length}</td>
                         {mode !== 'anon' && <td>{demo.audioFile.originalFileName}</td>}
-                        {(mode === 'admin') && <td><Link to={`/admin/demos/${demo.demoId}`}>Edit</Link></td>}
+                        {(mode === 'admin') && <td><Link to={`/admin/demos/${demo.demoId}`}>View</Link></td>}
+                        {(mode === 'admin') && <td><Link to={`/admin/demos/${demo.demoId}/edit`}>Edit</Link></td>}
                         {(isAuth && mode !== 'admin' && mode !== 'owner') &&
                             <td>
                                 {(isAuth && user.username !== demo.user.username) && <FavButton demoId={demo.demoId}/>}

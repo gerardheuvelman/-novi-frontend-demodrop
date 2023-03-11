@@ -31,6 +31,8 @@ function GenreList({mode, limit}) { // Values for Mode: :  'anon', 'admin'
                 <thead>
                 <tr>
                     <th>Genre name</th>
+                    {(mode === 'admin') && <th>View</th>}
+                    {(mode === 'admin') && <th>Edit</th>}
                     {mode === 'admin' && <th>Delete</th>}
                 </tr>
                 </thead>
@@ -43,7 +45,9 @@ function GenreList({mode, limit}) { // Values for Mode: :  'anon', 'admin'
                     return <tr key={genre.name}>
                         {mode !== 'admin' && <td><Link to={`/demos/bygenre?genre=${genre.name}&limit=0`}>{genre.name}</Link></td>}
                         {mode === 'admin' && <td>{genre.name}</td>}
-                        {mode === 'admin' && <td><DeleteButton mode='admin' entityName='genre' entityId={genre.name}/></td>}
+                        {(mode === 'admin') && <td><Link to={`/admin/genres/${genre.name}`}>View</Link></td>}
+                        {(mode === 'admin') && <td><Link to={`/admin/genres/${genre.name}/edit`}>Edit</Link></td>}
+                        {mode === 'admin' && <td><DeleteButton mode='admin' entityName='genre' entityId={genre.name} friendlyId={genre.name}/></td>}
                     </tr>
                 })}
                 </tbody>

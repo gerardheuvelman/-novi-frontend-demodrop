@@ -7,6 +7,9 @@ import Footer from "../../../components/otherComponents/structuralComponents/Foo
 import {GetRequest} from "../../../helpers/axiosHelper";
 import UserDetails from "../../../components/detailComponents/UserDetails/UserDetails";
 import DemoList from "../../../components/listComponents/DemoList/DemoList";
+import DeleteButton from "../../../components/otherComponents/buttons/DeleteButton/DeleteButton";
+import AccountStateToggleButton
+    from "../../../components/otherComponents/buttons/AccountStateToggleButton/AccountStateToggleButton";
 
 function UserDetailsPage({mode}) { // modes: 'anon','personal', 'owner' or 'admin'
     const {username} = useParams(); // Used to fetch user details
@@ -33,8 +36,17 @@ function UserDetailsPage({mode}) { // modes: 'anon','personal', 'owner' or 'admi
             </Header>
             {userDetails &&
                 <main>
-                    <UserDetails userDetails={userDetails} mode={mode}/>
-                    {mode !== 'owner' && <DemoList mode={mode} limit={0}/>}
+                    <section>
+                        <UserDetails userDetails={userDetails} mode={mode}/>
+                        {mode !== 'owner' && <DemoList mode='personal' limit={0}/>}
+                    </section>
+                    {mode === "admin" && <section>
+                        {mode === 'admin' && <td><Link to={`/admin/users/${userDetails.username}/edit`}>Edit this user</Link></td>}
+                        {(mode === 'owner' || mode === 'admin') && <p><DeleteButton entityName="user" entityId={userDetails.username} mode={mode}>Delete user</DeleteButton></p>}
+
+                        {<p><AccountStateToggleButton user={userDetails}/></p>}
+                        {<p>Back to the <Link to="/admin/users">Admin user List</Link></p>}
+                    </section>}
                     <p><Link onClick={() => window.history.back()} to="#">{` <<Back`}</Link></p>
                 </main>
             }

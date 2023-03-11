@@ -72,7 +72,7 @@ function AudioFileDetails({audioFile, mode}) { // mode: 'admin'
                                 Your browser does not support the audio element.
                             </audio>
                         </p>
-                            <p><Link to={`/demos/${audioFile.audioFileId}/edit`}>Edit this demo</Link></p>
+                            <p><Link to={`/admin/audiofiles/${audioFile.audioFileId}/edit`}>Rename this audio file</Link></p>
                          <p>
                             <button id="downloadBtn" type='button' onClick={downloadAudioFile}>Download mp3 file</button>
                         </p>
@@ -81,8 +81,9 @@ function AudioFileDetails({audioFile, mode}) { // mode: 'admin'
                         <h3>demo title</h3>
                         <p>{audioFile.demo.title}</p>
                         {mode === 'admin' &&
-                            <p><DeleteButton entityName='demo' entityId={audioFile.demo.demoId} mode='admin'>Delete</DeleteButton> the demo related to this file</p>}
-                        {mode === 'admin' &&  <Link to="/">Back to File control page</Link>}
+                            <p><DeleteButton entityName='demo' entityId={audioFile.demo.demoId} friendlyId={audioFile.demo.title} mode='admin'>Delete</DeleteButton> the demo related to this file</p>}
+                            <p><DeleteButton entityName='audiofile' entityId={audioFile.audioFileId} friendlyId={audioFile.originalFileName} mode='admin'>Delete</DeleteButton> this file. (the mp3 file will persist on disk until orphaned mp3 files are purged)</p>
+                        {mode === 'admin' &&  <Link to="/admin/audiofiles">Back to file control page</Link>}
                     </div>)}
                 </div>
             </section>
