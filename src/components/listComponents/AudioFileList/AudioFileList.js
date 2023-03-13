@@ -49,7 +49,7 @@ function AudioFileList({mode, limit}) { // modes: 'admin'
                         <td>{audioFile.originalFileName}</td>
                         <td><Link to={`/admin/demos/${audioFile.demo.demoId}`}>{audioFile.demo.title}</Link></td>
                         {(mode === 'admin') && <td><Link to={`/admin/audiofiles/${audioFile.audioFileId}`}>View</Link></td>}
-                        {(mode === 'admin') && <td><Link to={`/admin/audiofiles/${audioFile.audioFileId}/edit`}>Edit</Link></td>}
+                        {(mode === 'admin') && <td><Link to={`/admin/audiofiles/${audioFile.audioFileId}/edit`}>Rename</Link></td>}
                     </tr>
                 })}
                 </tbody>

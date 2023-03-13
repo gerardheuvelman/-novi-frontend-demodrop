@@ -20,6 +20,7 @@ function ConversationControlPanel({mode}) { // mode: 'admin'
             </Header>
             <main>
                 <section>
+                {/* nothind here. to create a new conversation in admin mode, see Demo Control panel   */}
                 </section>
                 <ConversationList mode={mode} limit={0} ></ConversationList>
             </main>

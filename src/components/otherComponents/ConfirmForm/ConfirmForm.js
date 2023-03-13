@@ -102,7 +102,7 @@ function ConfirmForm({entityName, entityId, friendlyId, mode, type, onSubmit, ch
                 </button>
             </form>
             {showConfirm &&
-                <ModalConfirmWindow formData={formData} cancelCallback={cancelFormSubmit} confirmCallback={handleConfirmFormSubmit}>
+                <ModalConfirmWindow formData={formData} onCancel={cancelFormSubmit} onConfirm={handleConfirmFormSubmit}>
                     {`You have entered the following info:\n`}
 
                     {`Do you want to submit this ${entityName}?`}

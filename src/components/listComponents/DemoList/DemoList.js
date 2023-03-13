@@ -84,6 +84,7 @@ function DemoList({mode, limit, genre}) { // modes:  'anon', 'user', 'personal',
                     <th>Time</th>
                     <th>Title</th>
                     {(mode !== 'personal' && mode !== 'owner') && <th>Producer</th>}
+                    {(mode === 'admin') && <th>Send message</th>}
                     <th>Genre</th>
                     <th>BPM</th>
                     <th>Length</th>
@@ -115,6 +116,8 @@ function DemoList({mode, limit, genre}) { // modes:  'anon', 'user', 'personal',
                         {mode === 'admin' &&
                             <td><Link to={`/admin/users/${demo.user.username}`}>{demo.user.username}</Link></td>}
 
+                        {(mode === 'admin') && <p><Link to={`/admin/demos/${demo.demoId}/sendmessage`}>New message</Link></p>}
+
 
                         <td>{demo.genre.name}</td>
                         <td>{demo.bpm}</td>
@@ -122,6 +125,7 @@ function DemoList({mode, limit, genre}) { // modes:  'anon', 'user', 'personal',
                         {mode !== 'anon' && <td>{demo.audioFile.originalFileName}</td>}
                         {(mode === 'admin') && <td><Link to={`/admin/demos/${demo.demoId}`}>View</Link></td>}
                         {(mode === 'admin') && <td><Link to={`/admin/demos/${demo.demoId}/edit`}>Edit</Link></td>}
+
                         {(isAuth && mode !== 'admin' && mode !== 'owner') &&
                             <td>
                                 {(isAuth && user.username !== demo.user.username) && <FavButton demoId={demo.demoId}/>}

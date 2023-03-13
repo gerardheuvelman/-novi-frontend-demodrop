@@ -11,7 +11,7 @@ function GenreForm({mode, type, prefillGenre}) { // modes : 'admin; types: 'crea
     const [updateSuccess, toggleUpdateSuccess] = useState(false);
     const {user} = useContext(AuthContext);
     const navigate = useNavigate();
-    const oldGenreName = useParams();
+    const {genreName} = useParams();
     const {handleSubmit, formState: {errors}, register, watch} = useForm({
         mode: 'onTouched',
         defaultValues: {
@@ -20,6 +20,7 @@ function GenreForm({mode, type, prefillGenre}) { // modes : 'admin; types: 'crea
         }
     });
 
+    console.log('oldGenre for GenreForm (from params): ', genreName);
     console.log('mode for GenreForm: ', mode);
     console.log('prefillGenre for GenreForm: ', prefillGenre);
 
@@ -45,7 +46,7 @@ function GenreForm({mode, type, prefillGenre}) { // modes : 'admin; types: 'crea
     }
 
     async function updateGenreAsync({name}) {
-        const response = await new PutRequest(`/genres/${oldGenreName}`, {
+        const response = await new PutRequest(`/genres/${genreName}`, {
             name: name
         }).invoke();
         if (response.status === 200) {
@@ -56,6 +57,10 @@ function GenreForm({mode, type, prefillGenre}) { // modes : 'admin; types: 'crea
         } else console.error("Returned status from API call was not 201 Created");
     }
 
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     return (
         <div className="page-container">
             {prefillGenre &&
@@ -64,18 +69,19 @@ function GenreForm({mode, type, prefillGenre}) { // modes : 'admin; types: 'crea
                         inputType="text"
                         inputName="name"
                         inputId="name-field"
-                        inputLabel="Genre Name:"
+                        inputLabel="New genre Name:"
                         validationRules={{
                             required: {
                                 value: true,
-                                message: ' A (unique) genre name is required',
+                                message: 'A unique genre name is required',
                             }
                         }}
                         register={register}
                         errors={errors}
                     />
-                    {mode === 'create' && <button type="submit">Create</button>}
-                    {mode === 'update' && <button type="submit">Update</button>}
+                    <button type='submit'>
+                        {capitalizeFirstLetter(type)}
+                    </button>
                 </form>
             }
             {createSuccess === true && <p>A new genre has been created!</p>}

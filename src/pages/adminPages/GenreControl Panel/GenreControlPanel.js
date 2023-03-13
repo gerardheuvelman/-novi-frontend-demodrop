@@ -20,7 +20,7 @@ function GenreControlPanel({mode}) { // mode: 'admin'
             </Header>
             <main>
                 <section>
-                    <p><Link to={'/admin/genres/createGenre'}>Create new user</Link></p>
+                    <p><Link to={'/admin/genres/create'}>New music genre </Link></p>
                 </section>
                 <GenreList mode={mode} limit={0} ></GenreList>
             </main>

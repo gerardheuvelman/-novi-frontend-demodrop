@@ -8,7 +8,7 @@ function GenreDetails({genreDetails, mode}) { // modes:'admin'
         <section>
             <h2>Genre details</h2>
             <p><strong>Genre name: </strong>{genreDetails.name}</p>
-            {mode === 'admin' && <p><Link to={`/genres/${genreDetails.name}/edit`}>Edit Genre</Link></p>}
+            {mode === 'admin' && <p><Link to={`/admin/genres/${genreDetails.name}/edit`}>Rename Genre</Link></p>}
             {mode === 'admin' && <p><DeleteButton entityName="genre" entityId={genreDetails.name} friendlyId={genreDetails.name} mode={mode}>Delete genre (permanently!)</DeleteButton></p>}
         </section>
         {mode === "admin" && <section>

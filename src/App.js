@@ -86,8 +86,8 @@ function App() {
                 <Route exact path="/admin/demos/create" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <DemoCreatePage mode='admin'/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route exact path="/admin/demos/:demoId" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <DemoDetailsPage mode='admin'/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route exact path="/admin/demos/:demoId/edit" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <DemoEditPage mode='admin'/> : <UserLogInPage redirect={currenLocation}/>}/>
+                <Route exact path="/admin/demos/:demoId/sendmessage" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <ConversationCreatePage mode='admin'/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route exact path="/admin/conversations" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <ConversationControlPanel mode='admin'/> : <UserLogInPage redirect={currenLocation}/>}/>
-                <Route exact path="/admin/conversations/create" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <ConversationCreatePage mode='admin'/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route exact path="/admin/conversations/:conversationId" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <ConversationDetailsPage mode='admin'/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route exact path="/admin/conversations/:conversationId/edit" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <ConversationEditPage mode='admin'/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route exact path="/admin/audiofiles" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <AudioFileControlPanel mode='admin'/> : <UserLogInPage redirect={currenLocation}/>}/>
@@ -97,7 +97,7 @@ function App() {
                 <Route exact path="/admin/genres" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <GenreControlPanel mode='admin'/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route exact path="/admin/genres/create" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <GenreFormPage mode='admin' type='create'/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route exact path="/admin/genres/:genreName" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <GenreDetailsPage mode='admin'/> : <UserLogInPage redirect={currenLocation}/>}/>
-                <Route exact path="/admin/genres/:name/edit" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <GenreFormPage mode='admin' type='update'/> : <UserLogInPage redirect={currenLocation}/>}/>
+                <Route exact path="/admin/genres/:genreName/edit" element={(isAuth && (roles.includes("ROLE_ADMIN"))) ? <GenreFormPage mode='admin' type='update'/> : <UserLogInPage redirect={currenLocation}/>}/>
 
                 {/*MISC*/}
                 <Route exact path= "/request-error" element={<HttpErrorPage redirect={currenLocation}/>}/>

@@ -3,14 +3,14 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import styles from './ModalConfirmWindow.module.css';
 
-const ModalConfirmWindow = ({formData, cancelCallback, confirmCallback,  children}) => {
+const ModalConfirmWindow = ({formData, onCancel, onConfirm,  children}) => {
 
     const handleCancel = () => {
-        cancelCallback();
+        onCancel();
     };
 
     const handleConfirm = () => {
-        confirmCallback();
+        onConfirm();
     };
 
     return (

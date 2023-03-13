@@ -60,13 +60,7 @@ function DemoForm({mode, prefillDemo}) {
     }, []);
 
     async function handeDemoFormSubmit(data) {
-        console.log('data: ', data);
-        console.log('data.file: ', data.file);
-        console.log('file: ', file);
         if (mode === 'create') {
-            console.log('fileWasSelected: ', fileWasSelected);
-            console.log('file: ', file);
-            console.log('file !== []: ', file !== []);
             if (file !== []) {
                 const newDemoId = await createDemo(data);
                 await sendFileWithDemoId(newDemoId, data);

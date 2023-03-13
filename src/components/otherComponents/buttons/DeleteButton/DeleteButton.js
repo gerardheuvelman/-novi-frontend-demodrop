@@ -56,7 +56,7 @@ function DeleteButton({entityName, entityId, friendlyId, mode, children}) {  // 
                 {children}
             </button>
             {showConfirm &&
-                <ModalConfirmWindow cancelCallback={cancelDelete} confirmCallback={confirmDelete}>
+                <ModalConfirmWindow onCancel={cancelDelete} OnConfirm={confirmDelete}>
                     {`You are about to permanently  delete ${entityName} "${friendlyId}". `}
                     Are you sure?
                 </ModalConfirmWindow>

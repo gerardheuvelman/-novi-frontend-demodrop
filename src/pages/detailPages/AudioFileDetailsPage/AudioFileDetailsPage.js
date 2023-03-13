@@ -33,12 +33,12 @@ function AudioFileDetailsPage({mode}) { // mode: 'admin'
                         <section>
                             {audioFile ? <AudioFileDetails audioFile={audioFile} mode={mode}/> : <p>Loading...</p>}
                         </section>
-                        {mode === "admin" && <section>
-                            {(mode === 'admin') && <td><Link to={`/admin/audiofiles/${audioFile.audioFileId}/edit`}>Edit this AudioFile</Link></td>}
+                        {/*{mode === "admin" && <section>*/}
+                        {/*    {(mode === 'admin') && <td><Link to={`/admin/audiofiles/${audioFile.audioFileId}/edit`}>Edit this AudioFile</Link></td>}*/}
 
-                           {(mode === 'owner' || mode === 'admin') && <p><DeleteButton entityName="audiofile" entityId={audioFile.audioFileId} friendlyId={audioFile.originalFileName} mode={mode}>Delete  This audio file</DeleteButton></p>}
-                            {<p>Back to the <Link to="/admin/audiofiles">Audio file list</Link></p>}
-                        </section>}
+                        {/*   {(mode === 'owner' || mode === 'admin') && <p><DeleteButton entityName="audiofile" entityId={audioFile.audioFileId} friendlyId={audioFile.originalFileName} mode={mode}>Delete  This audio file</DeleteButton></p>}*/}
+                        {/*    {<p>Back to the <Link to="/admin/audiofiles">Audio file list</Link></p>}*/}
+                        {/*</section>}*/}
 
                     </main>
                     <Footer/>
