@@ -58,6 +58,7 @@ function App() {
                 <Route exact path="/genres" element={<GenreListPage mode='anon'/>}/>
                 <Route exact path="/demos" element={isAuth? <DemoListPage mode='user' /> : <DemoListPage mode='anon'/>}/>
                 <Route exact path="/demos/bygenre" element={<DemoListPage mode='genre'/>}/>
+                <Route exact path="/demos/find" element={<DemoListPage mode='query'/>}/>
                 <Route exact path="/demos/drop" element={isAuth ? <DemoCreatePage/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route exact path="/demos/:demoId/edit" element={isAuth ? <DemoEditPage/> : <UserLogInPage redirect={currenLocation}/>}/>
                 <Route exact path="/users/:username/profile" element={isAuth ? <UserDetailsPage mode='personal'/> : <UserLogInPage redirect={currenLocation}/>}/>

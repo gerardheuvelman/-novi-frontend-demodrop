@@ -6,12 +6,11 @@ import styles from './DemoList.module.css';
 import {GetRequest} from "../../../helpers/axiosHelper";
 import {DateTime} from "../../../helpers/dateTimeHelper";
 
-function DemoList({mode, limit, genre}) { // modes:  'anon', 'user', 'personal', 'owner', 'fav', or 'admin'
+function DemoList({mode, limit, genre, query}) { // modes:  'anon', 'user', 'personal', 'owner', 'fav','query' or 'admin'
     const [demos, setDemos] = useState([]);
     const {isAuth, user} = useContext(AuthContext);
     const userFromParams = useParams();
     const location = useLocation();
-    // const [genre, setGenre] = useState(null);
 
     console.log('Mode of DemoList component: ', mode);
     console.log('Genre of DemoList component: ', genre);
@@ -72,6 +71,16 @@ function DemoList({mode, limit, genre}) { // modes:  'anon', 'user', 'personal',
         }
     }, [mode, genre]);
 
+    useEffect(() => {
+        async function fetchDemosContaining() {
+            const response = await new GetRequest(`/demos/find?query=${query}&limit=${limit}`).invoke();
+            setDemos(response.data);
+        }
+        if (mode === 'query' && query!== null) {
+            void fetchDemosContaining();
+            console.log('demos from query loaded?');
+        }
+    }, [mode, query]);
 
     console.log('demos: ', demos);
 
@@ -86,11 +95,11 @@ function DemoList({mode, limit, genre}) { // modes:  'anon', 'user', 'personal',
                     {(mode !== 'personal' && mode !== 'owner') && <th>Producer</th>}
                     {(mode === 'admin') && <th>Send message</th>}
                     <th>Genre</th>
-                    <th>BPM</th>
-                    <th>Length</th>
-                    {mode !== 'anon' && <th>File Name</th>}
-                    {(mode === 'admin') && <th>View</th>}
-                    {(mode === 'admin') && <th>Edit</th>}
+                    {mode !== 'admin' && <th>BPM</th>}
+                    {mode !== 'admin' && <th>Length</th>}
+                    {mode === 'admin' && <th>File Name</th>}
+                    {mode === 'admin' && <th>View</th>}
+                    {mode === 'admin' && <th>Edit</th>}
                     {(isAuth && mode !== 'admin' && mode !== 'owner') && <th>Favorite?</th>}
                 </tr>
                 </thead>
@@ -100,8 +109,7 @@ function DemoList({mode, limit, genre}) { // modes:  'anon', 'user', 'personal',
                     return <tr key={demo.demoId}>
                         <td>{dateTimeCreated.getDateString()}</td>
                         <td>{dateTimeCreated.getTimeString()}</td>
-
-                        {(mode === 'anon' || mode === 'user' || mode === 'fav' || mode ==='genre') &&
+                        {(mode === 'anon' || mode === 'user' || mode === 'fav' || mode ==='genre' || mode ==='query') &&
                             <td><Link to={`/demos/${demo.demoId}`}>{demo.title}</Link></td>}
                         {mode === 'personal' &&
                             <td><Link to={`/users/${demo.user.username}/demos/${demo.demoId}`}>{demo.title}</Link></td>}
@@ -109,23 +117,17 @@ function DemoList({mode, limit, genre}) { // modes:  'anon', 'user', 'personal',
                             <td><Link to={`/users/${demo.user.username}/mydemos/${demo.demoId}`}>{demo.title}</Link>
                             </td>}
                         {mode === 'admin' && <td>{demo.title}</td>}
-
-
                         {(mode !== 'admin' && (mode !== 'personal' && mode !== 'owner')) &&
                             <td><Link to={`/users/${demo.user.username}/profile`}>{demo.user.username}</Link></td>}
                         {mode === 'admin' &&
                             <td><Link to={`/admin/users/${demo.user.username}`}>{demo.user.username}</Link></td>}
-
                         {(mode === 'admin') && <p><Link to={`/admin/demos/${demo.demoId}/sendmessage`}>New message</Link></p>}
-
-
                         <td>{demo.genre.name}</td>
-                        <td>{demo.bpm}</td>
-                        <td>{demo.length}</td>
-                        {mode !== 'anon' && <td>{demo.audioFile.originalFileName}</td>}
+                        {mode !== 'admin' && <td>{demo.bpm}</td>}
+                        {mode !== 'admin' && <td>{demo.length}</td>}
+                        {mode === 'admin' && <td>{demo.audioFile.originalFileName}</td>}
                         {(mode === 'admin') && <td><Link to={`/admin/demos/${demo.demoId}`}>View</Link></td>}
                         {(mode === 'admin') && <td><Link to={`/admin/demos/${demo.demoId}/edit`}>Edit</Link></td>}
-
                         {(isAuth && mode !== 'admin' && mode !== 'owner') &&
                             <td>
                                 {(isAuth && user.username !== demo.user.username) && <FavButton demoId={demo.demoId}/>}

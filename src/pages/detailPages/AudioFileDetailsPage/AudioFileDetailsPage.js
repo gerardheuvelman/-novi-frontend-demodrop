@@ -5,9 +5,6 @@ import styles from './AudioFileDetailsPage.module.css';
 import Footer from "../../../components/otherComponents/structuralComponents/Footer/Footer";
 import {GetRequest} from "../../../helpers/axiosHelper";
 import AudioFileDetails from "../../../components/detailComponents/AudioFileDetails/AudioFileDetails";
-import DeleteButton from "../../../components/otherComponents/buttons/DeleteButton/DeleteButton";
-import AccountStateToggleButton
-    from "../../../components/otherComponents/buttons/AccountStateToggleButton/AccountStateToggleButton";
 
 function AudioFileDetailsPage({mode}) { // mode: 'admin'
     const {audioFileId} = useParams();
