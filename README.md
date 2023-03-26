@@ -1,11 +1,13 @@
 # KNOWN BUGS: 
 
-- Short pages are shorter than the height of the screen.
-- Audiofile form has no (visible) submit button
-- 
-# TODO:
-- user profile must have a "auth" mode, viewable by other users. This mode must include a button "View all demo's" for this user.
+- Audiofile has a creagte form. This link should be removed in the admin audioFile control panel 
+- Renaming an audio file does not seem to work
+- deleting a demo does not work
+- after deleting your own account, you should be redirected to  a bye bye page
 
+# TODO:
+- demo control panel needs to have an action of creating a new conversation related to that demo
+- login, change password en change email moeten fle row krijgen bij een breed scherm en flex column bij een smal scherm.
 
 
 

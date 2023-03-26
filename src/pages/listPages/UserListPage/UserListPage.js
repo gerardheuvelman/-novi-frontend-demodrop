@@ -5,6 +5,7 @@ import styles from './UserListPage.module.css';
 import Footer from "../../../components/otherComponents/structuralComponents/Footer/Footer";
 import {Link, useLocation} from "react-router-dom";
 import DeleteButton from "../../../components/otherComponents/buttons/DeleteButton/DeleteButton";
+import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
 
 function UserListPage({mode}) { // mode has only one possible value: 'admin'
     const location = useLocation();
@@ -20,15 +21,14 @@ function UserListPage({mode}) { // mode has only one possible value: 'admin'
     return (
         <>
             <Header>
-                <h1>User list (admin mode)</h1>
+                <h3>User list (admin mode)</h3>
                 <h4>a list of all users</h4>
             </Header>
-            <main>
+            <MainComponent>
                 <div className="page-container">
                     <UserList mode={mode} limit={limit}></UserList>
                 </div>
-                <p><Link onClick={() => window.history.back()} to="#">{` <<Back`}</Link></p>
-            </main>
+            </MainComponent>
             <Footer/>
         </>
     );

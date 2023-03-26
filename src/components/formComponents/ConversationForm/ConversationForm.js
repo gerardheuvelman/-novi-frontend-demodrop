@@ -5,8 +5,9 @@ import {AuthContext} from "../../../context/AuthContext";
 import styles from './ConversationForm.module.css';
 import {PostRequest, PutRequest} from "../../../helpers/axiosHelper";
 import {useParams} from "react-router-dom";
+import Button from "../../otherComponents/buttons/Button/Button";
 
-function ConversationForm({mode, prefillConversation}) { // mode: 'create' or 'update'
+function ConversationForm({mode, type, prefillConversation}) {  // modes: 'admin' or others; types: 'create' or 'update'
     const {user} = useContext(AuthContext);
     const {conversationId} = useParams();
     const [createSuccess, toggleCreateSuccess] = useState(false);
@@ -30,10 +31,10 @@ function ConversationForm({mode, prefillConversation}) { // mode: 'create' or 'u
         }
     }, [prefillConversation])
 
-    async function handleFromSubmit(data) {
-        if (mode === 'create') {
+    async function handleFormSubmit(data) {
+        if (type === 'create') {
             await createConversation(data);
-        } else if (mode === 'update') {
+        } else if (type === 'update') {
             await updateConversation(data);
         }
     }
@@ -64,14 +65,11 @@ function ConversationForm({mode, prefillConversation}) { // mode: 'create' or 'u
     }
 
     return (
-        <div className="page-container">
-            {/*{mode === 'create' &&*/}
-            {/*    <h4>{`Start a new conversation with user ${prefillConversation.producer.username} about demo ${prefillConversation.demo.title}`}</h4>}*/}
-            {/*{mode === 'update' &&*/}
-            {/*    <h4>{`Reply to user ${(user.username === prefillConversation.producer.username) ? prefillConversation.interestedUser.username : prefillConversation.producer.username}`}</h4>}*/}
+        <>
             {prefillConversation &&
-                <form onSubmit={handleSubmit(handleFromSubmit)}>
-                    <>
+                <form className='form' onSubmit={handleSubmit(handleFormSubmit)}>
+                    <div className='form-input'>
+                        <h3>send a message</h3>
                         <InputComponent
                             inputType="text"
                             inputName="subject"
@@ -119,15 +117,15 @@ function ConversationForm({mode, prefillConversation}) { // mode: 'create' or 'u
                             >
                             </textarea>
                         </label>
-                        {<button type="submit">Send</button>}
-
-                    </>
-                </form>
-            }
-            {createSuccess === true && <p>Message has been sent!</p>}
-            {updateSuccess === true && <p>Your reply has been sent!</p>}
-        </div>
-    );
+                    </div>
+                    <div className='form-controls'>
+                        {<Button color='white' type="submit">Send</Button>}
+                        {createSuccess === true && <p>Message has been sent!</p>}
+                        {updateSuccess === true && <p>Your reply has been sent!</p>}
+                    </div>
+                </form>}
+        </>
+    )
 }
 
 

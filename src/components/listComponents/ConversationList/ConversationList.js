@@ -36,6 +36,7 @@ function ConversationList({mode, limit}) { // mode: 'owner' or 'admin'
                     {mode === 'admin' && <th>Demo Id</th>}
                     <th>Demo title</th>
                     <th>Subject</th>
+                    {mode === 'admin' && <th>View</th>}
                     {mode === 'admin' && <th>Edit</th>}
                 </tr>
                 </thead>
@@ -47,7 +48,7 @@ function ConversationList({mode, limit}) { // mode: 'owner' or 'admin'
                     return <tr key={conversation.conversationId}>
                         <td>{dateTimeCreated.getDateString()}</td>
                         <td>{dateTimeCreated.getTimeString()}</td>
-                        {mode === 'owner' && <td><Link to={`/users/${user.username ===  conversation.producer.username ? conversation.interestedUser.username: conversation.producer.username }`}>{user.username ===  conversation.producer.username ? conversation.interestedUser.username: conversation.producer.username }</Link></td>}
+                        {mode === 'owner' && <td><Link to={`/users/${user.username ===  conversation.producer.username ? conversation.interestedUser.username: conversation.producer.username }/profile`}>{user.username ===  conversation.producer.username ? conversation.interestedUser.username: conversation.producer.username }</Link></td>}
                         {mode === 'admin' && <td><Link to={`/admin/users/${conversation.producer.username}`}>{conversation.producer.username}</Link></td>}
                         {mode === 'admin' && <td><Link to={`/admin/users/${conversation.interestedUser.username}`}>{conversation.interestedUser.username}</Link></td>}
 
@@ -59,9 +60,9 @@ function ConversationList({mode, limit}) { // mode: 'owner' or 'admin'
                         {mode === 'admin' && <td><Link to={`/admin/conversations/${conversation.conversationId}/edit`}>Edit</Link></td>}
                     </tr>
                 })}
+                {conversations.length === 0 && <p>There are no conversations that match your search criteria...</p>}
                 </tbody>
             </table>
-            {conversations.length === 0 && <p>There are no conversations that match your search criteria...</p>}
         </>
     );
 }

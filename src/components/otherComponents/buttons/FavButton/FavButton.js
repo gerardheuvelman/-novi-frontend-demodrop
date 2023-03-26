@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import styles from './FavButton.module.css';
 import {GetRequest, PatchRequest} from "../../../../helpers/axiosHelper";
+import Button from "../Button/Button";
 
-function FavButton({demoId}) {
+function FavButton({color, demoId}) {
     const [favStatus, setFavStatus] = useState(null);
     const storedToken = localStorage.getItem('token');
 
@@ -22,7 +23,7 @@ function FavButton({demoId}) {
 
     return (
         <>
-            <button type={"button"} onClick={() => submitFavStatus(!favStatus)}>{favStatus ? "Remove" : "Add"}</button>
+            <Button color={color} type={"button"} onClick={() => submitFavStatus(!favStatus)}>{favStatus ? "Remove" : "Add"}</Button>
         </>
     );
 }

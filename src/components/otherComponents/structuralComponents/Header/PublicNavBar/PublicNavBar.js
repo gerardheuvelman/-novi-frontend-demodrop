@@ -5,6 +5,7 @@ import styles from './PublicNavBar.module.css';
 import {useHistory} from "react-router-dom";
 import logo from '../../../../../assets/DemoDropLogo.png';
 import InputComponent from "../../../others/InputComponent/InputComponent";
+import Button from "../../../buttons/Button/Button";
 
 
 function PublicNavBar() {
@@ -37,24 +38,24 @@ function PublicNavBar() {
                     {!isAuth && <li><NavLink className={styles['link']} to="/demos">Our demos</NavLink></li>}
                     <li><NavLink className={styles['link']} to="/genres">Genres</NavLink></li>
                     <li>
-                        <form onSubmit={handleSubmit}>
-                            <input type="text" value={query} onChange={(e) => setQuery(e.target.value)}
+                        <form className={styles['query-form']} onSubmit={handleSubmit}>
+                            <input className={styles['query-input']} type="text" value={query} onChange={(e) => setQuery(e.target.value)}
                                    placeholder="Enter query..."/>
-                            <button type="submit">Search Demos</button>
+                            <Button color='red' type="submit">Search Demos</Button>
                         </form>
                     </li>
                     <li><NavLink className={styles['link']} to="/demos/drop">Drop new demo</NavLink></li>
                     {isAuth ?
                         <>
                             <li>
-                                <button className={styles['link']} type="button" onClick={logout}>Log out</button>
+                                <Button color='red' type="button" onClick={() => logout('/')}>Log out</Button>
                             </li>
                         </>
                         :
                         <>
                             <li>
-                                <button type="button" onClick={() => navigate('/login')}>Log in</button>
-                                <button type="button" onClick={() => navigate('/register')}>Register</button>
+                                <Button color='red' type="button" onClick={() => navigate('/login')}>Log in</Button>
+                                <Button color='red' type="button" onClick={() => navigate('/register')}>Register</Button>
                             </li>
                         </>
                     }

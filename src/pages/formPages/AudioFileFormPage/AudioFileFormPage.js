@@ -6,6 +6,7 @@ import Footer from "../../../components/otherComponents/structuralComponents/Foo
 import UserForm from "../../../components/formComponents/UserForm/UserForm";
 import {GetRequest} from "../../../helpers/axiosHelper";
 import AudioFileForm from "../../../components/formComponents/AudioFileForm/AudioFileForm";
+import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
 
 function AudioFileFormPage({mode, type}) { // modes : 'admin; types: 'create', or 'update'
     const {audioFileId} = useParams();
@@ -36,23 +37,25 @@ function AudioFileFormPage({mode, type}) { // modes : 'admin; types: 'create', o
 
     return (
     <>
-        <Header>
-            {type === 'create' &&
-                <>
-                    {mode  === 'admin' && <h1>Create a new audio file</h1>}
-                    {mode  === 'admin' && <h2>no mp3 file will be attached</h2>}
-                </>}
-            {type === 'update' &&
-                <>
-                    <h1>Edit AudioFile details</h1>
-                    <h2>{`Edit form for audio file "${audioFileId}"`}</h2>
-                </>}
-        </Header>
-        <main>
-            {audioFile && <AudioFileForm mode={mode} type={type} prefillAudioFile={audioFile} />}
-            <p><Link onClick={() => window.history.back()} to="#">{` <<Back`}</Link></p>
-        </main>
-        <Footer/>
+        {audioFile &&
+            <>
+            <Header>
+                {type === 'create' &&
+                    <>
+                        {mode  === 'admin' && <h3>Create a new audio file</h3>}
+                        {mode  === 'admin' && <h4>no mp3 file will be attached</h4>}
+                    </>}
+                {type === 'update' &&
+                    <>
+                        <h3>Edit AudioFile details</h3>
+                        <h4>{`Edit form for audio file "${audioFileId}"`}</h4>
+                    </>}
+            </Header>
+            <MainComponent>
+                {audioFile && <AudioFileForm mode={mode} type={type} prefillAudioFile={audioFile} />}
+            </MainComponent>
+            <Footer/>
+        </>}
     </>
   );
 }

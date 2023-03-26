@@ -9,6 +9,8 @@ import AudioFileList from "../../../components/listComponents/AudioFileList/Audi
 import {DeleteRequest} from "../../../helpers/axiosHelper";
 import ModalConfirmWindow from "../../../components/otherComponents/Modals/ModalConfirmWindow/ModalConfirmWindow";
 import ModalMessageWindow from "../../../components/otherComponents/Modals/ModalMessageWindow/ModalMessageWindow";
+import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
+import Button from "../../../components/otherComponents/buttons/Button/Button";
 
 function AudioFileControlPanel({mode}) { // mode: 'admin'
     const [purgeResponse, setPurgeResponse] = useState("Sorry, no response yet...");
@@ -16,57 +18,61 @@ function AudioFileControlPanel({mode}) { // mode: 'admin'
     const [showConfirm, setShowConfirm] = useState(false);
     const [showMessage, setShowMessage] = useState(false);
 
+
     console.log('AudioFileControlPanel user:', user);
     console.log('AudioFileControlPanel purgeResponse:', purgeResponse);
 
-    // async function purgeOrphanedMpsFiles() {
-    //     console.log('Now deleting orphaned mp3 files...');
-    //     const response = await new DeleteRequest('/audiofiles/purge');
-    //     setPurgeResponse(response.data);
-    // }
-    //
-    // function showConfirmModal() {
-    //     setShowConfirm(true)
-    // }
-    //
-    // function handleClose() {
-    //     setShowMessage(false);
-    // }
-    //
-    // const handeCancel = ()=> {
-    //     setShowConfirm(false);
-    // }
-    //
-    // const handeConfirm = handlePurgeConfirm();
-    //
-    // async function handlePurgeConfirm() {
-    //     setShowConfirm(false);
-    //     await purgeOrphanedMpsFiles();
-    //     setShowMessage(true);
-    // }
+    async function purgeOrphanedMpsFiles() {
+        console.log('Now deleting orphaned mp3 files...');
+        const response = await new DeleteRequest('/audiofiles/purge').invoke();
+        setPurgeResponse(response.data);
+    }
+
+    function showConfirmModal() {
+        setShowConfirm(true)
+    }
+
+    function handleClose() {
+        setShowMessage(false);
+    }
+
+    const handeCancel = ()=> {
+        setShowConfirm(false);
+    }
+
+    async function handlePurgeConfirm() {
+        setShowConfirm(false);
+        await purgeOrphanedMpsFiles();
+        setShowMessage(true);
+    }
 
     return (
         <>
             <Header>
-                <h1>Audio file control panel</h1>
-                <h2>Welcome, {user.username} </h2>
+                <h3>Audio file control panel</h3>
+                <h4>Welcome, {user.username} </h4>
             </Header>
-            <main>
-                <section>
-                    <p><Link to={'/admin/audiofiles/create'}>Create new audio file (Not on disk)</Link></p>
-                    {/*<button type='button' onClick={showConfirmModal}>Purge orphaned mp3 files</button>*/}
-                    {/*{showConfirm &&*/}
-                    {/*    <ModalConfirmWindow onCancel={handeCancel} onConfirm={handeConfirm}>*/}
-                    {/*        You are about to delete all mp3 files from disk that have no corresponding "audioFile"*/}
-                    {/*        record. Are you sure?*/}
-                    {/*    </ModalConfirmWindow>}*/}
-                    {/*{setShowMessage && <ModalMessageWindow onClose={handleClose}>*/}
-                    {/*    {purgeResponse}*/}
-                    {/*</ModalMessageWindow>}*/}
+            <MainComponent>
+                <section className='panel-controls'>
+                    <h3>Available actions</h3>
+                        <Link to={'/admin/audiofiles/create'}>Create new audio file (Not on disk)</Link>
+                        <Button color='white' type='button' onClick={showConfirmModal}>Purge orphaned mp3 files</Button>
                 </section>
                 <AudioFileList mode={mode} limit={0}></AudioFileList>
-            </main>
+            </MainComponent>
             <Footer/>
+
+            {showConfirm &&
+                <ModalConfirmWindow onCancel={handeCancel} onConfirm={handlePurgeConfirm}>
+                    {`You are about to permanently delete all  mp3 files files on disk that do not have an associated audio file entity. `}
+                    Are you sure?
+                </ModalConfirmWindow>
+            }
+            {(showMessage && mode === 'admin') &&
+                <ModalMessageWindow onClose={handleClose}>
+                    {`${purgeResponse}\nPress the button to return to the audio file control panel`}
+                </ModalMessageWindow>
+            }
         </>
 
     );

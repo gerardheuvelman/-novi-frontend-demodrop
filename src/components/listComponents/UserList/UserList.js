@@ -27,6 +27,7 @@ function UserList({mode, limit}) { // currently, mode can only be "admin"
                     <th>Username</th>
                     <th>Email</th>
                     <th>Enabled</th>
+                    {mode === 'admin' && <th>View</th>}
                     {mode === 'admin' && <th>Edit</th>}
                 </tr>
                 </thead>
@@ -50,9 +51,9 @@ function UserList({mode, limit}) { // currently, mode can only be "admin"
                         {mode === 'admin' && <td><Link to={`/admin/users/${user.username}/edit`}>Edit</Link></td>}
                     </tr>
                 })}
+                {users.length === 0 && <p>There are no users that match your search criteria...</p>}
                 </tbody>
             </table>
-            {users.length === 0 && <p>There are no users that match your search criteria...</p>}
         </>
     );
 }

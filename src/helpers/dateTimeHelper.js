@@ -2,6 +2,7 @@ export class DateTime{
 
     constructor(timeStamp) {
         this.timeStamp = timeStamp;
+        console.log('timestamp in dateTimeHelper: ', timeStamp);
     }
 
     getDateString() {
@@ -13,6 +14,8 @@ export class DateTime{
     }
 
     getTimeString() {
+        console.log('timeString in dateTimeHelper:  ',this.timeStamp.substring(11,19));
         return this.timeStamp.substring(11,19);
+
     }
 }

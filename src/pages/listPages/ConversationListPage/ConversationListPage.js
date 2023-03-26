@@ -5,6 +5,7 @@ import ConversationList from "../../../components/listComponents/ConversationLis
 import styles from './ConversationListPage.module.css';
 import Footer from "../../../components/otherComponents/structuralComponents/Footer/Footer";
 import {Link} from "react-router-dom";
+import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
 
 function ConversationListPage({mode}) { // mode: 'owner' or 'admin'
     const {user} = useContext(AuthContext);
@@ -13,17 +14,14 @@ function ConversationListPage({mode}) { // mode: 'owner' or 'admin'
     return (
         <>
             <Header>
-                {mode === 'owner' && <h1>My messages</h1>}
-                {mode === 'admin' && <h1>Conversation list (admin mode)</h1>}
+                {mode === 'owner' && <h3>My messages</h3>}
+                {mode === 'admin' && <h3>Conversation list (admin mode)</h3>}
                 {mode === 'owner' && <h4>a list of all of {user.username}'s conversations</h4>}
                 {mode === 'admin' && <h4>a list of all conversations</h4>}
             </Header>
-            <main>
-                <div className="page-container">
+            <MainComponent>
                     <ConversationList mode={mode} limit={0}></ConversationList>
-                </div>
-                <p><Link onClick={() => window.history.back()} to="#">{` <<Back`}</Link></p>
-            </main>
+            </MainComponent>
             <Footer/>
         </>
     );

@@ -32,8 +32,6 @@ function GenreList({mode, limit}) { // Values for Mode: :  'anon', 'admin'
                 <tr>
                     <th>Genre name</th>
                     {(mode === 'admin') && <th>View</th>}
-                    {(mode === 'admin') && <th>Edit</th>}
-                    {mode === 'admin' && <th>Delete</th>}
                 </tr>
                 </thead>
                 <tbody>
@@ -41,18 +39,15 @@ function GenreList({mode, limit}) { // Values for Mode: :  'anon', 'admin'
                     {
                         console.log('genre: ', genre)
                     }
-                    // De key moet op het buitenste element staan en uniek zijn
                     return <tr key={genre.name}>
                         {mode !== 'admin' && <td><Link to={`/demos/bygenre?genre=${genre.name}&limit=0`}>{genre.name}</Link></td>}
                         {mode === 'admin' && <td>{genre.name}</td>}
                         {(mode === 'admin') && <td><Link to={`/admin/genres/${genre.name}`}>View</Link></td>}
-                        {(mode === 'admin') && <td><Link to={`/admin/genres/${genre.name}/edit`}>Rename</Link></td>}
-                        {mode === 'admin' && <td><DeleteButton mode='admin' entityName='genre' entityId={genre.name} friendlyId={genre.name}/></td>}
                     </tr>
                 })}
+                {genres.length === 0 && <p>There are no genres that match your search criteria...</p>}
                 </tbody>
             </table>
-            {genres.length === 0 && <p>There are no genres that match your search criteria...</p>}
         </>
     );
 }

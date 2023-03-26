@@ -6,6 +6,7 @@ import styles from './DemoDetailsPage.module.css';
 import Footer from "../../../components/otherComponents/structuralComponents/Footer/Footer";
 import {GetRequest} from "../../../helpers/axiosHelper";
 import {AuthContext} from "../../../context/AuthContext";
+import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
 
 function DemoDetailsPage({mode}) { // modes: 'anon', 'personal', 'owner' or 'admin'
     const {demoId} = useParams();
@@ -24,14 +25,13 @@ function DemoDetailsPage({mode}) { // modes: 'anon', 'personal', 'owner' or 'adm
             {demo &&
                 <>
                     <Header>
-                        {(mode === 'anon' || mode === 'personal' || mode === 'owner') && <h1>Demo specifications</h1>}
-                        {mode === 'admin' && <h1>Demo specifications (admin mode)</h1>}
+                        {(mode === 'anon' || mode === 'personal' || mode === 'owner') && <h3>Demo specifications</h3>}
+                        {mode === 'admin' && <h3>Demo specifications (admin mode)</h3>}
                         <h4>{` ...for demo "${demo.title}" by ${demo.user.username}`}</h4>
                     </Header>
-                    <main>
+                    <MainComponent>
                         {demo ? <DemoDetails demo={demo} mode={mode}/> : <p>Loading...</p>}
-                        <p><Link onClick={() => window.history.back()} to="#">{` <<Back`}</Link></p>
-                    </main>
+                    </MainComponent>
                     <Footer/>
                 </>
             }

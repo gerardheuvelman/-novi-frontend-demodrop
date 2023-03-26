@@ -42,6 +42,7 @@ export class GetRequest extends HttpRequest {
             console.log(`GET ${this.url} yielded the following response: `, httpResponse);
         } catch (e) {
             console.error(`GET request to ${this.url} failed with the following error:\n${e}`);
+            window.location.assign("/request-error");
         }
         controller.abort();
         console.log("Cleanup code for GET request has been executed");
@@ -63,6 +64,7 @@ export class DeleteRequest extends HttpRequest {
             console.log(`DELETE ${this.url} yielded the following response: `, httpResponse);
         } catch (e) {
             console.error(`DELETE request to ${this.url} failed with the following error:\n${e}`);
+            window.location.assign("/request-error");
         }
         controller.abort();
         console.log("Cleanup code for DELETE request has been executed");
@@ -96,6 +98,7 @@ export class PostRequest extends DataRequest {
             console.log(`POST ${this.url} yielded the following response: `, httpResponse);
         } catch (e) {
             console.error(`POST request to ${this.url} failed with the following error:\n${e}`);
+            window.location.assign("/request-error");
         }
         controller.abort();
         console.log("Cleanup code for POST request has been executed");
@@ -117,6 +120,7 @@ export class PutRequest extends DataRequest {
             console.log(`PUT ${this.url} yielded the following response: `, httpResponse);
         } catch (e) {
             console.error(`PUT request to ${this.url} failed with the following error:\n${e}`);
+            window.location.assign("/request-error");
         }
         controller.abort();
         console.log("Cleanup code for PUT request has been executed");
@@ -138,6 +142,7 @@ export class PatchRequest extends DataRequest {
             console.log(`PATCH ${this.url} yielded the following response: `, httpResponse);
         } catch (e) {
             console.error(`PATCH request to ${this.url} failed with the following error:\n${e}`);
+            window.location.assign("/request-error");
         }
         controller.abort();
         console.log("Cleanup code for PATCH request has been executed");

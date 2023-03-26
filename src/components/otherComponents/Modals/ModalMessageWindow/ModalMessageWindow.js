@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import styles from './ModalMessageWindow.module.css';
+import Button from "../../buttons/Button/Button";
 
 const ModalMessageWindow = ({ onClose, children }) => {
 
@@ -14,10 +15,10 @@ const ModalMessageWindow = ({ onClose, children }) => {
         <span className={styles.close} onClick={handleClose}>
           &times;
         </span>
-                <p>{children}</p>
-                <button className={styles.closeButton} onClick={handleClose}>
+                <p className={styles.modalChildren}>{children}</p>
+                <Button color='red' className={styles.closeButton} onClick={handleClose}>
                     Close
-                </button>
+                </Button>
             </div>
         </div>
     );

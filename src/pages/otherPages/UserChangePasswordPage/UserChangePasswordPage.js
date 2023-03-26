@@ -7,6 +7,8 @@ import InputComponent from "../../../components/otherComponents/others/InputComp
 import styles from './UserChangePasswordPage.module.css';
 import Footer from "../../../components/otherComponents/structuralComponents/Footer/Footer";
 import {PatchRequest} from "../../../helpers/axiosHelper";
+import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
+import Button from "../../../components/otherComponents/buttons/Button/Button";
 
 function UserChangePasswordPage() {
     const {user} = useContext(AuthContext);
@@ -29,10 +31,10 @@ function UserChangePasswordPage() {
     return (
         <>
             <Header>
-                <h1>Change password</h1>
+                <h3>Change password</h3>
                 <h4> ...for user {user.username} </h4>
             </Header>
-            <main>
+            <MainComponent>
                 {responseBody && <h4>{responseBody}</h4>}
                 <form onSubmit={handleSubmit(submitNewPasswordAsync)}>
                     <InputComponent
@@ -77,10 +79,10 @@ function UserChangePasswordPage() {
                         register={register}
                         errors={errors}
                     />
-                    <button type="submit">Change password</button>
+                    <Button color='white' type="submit">Change password</Button>
+                    <span><Link className='white' to={`/users/${user.username}/myprofile`}>Back</Link> to your profile page</span>
                 </form>
-                <p><Link to={`/users/${user.username}/profile`}>Back</Link> to your profile page</p>
-            </main>
+            </MainComponent>
             <Footer/>
         </>
     );

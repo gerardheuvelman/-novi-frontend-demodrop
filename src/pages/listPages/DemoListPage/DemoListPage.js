@@ -5,7 +5,7 @@ import DemoList from "../../../components/listComponents/DemoList/DemoList";
 import styles from './DemoListPage.module.css';
 import Footer from "../../../components/otherComponents/structuralComponents/Footer/Footer";
 import {Link, useLocation, useParams} from "react-router-dom";
-import {queries} from "@testing-library/react";
+import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
 
 function DemoListPage({mode}) { // Values for "mode":  'anon', 'user', 'personal', 'owner', 'genre', 'fav', 'query' or 'admin'
     const {user} = useContext(AuthContext);
@@ -31,13 +31,13 @@ function DemoListPage({mode}) { // Values for "mode":  'anon', 'user', 'personal
     return (
         <>
             <Header>
-                {mode === 'anon' || mode === 'user' && <h1>Main demo list</h1>}
-                {mode === 'personal' && <h1>Personal Demo list</h1>}
-                {mode === 'owner' && <h1>My demo's</h1>}
-                {mode === 'fav' && <h1>My Favorite demos</h1>}
-                {mode === 'genre' && <h1>Demos by genre</h1>}
-                {mode === 'query' && <h1>Demo query result</h1>}
-                {mode === 'admin' && <h1>Demo list (admin mode)</h1>}
+                {mode === 'anon' || mode === 'user' && <h3>Main demo list</h3>}
+                {mode === 'personal' && <h3>Personal Demo list</h3>}
+                {mode === 'owner' && <h3>My demo's</h3>}
+                {mode === 'fav' && <h3>My Favorite demos</h3>}
+                {mode === 'genre' && <h3>Demos by genre</h3>}
+                {mode === 'query' && <h3>Demo query result</h3>}
+                {mode === 'admin' && <h3>Demo list (admin mode)</h3>}
 
                 {mode === 'anon' || mode === 'user' && <h4>a list of all uploaded demos</h4>}
                 {mode === 'personal' && <h4>a list of demos produced by {user.username}</h4>}
@@ -47,12 +47,9 @@ function DemoListPage({mode}) { // Values for "mode":  'anon', 'user', 'personal
                 {mode === 'query' && <h4>{`a list of all demos containing your search query "${query}" in the title`}</h4>}
                 {mode === 'admin' && <h4>Full CRUD access to all demos</h4>}
             </Header>
-            <main>
-                <div className="page-container">
+            <MainComponent>
                     <DemoList mode={mode} limit={0} genre={{genre}} query={query}/>
-                </div>
-                <p><Link onClick={() => window.history.back()} to="#">{` <<Back`}</Link></p>
-            </main>
+            </MainComponent>
             <Footer/>
         </>
     );

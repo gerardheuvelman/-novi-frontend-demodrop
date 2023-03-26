@@ -5,6 +5,7 @@ import {useForm} from "react-hook-form";
 import {PostRequest, PutRequest} from "../../../helpers/axiosHelper";
 import {AuthContext} from "../../../context/AuthContext";
 import styles from './GenreForm.module..css';
+import Button from "../../otherComponents/buttons/Button/Button";
 
 function GenreForm({mode, type, prefillGenre}) { // modes : 'admin; types: 'create', or 'update'
     const [createSuccess, toggleCreateSuccess] = useState(false);
@@ -16,7 +17,6 @@ function GenreForm({mode, type, prefillGenre}) { // modes : 'admin; types: 'crea
         mode: 'onTouched',
         defaultValues: {
             'name': prefillGenre.name,
-
         }
     });
 
@@ -62,32 +62,41 @@ function GenreForm({mode, type, prefillGenre}) { // modes : 'admin; types: 'crea
     }
 
     return (
-        <div className="page-container">
+        <>
             {prefillGenre &&
-                <form onSubmit={handleSubmit(handleFormSubmit)}>
-                    <InputComponent
-                        inputType="text"
-                        inputName="name"
-                        inputId="name-field"
-                        inputLabel="New genre Name:"
-                        validationRules={{
-                            required: {
-                                value: true,
-                                message: 'A unique genre name is required',
-                            }
-                        }}
-                        register={register}
-                        errors={errors}
-                    />
-                    <button type='submit'>
-                        {capitalizeFirstLetter(type)}
-                    </button>
-                </form>
-            }
-            {createSuccess === true && <p>A new genre has been created!</p>}
-            {updateSuccess === true && <p>This  genre has been successfully updated!</p>}
-        </div>
+                <form className='form' onSubmit={handleSubmit(handleFormSubmit)}>
+                    <div className='form-input'>
+                        <h3>Enter genre details</h3>
+                        <InputComponent
+                            inputType="text"
+                            inputName="name"
+                            inputId="name-field"
+                            inputLabel="New genre Name:"
+                            validationRules={{
+                                required: {
+                                    value: true,
+                                    message: 'A unique genre name is required',
+                                }
+                            }}
+                            register={register}
+                            errors={errors}
+                        />
+                    </div>
+                    <div className='form-controls'>
+
+                        <Button color='white' type='submit'>
+                            {capitalizeFirstLetter(type)}
+                        </Button>
+                        {createSuccess === true && <p>A new genre has been created!</p>}
+                        {updateSuccess === true && <p>This genre has been successfully updated!</p>}
+
+                    </div>
+                </form>}
+
+        </>
     );
 }
+
+
 
 export default GenreForm;

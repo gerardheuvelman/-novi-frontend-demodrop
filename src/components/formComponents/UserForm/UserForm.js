@@ -1,9 +1,10 @@
 import React, {useContext, useState} from 'react';
 import InputComponent from "../../otherComponents/others/InputComponent/InputComponent";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {PostRequest, PutRequest} from "../../../helpers/axiosHelper";
 import styles from './UserForm.module..css';
+import Button from "../../otherComponents/buttons/Button/Button";
 
 function UserForm({mode, type, prefillUser}) { // modes : 'anon' or 'admin; types: 'create', 'createadmin', or 'update'
     const [createSuccess, toggleCreateSuccess] = useState(false);
@@ -78,79 +79,88 @@ function UserForm({mode, type, prefillUser}) { // modes : 'anon' or 'admin; type
     }
 
     return (
-        <div className="page-container">
+        <>
             {prefillUser &&
-                <form onSubmit={handleSubmit(handleFormSubmit)}>
-                    <InputComponent
-                        inputType="email"
-                        inputName="email"
-                        inputId="email-field"
-                        inputLabel="Email address:"
-                        validationRules={{
-                            required: {
-                                value: true,
-                                message: ' A valid Email address is required',
-                            },
-                            pattern: {
-                                value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
-                                message: 'This is not a valid email address'
-                            }
-                        }}
-                        register={register}
-                        errors={errors}
-                    />
+                <form className='form' onSubmit={handleSubmit(handleFormSubmit)}>
+                    <div className='form-input'>
+                        <h3>Enter user details</h3>
+                        <InputComponent
+                            inputType="email"
+                            inputName="email"
+                            inputId="email-field"
+                            inputLabel="Email address:"
+                            validationRules={{
+                                required: {
+                                    value: true,
+                                    message: ' A valid Email address is required',
+                                },
+                                pattern: {
+                                    value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+                                    message: 'This is not a valid email address'
+                                }
+                            }}
+                            register={register}
+                            errors={errors}
+                        />
 
-                    <InputComponent
-                        inputType="text"
-                        inputName="username"
-                        inputId="username-field"
-                        inputLabel="Username:"
-                        validationRules={{
-                            required: {
-                                value: true,
-                                message: 'Username is required',
-                            },
-                            minLength: {
-                                value: 4,
-                                message: 'Username must be at least 4 characters long',
-                            },
-                            maxLength: {
-                                value: 30,
-                                message: 'Username may be a maximum of 30 characters long ',
-                            },
-                        }}
-                        register={register}
-                        errors={errors}
-                    />
+                        <InputComponent
+                            inputType="text"
+                            inputName="username"
+                            inputId="username-field"
+                            inputLabel="Username:"
+                            validationRules={{
+                                required: {
+                                    value: true,
+                                    message: 'Username is required',
+                                },
+                                minLength: {
+                                    value: 4,
+                                    message: 'Username must be at least 4 characters long',
+                                },
+                                maxLength: {
+                                    value: 30,
+                                    message: 'Username may be a maximum of 30 characters long ',
+                                },
+                            }}
+                            register={register}
+                            errors={errors}
+                        />
 
-                    <InputComponent
-                        inputType="password"
-                        inputName="password"
-                        inputId="password-field"
-                        inputLabel="Password:"
-                        validationRules={{
-                            required: {
-                                value: true,
-                                message: 'Password is required',
-                            },
-                            minLength: {
-                                value: 4,
-                                message: 'Password must be at least 4 characters long',
-                            },
-                            maxLength: {
-                                value: 30,
-                                message: 'Password may be a maximum of 30 characters long ',
-                            },
-                        }}
-                        register={register}
-                        errors={errors}
-                    />
-                    <button type="submit">Register</button>
+                        <InputComponent
+                            inputType="password"
+                            inputName="password"
+                            inputId="password-field"
+                            inputLabel="Password:"
+                            validationRules={{
+                                required: {
+                                    value: true,
+                                    message: 'Password is required',
+                                },
+                                minLength: {
+                                    value: 4,
+                                    message: 'Password must be at least 4 characters long',
+                                },
+                                maxLength: {
+                                    value: 30,
+                                    message: 'Password may be a maximum of 30 characters long ',
+                                },
+                            }}
+                            register={register}
+                            errors={errors}
+                        />
+                    </div>
+                    <div className='form-controls'>
+                        <Button color='white' type="submit">Register</Button>
+                        {createSuccess === true && <p>A new user has been created!</p>}
+                        {updateSuccess === true && <p>This user has been successfully updated!</p>}
+
+                        {mode !== 'admin' && <span>Have an account already? Sign in <Link to="/login">here</Link>.</span>}
+
+
+                    </div>
                 </form>
             }
-            {createSuccess === true && <p>A new user has been created!</p>}
-            {updateSuccess === true && <p>This user has been successfully updated!</p>}
-        </div>
+        </>
     );
 }
 

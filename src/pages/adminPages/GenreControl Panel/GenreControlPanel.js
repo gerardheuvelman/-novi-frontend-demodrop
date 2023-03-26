@@ -6,6 +6,7 @@ import UserList from "../../../components/listComponents/UserList/UserList";
 import styles from './GenreControlPanel.module.css';
 import Footer from "../../../components/otherComponents/structuralComponents/Footer/Footer";
 import GenreList from "../../../components/listComponents/GenreList/GenreList";
+import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
 
 function GenreControlPanel({mode}) { // mode: 'admin'
 
@@ -15,15 +16,16 @@ function GenreControlPanel({mode}) { // mode: 'admin'
     return (
         <>
             <Header>
-                <h1>Genre control panel</h1>
-                <h2>Welcome, {user.username} </h2>
+                <h3>Genre control panel</h3>
+                <h4>Welcome, {user.username} </h4>
             </Header>
-            <main>
-                <section>
-                    <p><Link to={'/admin/genres/create'}>New music genre </Link></p>
+            <MainComponent>
+                <section className='panel-controls'>
+                    <h3>Available actions</h3>
+                    <Link to={'/admin/genres/create'}>New music genre </Link>
                 </section>
                 <GenreList mode={mode} limit={0} ></GenreList>
-            </main>
+            </MainComponent>
             <Footer/>
         </>
 

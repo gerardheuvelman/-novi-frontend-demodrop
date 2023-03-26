@@ -11,6 +11,8 @@ import Footer from "../../../components/otherComponents/structuralComponents/Foo
 import GenreList from "../../../components/listComponents/GenreList/GenreList";
 import {useNavigate} from "react-router-dom";
 import AudioFileList from "../../../components/listComponents/AudioFileList/AudioFileList";
+import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
+import Button from "../../../components/otherComponents/buttons/Button/Button";
 
 function AdminControlPanel(props) {
     const [users, setUsers] = useState([]);
@@ -42,56 +44,66 @@ function AdminControlPanel(props) {
     return (
         <>
             <Header>
-                <h1>Admin Control panel</h1>
-                <h2>Welcome, {user.username} </h2>
+                <h3>Admin Control panel</h3>
+                <h4>Welcome, {user.username} </h4>
             </Header>
-            <main>
+            <MainComponent>
                 <section className="outer-content-container">
                     <div className="inner-content-container">
-                        <h2>Latest users:</h2>
-                        <UserList mode='admin' limit={6} />
-                        <button type="button" onClick= {redirectToUSerControlPanel}>
-                            User Control Panel
-                        </button>
+                        <div className='list-backdrop'>
+                            <h3>Latest users:</h3>
+                            <UserList mode='admin' limit={6}/>
+                            <Button color='white' type="button" onClick={redirectToUSerControlPanel}>
+                                User Control Panel
+                            </Button>
+                        </div>
                     </div>
                 </section>
                 <section className="outer-content-container">
                     <div className="inner-content-container">
-                        <h2>Latest demos:</h2>
-                        <DemoList mode='admin' limit={6}/>
-                        <button type="button" onClick= {redirectToDemoControlPanel}>
-                            Demo Control Panel
-                        </button>
+                        <div className='list-backdrop'>
+                            <h3>Latest demos:</h3>
+                            <DemoList mode='admin' limit={6}/>
+                            <Button color='white' type="button" onClick={redirectToDemoControlPanel}>
+                                Demo Control Panel
+                            </Button>
+                        </div>
                     </div>
                 </section>
                 <section className="outer-content-container">
                     <div className="inner-content-container">
-                        <h2>Latest conversations:</h2>
-                        <ConversationList mode='admin' limit={6}/>
-                        <button type="button" onClick= {redirectToConversationControlPanel}>
-                            Conversation Control Panel
-                        </button>
+                        <div className='list-backdrop'>
+                            <h3>Latest conversations:</h3>
+                            <ConversationList mode='admin' limit={6}/>
+                            <Button color='white' type="button" onClick={redirectToConversationControlPanel}>
+                                Conversation Control Panel
+                            </Button>
+                        </div>
                     </div>
                 </section>
                 <section className="outer-content-container">
                     <div className="inner-content-container">
-                        <h2>Latest audio files:</h2>
-                        <AudioFileList mode='admin' limit={6}/>
-                        <button type="button" onClick= {redirectToAudioFileControlPanel}>
-                            File Control Panel
-                        </button>
+                        <div className='list-backdrop'>
+                            <h3>Latest audio files:</h3>
+                            <AudioFileList mode='admin' limit={6}/>
+                            <Button color='white' type="button" onClick={redirectToAudioFileControlPanel}>
+                                File Control Panel
+                            </Button>
+                        </div>
                     </div>
                 </section>
                 <section className="outer-content-container">
                     <div className="inner-content-container">
-                        <h2>Known genres:</h2>
-                        <GenreList mode='admin' limit={6}/>
-                        <button type="button" onClick= {redirectToGenreControlPanel}>
-                            Genre Control Panel
-                        </button>
+                        <div className='list-backdrop'>
+                            <h3>Music genres:</h3>
+                            <GenreList mode='admin' limit={6}/>
+                            <Button color='white' type="button" onClick={redirectToGenreControlPanel}>
+                                Genre Control Panel
+                            </Button>
+                        </div>
                     </div>
                 </section>
-            </main>
+            </MainComponent>
             <Footer/>
         </>
 

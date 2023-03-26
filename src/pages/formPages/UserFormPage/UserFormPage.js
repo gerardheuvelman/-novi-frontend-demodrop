@@ -5,18 +5,22 @@ import styles from './UserFormPage.module.css';
 import Footer from "../../../components/otherComponents/structuralComponents/Footer/Footer";
 import UserForm from "../../../components/formComponents/UserForm/UserForm";
 import {GetRequest} from "../../../helpers/axiosHelper";
+import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
 
 function UserFormPage({mode, type}) { // modes : 'anon' or 'admin; types: 'create', 'createadmin', or 'update'
     const {username} = useParams();
     const [user, setUser] = useState(null);
+
+    console.log('type in UserFormPage: ', type);
 
     useEffect(() => {
         async function fetchUser() {
             const response = await new GetRequest(`/users/${username}`).invoke();
             setUser(response.data);
         }
+
         if (type === 'update')
-        void fetchUser();
+            void fetchUser();
     }, []);
 
     useEffect(() => {
@@ -28,6 +32,7 @@ function UserFormPage({mode, type}) { // modes : 'anon' or 'admin; types: 'creat
             };
             setUser(blankUser);
         }
+
         if (type === 'create' || type === 'createadmin')
             void setUserToBlankUser();
     }, []);
@@ -36,34 +41,36 @@ function UserFormPage({mode, type}) { // modes : 'anon' or 'admin; types: 'creat
     console.log('UserFormPage user: ', user);
 
     return (
-    <>
-        <Header>
-            {type === 'create' &&
+        <>
+            {user &&
                 <>
-                    {mode  === 'anon' && <h1>Register yourself</h1>}
-                    {mode  === 'admin' && <h1>Register new user</h1>}
-                    {mode  === 'anon' && <h2>create your personal user account</h2>}
-                    {mode  === 'admin' && <h2>create a new user account</h2>}
-                </>}
-            {type === 'createadmin' &&
-                <>
-                    <h1>Register a new administrator</h1>
-                    <h2>create a new admin account</h2>
-                </>}
-            {type === 'update' &&
-                <>
-                    <h1>Edit User details</h1>
-                    <h2>{`Edit form for user "${username}"`}</h2>
-                </>}
-        </Header>
-        <main>
-            {user && <UserForm mode={mode} type={type} prefillUser={user} />}
-            {mode !== 'admin' && <p>Have an account already? Sign in <Link to="/login">here</Link> .</p>}
-            <p><Link onClick={() => window.history.back()} to="#">{` <<Back`}</Link></p>
-        </main>
-        <Footer/>
-    </>
-  );
+                    <Header>
+                        {type === 'create' &&
+                            <>
+                                {mode === 'anon' && <h3>Register yourself</h3>}
+                                {mode === 'admin' && <h3>Register new user</h3>}
+                                {mode === 'anon' && <h4>create your personal user account</h4>}
+                                {mode === 'admin' && <h4>create a new user account</h4>}
+                            </>}
+                        {type === 'createadmin' &&
+                            <>
+                                <h3>Register a new administrator</h3>
+                                <h4>create a new admin account</h4>
+                            </>}
+                        {type === 'update' &&
+                            <>
+                                <h3>Edit User details</h3>
+                                <h4>{`Edit form for user "${username}"`}</h4>
+                            </>}
+                    </Header>
+                    <MainComponent>
+                        {user && <UserForm mode={mode} type={type} prefillUser={user}/>}
+                    </MainComponent>
+                    <Footer/>
+                </>
+            }
+        </>
+    );
 }
 
 export default UserFormPage;

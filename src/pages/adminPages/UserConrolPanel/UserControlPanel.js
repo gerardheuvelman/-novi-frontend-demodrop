@@ -5,6 +5,7 @@ import {AuthContext} from '../../../context/AuthContext';
 import UserList from "../../../components/listComponents/UserList/UserList";
 import styles from './UserControlPanel.module.css';
 import Footer from "../../../components/otherComponents/structuralComponents/Footer/Footer";
+import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
 
 function UserControlPanel({mode}) { // mode: 'admin'
 
@@ -14,16 +15,17 @@ function UserControlPanel({mode}) { // mode: 'admin'
     return (
         <>
             <Header>
-                <h1>User control panel</h1>
-                <h2>Welcome, {user.username} </h2>
+                <h3>User control panel</h3>
+                <h4>Welcome, {user.username} </h4>
             </Header>
-            <main>
-                <section>
-                    <p><Link to={'/admin/users/createuser'}>Create new user</Link></p>
-                    <p><Link to={'/admin/users/createadmin'}>Create new admin user</Link></p>
+            <MainComponent>
+                <section className='panel-controls'>
+                    <h3>Available actions</h3>
+                    <Link to={'/admin/users/createuser'}>Create new user</Link>
+                    <Link to={'/admin/users/createadmin'}>Create new admin user</Link>
                 </section>
                 <UserList mode={mode} limit={0} ></UserList>
-            </main>
+            </MainComponent>
             <Footer/>
         </>
 

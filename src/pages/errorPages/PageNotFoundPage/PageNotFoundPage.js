@@ -3,24 +3,25 @@ import Header from "../../../components/otherComponents/structuralComponents/Hea
 import Footer from "../../../components/otherComponents/structuralComponents/Footer/Footer";
 import {Link} from "react-router-dom";
 import styles from './PageNotFoundPage.module.css';
+import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
 
 
 function PageNotFoundPage() {
     return (
         <>
             <Header>
-                <h1>Page not found!!</h1>
-                <h2>We could not find what you were looking for...</h2>
+                <h3>Page not found!!</h3>
+                <h4>We could not find what you were looking for...</h4>
             </Header>
-            <main className='outer-content-container'>
+            <MainComponent className='outer-content-container'>
                 <div className='inner-content-container'>
-                    <p>
+                    <article className='notification-article'>
                         ...and we are very sorry!
 
                         Click <Link onClick={() => window.history.back()} to="#">{` <<Back`}</Link> to return to the page you came from.
-                    </p>
+                    </article>
                 </div>
-            </main>
+            </MainComponent>
 
             <Footer/>
         </>

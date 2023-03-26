@@ -6,6 +6,7 @@ import {AuthContext} from "../../../context/AuthContext";
 import {PostRequest, PutRequest} from "../../../helpers/axiosHelper";
 import ModalConfirmWindow from "../Modals/ModalConfirmWindow/ModalConfirmWindow";
 import ModalMessageWindow from "../Modals/ModalMessageWindow/ModalMessageWindow";
+import Button from "../buttons/Button/Button";
 
 function ConfirmForm({entityName, entityId, friendlyId, mode, type, onSubmit, children}) {  // Modes: 'user','owner' or 'admin'; types: 'create' or 'update'
     const [showConfirm, setShowConfirm] = useState(false);
@@ -97,9 +98,9 @@ function ConfirmForm({entityName, entityId, friendlyId, mode, type, onSubmit, ch
         <>
             <form onSubmit={handleSubmit(handleFormSubmit)}>
                 {children}
-                <button type='submit'>
+                <Button color='red' type='submit'>
                     {capitalizeFirstLetter(type)}
-                </button>
+                </Button>
             </form>
             {showConfirm &&
                 <ModalConfirmWindow formData={formData} onCancel={cancelFormSubmit} onConfirm={handleConfirmFormSubmit}>

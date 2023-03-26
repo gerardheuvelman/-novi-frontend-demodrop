@@ -6,8 +6,9 @@ import {useForm} from 'react-hook-form';
 import styles from './DemoForm.module.css';
 import {AuthContext} from "../../../context/AuthContext";
 import {PostRequest, PutRequest} from "../../../helpers/axiosHelper";
+import Button from "../../otherComponents/buttons/Button/Button";
 
-function DemoForm({mode, prefillDemo}) {
+function DemoForm({mode, type, prefillDemo}) { // modes : 'admin' or others; types: 'create' or 'update'
     const scheme = process.env.REACT_APP_SERVER_SCHEME;
     const domain = process.env.REACT_APP_SERVER_DOMAIN;
     const port = process.env.REACT_APP_SERVER_PORT;
@@ -33,8 +34,9 @@ function DemoForm({mode, prefillDemo}) {
     });
     let fileWasSelected = false
 
-    console.log('mode: ', mode);
-    console.log('prefillDemo: ', prefillDemo);
+    console.log('mode in DemoForm: ', mode);
+    console.log('type in DemoFrom: : ', type);
+    console.log('prefillDemo in DemoForm: ', prefillDemo);
 
     useEffect(() => {
         async function fetchGenres() {
@@ -59,13 +61,14 @@ function DemoForm({mode, prefillDemo}) {
         void fetchGenres();
     }, []);
 
-    async function handeDemoFormSubmit(data) {
-        if (mode === 'create') {
+    async function handleFormSubmit(data) {
+        console.log('handleFormSubmit invoked!');
+        if (type === 'create') {
             if (file !== []) {
                 const newDemoId = await createDemo(data);
                 await sendFileWithDemoId(newDemoId, data);
             }
-        } else if (mode === 'update') {
+        } else if (type === 'update') {
             console.log('now running updateDemo(data): ')
             const updatedDemoId = await updateDemo(data);
             if (data.file) {
@@ -76,6 +79,7 @@ function DemoForm({mode, prefillDemo}) {
     }
 
     async function createDemo({title, length, bpm, genre}) {
+        console.log('createDemo invoked!');
         const response = await new PostRequest(`/demos`, {
             title: title,
             length: length,
@@ -88,6 +92,7 @@ function DemoForm({mode, prefillDemo}) {
     }
 
     async function updateDemo({title, length, bpm, genre}) {
+        console.log('updateDemo invoked!');
         const response = await new PutRequest(`/demos/${prefillDemo.demoId}`, {
             title: title,
             length: length,
@@ -98,6 +103,7 @@ function DemoForm({mode, prefillDemo}) {
         toggleUpdateSuccess(true);
         return response.data.demoId;
     }
+
     // The method below cannot make use of the Axios POST helper method, because it does not support an alternative header value for "content-type".
     async function sendFileWithDemoId(demoId, {file}) {
         const url = `${scheme}://${domain}:${port}/demos/${demoId}/upload`
@@ -134,11 +140,12 @@ function DemoForm({mode, prefillDemo}) {
 
     return (
         <>
-            <div className="page-container">
-                {prefillDemo &&
-                    <form onSubmit={handleSubmit(handeDemoFormSubmit)}>
+            {prefillDemo &&
+                <form className='form' onSubmit={handleSubmit(handleFormSubmit)}>
+                    <div className='form-input'>
+                        <h3>Enter demo details</h3>
                         <InputComponent
-                            inputType="text"
+                            inputType="text" s
                             inputName="title"
                             inputId="title-field"
                             inputLabel="Title:"
@@ -207,6 +214,7 @@ function DemoForm({mode, prefillDemo}) {
                         />
 
                         <label htmlFor='genre-field'>
+                            Genre:
                             <select
                                 defaultValue={prefillDemo.genre.name}
                                 id='genre-field'
@@ -228,7 +236,7 @@ function DemoForm({mode, prefillDemo}) {
                         </label>
                         {errors['genre'] && <p>{errors['genre'].message}</p>}
 
-                        {mode === 'create' &&
+                        {type === 'create' &&
                             <InputComponent
                                 inputType="file"
                                 fileAccept='.mp3'
@@ -236,7 +244,9 @@ function DemoForm({mode, prefillDemo}) {
                                 inputId="file-field"
                                 inputLabel="Select an audioFile:"
                                 validationRules={{
-                                    onChange: (e) => {handleFileChange(e)},
+                                    onChange: (e) => {
+                                        handleFileChange(e)
+                                    },
                                     required: {
                                         value: true,
                                         message: 'Selecting a file is required',
@@ -246,7 +256,7 @@ function DemoForm({mode, prefillDemo}) {
                                 errors={errors}
                             />}
 
-                        {mode === 'update' &&
+                        {type === 'update' &&
                             <InputComponent
                                 inputType="file"
                                 fileAccept='.mp3'
@@ -254,7 +264,9 @@ function DemoForm({mode, prefillDemo}) {
                                 inputId="file-field"
                                 inputLabel="Select a new audioFile:"
                                 validationRules={{
-                                    onChange: (e) => {handleFileChange(e)},
+                                    onChange: (e) => {
+                                        handleFileChange(e)
+                                    },
                                     required: {
                                         value: false,
                                         message: 'Selecting a file is not required',
@@ -263,17 +275,20 @@ function DemoForm({mode, prefillDemo}) {
                                 register={register}
                                 errors={errors}
                             />}
+                    </div>
+                    <div className='form-controls'>
+                        {previewUrl && <audio controls>
+                            <source src={previewUrl} type="audio/mpeg" id="myAudio"/>
+                        </audio>}
 
-                        {previewUrl && <audio controls><source src={previewUrl} type="audio/mpeg" id="myAudio"/></audio>}
-
-                        {mode === 'create' && <button type="submit">Create</button>}
-                        {mode === 'update' && <button type="submit">Update</button>}                    </form>
-
-                }
-                {createSuccess === true && <p>A new demo has been created!</p>}
-                {updateSuccess === true && <p>This demo has been successfully updated!</p>}
-                {assignResponse && <p>A new audio file has been assigned to this demo!</p>}
-            </div>
+                        {type === 'create' && <Button color='white' type="submit">Create</Button>}
+                        {type === 'update' && <Button color='white' type="submit">Update</Button>}
+                        {createSuccess === true && <p>A new demo has been created!</p>}
+                        {updateSuccess === true && <p>This demo has been successfully updated!</p>}
+                        {assignResponse && <p>A new audio file has been assigned to this demo!</p>}
+                    </div>
+                </form>
+            }
         </>
     );
 }

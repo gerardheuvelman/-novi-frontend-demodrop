@@ -1,3 +1,53 @@
-img {
-  width: 600px;
+.commendations-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
+
+.commendation-article {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px;
+}
+
+/*Draai de volgorde van de afbeelding en tekst om bij de 1e, 3e, etc.*/
+.commendation-article:nth-of-type(odd) {
+    flex-direction: row-reverse;
+}
+
+.commendation-article-image {
+    width: 600px;
+    height: 400px;
+    border-radius: 10px;
+}
+
+.commendation-article-text {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary);
+    border-radius: 10px;
+    margin: 0 10px 0 10px;
+    padding: 10px;
+}
+
+.commendation-article-text-paragraph {
+    color: var(--white);
+    font-weight: bold;
+}
+
+.commendations-header {
+    color: var(--white);
+}
+
+
+
+
+
+
+

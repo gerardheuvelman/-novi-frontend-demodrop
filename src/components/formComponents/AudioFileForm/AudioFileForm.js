@@ -6,7 +6,7 @@ import {PostRequest, PutRequest} from "../../../helpers/axiosHelper";
 import {AuthContext} from "../../../context/AuthContext";
 import styles from './AudioFileForm.module..css';
 import SubmitFormButton from "../../otherComponents/ConfirmForm/ConfirmForm";
-import ConfirmForm from "../../otherComponents/ConfirmForm/ConfirmForm";
+import Button from "../../otherComponents/buttons/Button/Button";
 
 function AudioFileForm({mode, type, prefillAudioFile}) { // modes : 'admin; types: 'update'
     const {audioFileId} = useParams()
@@ -62,14 +62,13 @@ function AudioFileForm({mode, type, prefillAudioFile}) { // modes : 'admin; type
         'originalFileName': prefillAudioFile.originalFileName,
     }
 
-    async function handleAudioFileFormSubmit(data) {
+    async function handleFormSubmit(data) {
         console.log('data: ', data);
         if (type === 'create') {
-            CreateAudioFileAsync(data.originalFileName, )
-        } else if (type === 'update'){
+            CreateAudioFileAsync(data.originalFileName,)
+        } else if (type === 'update') {
             await updateAudioFileAsync(data);
         }
-
     }
 
     function capitalizeFirstLetter(string) {
@@ -77,34 +76,34 @@ function AudioFileForm({mode, type, prefillAudioFile}) { // modes : 'admin; type
     }
 
     return (
-    <div className="page-container">
-        {prefillAudioFile &&
-            <form onSubmit={handleSubmit(handleAudioFileFormSubmit)}>
-                <InputComponent
-                    inputType='text'
-                    inputName="fileName"
-                    inputId="filename-field"
-                    inputLabel="New file name: "
-                    validationRules={{
-                        required: {
-                            value: true,
-                            message: ' A valid file name is required',
-                        }
-                    }}
-                    register={register}
-                    errors={errors}
-                />
-
-                <button type='submit'>
-                    {capitalizeFirstLetter(type)}
-                </button>
-            </form>
-
-        }
-        {createSuccess === true && <p>A new audio file has been created!</p>}
-        {updateSuccess === true && <p>This audio file has been successfully updated!</p>}
-    </div>
-);
+        <>
+            {prefillAudioFile &&
+                <form className='form' onSubmit={handleSubmit(handleFormSubmit)}>
+                    <div className='form-input'>
+                        <InputComponent
+                            inputType='text'
+                            inputName="fileName"
+                            inputId="filename-field"
+                            inputLabel="New file name: "
+                            validationRules={{
+                                required: {
+                                    value: true,
+                                    message: ' A valid file name is required',
+                                }
+                            }}
+                            register={register}
+                            errors={errors}
+                        />
+                    </div>
+                    <div className='form-controls'>
+                        <Button color='white' type='submit'>
+                            {capitalizeFirstLetter(type)}
+                        </Button>
+                        {createSuccess === true && <p>A new audio file has been created!</p>}
+                        {updateSuccess === true && <p>This audio file has been successfully updated!</p>}
+                    </div>
+                </form>}
+        </>
+    );
 }
-
-export default AudioFileForm;
+    export default AudioFileForm;

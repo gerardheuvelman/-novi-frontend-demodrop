@@ -8,9 +8,6 @@
 /*  align-items: center;*/
 /*}*/
 
-img {
-  width: 200px;
-}
 
 ul {
   list-style: none;
@@ -20,17 +17,8 @@ ul {
   color: var(--white);
 }
 
-li {
-
-}
-
-a {
-        color: white;
-}
-
 .link {
-  color: var(--white);
-  background-color: greenyellow;
-  text-decoration-color: #FFFFFF;
+  color: var(--primary);
+  font-weight: 600;
   margin: 10px;
 }

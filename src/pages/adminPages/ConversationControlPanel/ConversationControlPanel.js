@@ -6,6 +6,7 @@ import styles from './ConversationControlPanel.module.css';
 import Footer from "../../../components/otherComponents/structuralComponents/Footer/Footer";
 import DemoList from "../../../components/listComponents/DemoList/DemoList";
 import ConversationList from "../../../components/listComponents/ConversationList/ConversationList";
+import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
 
 function ConversationControlPanel({mode}) { // mode: 'admin'
 
@@ -15,15 +16,16 @@ function ConversationControlPanel({mode}) { // mode: 'admin'
     return (
         <>
             <Header>
-                <h1>Conversation control panel</h1>
-                <h2>Welcome, {user.username} </h2>
+                <h3>Conversation control panel</h3>
+                <h4>Welcome, {user.username} </h4>
             </Header>
-            <main>
-                <section>
-                {/* nothind here. to create a new conversation in admin mode, see Demo Control panel   */}
+            <MainComponent>
+                <section className='panel-controls'>
+                    <h3>Available actions</h3>
+                <p>To create a new conversation in admin mode, see <Link to={'/admin/demos'}>Demo Control Panel</Link> </p>
                 </section>
                 <ConversationList mode={mode} limit={0} ></ConversationList>
-            </main>
+            </MainComponent>
             <Footer/>
         </>
 

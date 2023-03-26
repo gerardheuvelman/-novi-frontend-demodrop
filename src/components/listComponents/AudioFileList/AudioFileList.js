@@ -52,8 +52,10 @@ function AudioFileList({mode, limit}) { // modes: 'admin'
                         {(mode === 'admin') && <td><Link to={`/admin/audiofiles/${audioFile.audioFileId}/edit`}>Rename</Link></td>}
                     </tr>
                 })}
+                {audioFiles.length === 0 && <p>There are no audio files that match your search criteria...</p>}
                 </tbody>
             </table>
+
         </>
     )
         ;

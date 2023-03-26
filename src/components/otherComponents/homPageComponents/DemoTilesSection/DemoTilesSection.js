@@ -11,20 +11,19 @@ function DemoTilesSection({children}) {
             const response = await new GetRequest('/demos/?limit=12').invoke();
             setDemos(response.data);
         }
+
         void fetchShortDemoList();
     }, [])
 
     return (
-        <section className='outer-container'>
-            <div className='inner-container'>
-                <h2>Listen to our latest demos</h2>
-                <div>
-                    {demos.map((demo) => {
-                        return <DemoTile demo={demo} key={demo.demoId}/>
-                    })}
-                </div>
-                {children}
+        <section className={styles['demo-tiles-section']}>
+            <h3 className={styles['demo-tiles-header']}>Our latest demos</h3>
+            <div className={styles['demo-tiles-container']}>
+                {demos.map((demo) => {
+                    return <DemoTile demo={demo} key={demo.demoId}/>
+                })}
             </div>
+            {children}
         </section>
     );
 }

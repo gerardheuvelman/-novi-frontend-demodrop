@@ -9,6 +9,7 @@
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    border-radius: 10px;
 }
 
 /* Modal Content/Box */
@@ -19,6 +20,11 @@
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
     position: relative;
+    border-radius: 10px;
+}
+
+.modalChildren {
+    color: var(--black);
 }
 
 /* Close Button */

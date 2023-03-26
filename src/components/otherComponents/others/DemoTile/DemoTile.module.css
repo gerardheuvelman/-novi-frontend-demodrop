@@ -1,0 +1,18 @@
+.demo-tile {
+    flex-basis: 175px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary);
+    margin: 10px;
+    border-radius: 10px;
+}
+.demo-tile-link {
+      color: var(--white);
+      font-weight: 600;
+}
+
+.demo-tile-username {
+    color: var(--white);
+}

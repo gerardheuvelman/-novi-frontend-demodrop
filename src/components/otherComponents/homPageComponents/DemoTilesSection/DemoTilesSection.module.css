@@ -1,0 +1,23 @@
+.demo-tiles-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.demo-tiles-container {
+    background-color: var(--white);
+    margin: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+}
+
+.demo-tiles-header {
+    color: var(--white);
+
+}

@@ -6,6 +6,7 @@ import FavButton from "../../otherComponents/buttons/FavButton/FavButton";
 import axios from "axios";
 import DeleteButton from "../../otherComponents/buttons/DeleteButton/DeleteButton";
 import {DateTime} from "../../../helpers/dateTimeHelper";
+import Button from "../../otherComponents/buttons/Button/Button";
 
 function DemoDetails({demo, mode}) { // mode: 'anon', 'personal', 'owner' or 'admin'
     const {user} = useContext(AuthContext);
@@ -28,13 +29,14 @@ function DemoDetails({demo, mode}) { // mode: 'anon', 'personal', 'owner' or 'ad
                 .then(buffer => {
                     const audioElement = document.querySelector('audio');
                     const sourceElement = document.querySelector('#mp3Source');
-                    const blob = new Blob([buffer], { type: 'audio/mpeg' });
+                    const blob = new Blob([buffer], {type: 'audio/mpeg'});
                     const url = URL.createObjectURL(blob);
                     sourceElement.setAttribute('src', url);
                     audioElement.load();
                 })
                 .catch(error => console.log(error));
         }
+
         void fetchAudioFile();
     }, []);
 
@@ -56,47 +58,60 @@ function DemoDetails({demo, mode}) { // mode: 'anon', 'personal', 'owner' or 'ad
 
     return (
         <>
-            <section className="outer-content-container demo-specifications">
-                <div className="inner-content-container">
-                    {demo && (<div className="demo-specification-details">
-                        <h3>Created date</h3>
-                        <p>{createdDate}</p>
-                        <h3>Created time</h3>
-                        <p>{createdTime}</p>
+            {demo &&
+                <section className='details-section'>
+                    <article className='details-info'>
+                        <h3>Created</h3>
+                        <span>
+                            {createdDate}  {createdTime}
+                        </span>
                         <h3>Title</h3>
-                        <p>{demo.title}</p>
+                        {demo.title}
                         <h3>producer</h3>
-                        { mode !== 'owner' && <p><Link to={`/users/${demo.user.username}/profile`}>{demo.user.username}</Link></p>}
-                        { mode === 'owner' && <p>{demo.user.username}</p>}
+                        {mode !== 'owner' &&
+                            <Link to={`/users/${demo.user.username}/profile`}>{demo.user.username}</Link>}
+                        {mode === 'owner' && <span>{demo.user.username}</span>}
                         <h3>Length</h3>
-                        <p>{demo.length}</p>
+                        {demo.length}
                         <h3>BPM</h3>
-                        <p>{demo.bpm}</p>
+                        {demo.bpm}
                         <h3>Genre</h3>
-                        <p>{demo.genre.name}</p>
+                        {demo.genre.name}
                         <h3>audio file ID</h3>
-                        <p>{demo.audioFile.audioFileId}</p>
+                        {demo.audioFile.audioFileId}
                         <h3>Filename</h3>
-                        <p>{demo.audioFile.originalFileName}</p>
-                        <p>
-                            <audio controls>
-                                <source id="mp3Source" type="audio/mpeg"/>
-                                Your browser does not support the audio element.
-                            </audio>
-                        </p>
-                        {user && <span><strong>Favorite list:</strong><FavButton demoId={demo.demoId}></FavButton></span>}
+                        {demo.audioFile.originalFileName}>
+                    </article>
+                    <article className='details-controls'>
+                        <audio controls>
+                            <source id="mp3Source" type="audio/mpeg"/>
+                            Your browser does not support the audio element.
+                        </audio>
+                        {user &&
+                            <span><strong>Favorite list:</strong><FavButton color='white'
+                                                                            demoId={demo.demoId}></FavButton></span>}
                         {/*Only show this link if You arre logged in and the demo it is YOUR demo*/}
                         {(user && (user.username === demo.user.username)) &&
-                            <p><Link to={`/demos/${demo.demoId}/edit`}>Edit this demo</Link></p>}
+                            <Link to={`/demos/${demo.demoId}/edit`}>Edit this demo</Link>}
                         {/*only show this link if you are logged in and it is NOT your demo*/}
-                        {(user && (user.username === demo.user.username)) &&
-                            <p><Link to={`/demos/${demo.demoId}/inquire`}>Inquire about this demo</Link></p>}
-                         <p><button id="downloadBtn" type='button' onClick={downloadDemo}>Download mp3 file</button></p>
-                        {(mode === 'admin') && <td><Link to={`/admin/demos/${demo.demoId}/edit`}>Edit this demo</Link></td>}
-                        {(mode === 'owner' || mode === 'admin') && <p><DeleteButton entityName='demo' entityId={demo.demoId} friendlyId={demo.title} mode='admin'>Delete this demo</DeleteButton></p>}
-                    </div>)}
-                </div>
-            </section>
+                        {(user && (user.username !== demo.user.username)) &&
+                            <Link to={`/demos/${demo.demoId}/inquire`}>Inquire about this demo</Link>}
+                        <Button color='white' id="downloadBtn" type='button' onClick={downloadDemo}>Download mp3
+                            file</Button>
+                        {(mode === 'admin') &&
+                            <td><Link to={`/admin/demos/${demo.demoId}/edit`}>Edit this demo</Link></td>}
+                        {(mode === 'owner' || mode === 'admin') &&
+                            <DeleteButton
+                                color='white'
+                                entityName='demo'
+                                entityId={demo.demoId}
+                                friendlyId={demo.title}
+                                mode={mode}
+                            >
+                                Delete this demo
+                            </DeleteButton>}
+                    </article>
+                </section>}
         </>);
 }
 

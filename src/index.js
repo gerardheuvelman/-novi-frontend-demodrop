@@ -5,17 +5,27 @@ import AuthContextProvider from './context/AuthContext';
 import App from './App';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import * as ReactDOMClient from 'react-dom/client';
 
-ReactDOM.render(
-    <React.StrictMode> // TODO voor opleveren van het project verwijderen!!
+const container = document.getElementById('root');
+
+// Create a root.
+const root = ReactDOMClient.createRoot(container);
+
+// Initial render: Render an element to the root.
+root.render(
+    <React.StrictMode>
         <Router>
             <AuthContextProvider>
                 <App/>
             </AuthContextProvider>
         </Router>
-    </React.StrictMode>,
-    document.getElementById('root')
+    </React.StrictMode>
 );
+
+// // During an update, there's no need to pass the container again.
+// root.render(<App tab="profile" />);
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

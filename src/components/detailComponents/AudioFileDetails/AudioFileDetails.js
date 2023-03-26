@@ -6,6 +6,7 @@ import FavButton from "../../otherComponents/buttons/FavButton/FavButton";
 import DeleteButton from "../../otherComponents/buttons/DeleteButton/DeleteButton";
 import {DateTime} from "../../../helpers/dateTimeHelper";
 import {GetRequest, PutRequest} from "../../../helpers/axiosHelper";
+import Button from "../../otherComponents/buttons/Button/Button";
 
 function AudioFileDetails({audioFile, mode}) { // mode: 'admin'
     const {user} = useContext(AuthContext);
@@ -21,19 +22,22 @@ function AudioFileDetails({audioFile, mode}) { // mode: 'admin'
 
     useEffect(() => {
         async function fetchAudioFile() {
-            {console.log('fullUrl: ',fullUrl)}
+            {
+                console.log('fullUrl: ', fullUrl)
+            }
             fetch(fullUrl)
                 .then(response => response.arrayBuffer())
                 .then(buffer => {
                     const audioElement = document.querySelector('audio');
                     const sourceElement = document.querySelector('#mp3Source');
-                    const blob = new Blob([buffer], { type: 'audio/mpeg' });
+                    const blob = new Blob([buffer], {type: 'audio/mpeg'});
                     const url = URL.createObjectURL(blob);
                     sourceElement.setAttribute('src', url);
                     audioElement.load();
                 })
                 .catch(error => console.log(error));
         }
+
         void fetchAudioFile();
     }, []);
 
@@ -55,39 +59,56 @@ function AudioFileDetails({audioFile, mode}) { // mode: 'admin'
 
     return (
         <>
-            <section className="outer-content-container audiofile-specifications">
-                <div className="inner-content-container">
-                    {Object.keys(audioFile).length > 0 && (<div className="audiofile-specification-details">
-                        <h3>Created date</h3>
-                        <p>{createdDate}</p>
-                        <h3>Created time</h3>
-                        <p>{createdTime}</p>
-                        <h3>Audio file ID</h3>
-                        <p>{audioFile.audioFileId}</p>
-                        <h3>File name</h3>
-                        <p>{audioFile.originalFileName}</p>
-                        <p>
-                            <audio controls>
-                                <source id="mp3Source" type="audio/mpeg"/>
-                                Your browser does not support the audio element.
-                            </audio>
-                        </p>
-                            <p><Link to={`/admin/audiofiles/${audioFile.audioFileId}/edit`}>Rename this audio file</Link></p>
-                         <p>
-                            <button id="downloadBtn" type='button' onClick={downloadAudioFile}>Download mp3 file</button>
-                        </p>
-                        <h3>demo Id</h3>
-                        <p>{audioFile.demo.demoId}</p>
-                        <h3>demo title</h3>
-                        <p>{audioFile.demo.title}</p>
-                        {mode === 'admin' &&
-                            <p><DeleteButton entityName='demo' entityId={audioFile.demo.demoId} friendlyId={audioFile.demo.title} mode='admin'>Delete</DeleteButton> the demo related to this file</p>}
-                            <p><DeleteButton entityName='audiofile' entityId={audioFile.audioFileId} friendlyId={audioFile.originalFileName} mode='admin'>Delete</DeleteButton> this file. (the mp3 file will persist on disk until orphaned mp3 files are purged)</p>
-                        {mode === 'admin' &&  <Link to="/admin/audiofiles">Back to file control page</Link>}
-                    </div>)}
-                </div>
-            </section>
-        </>);
+            {audioFile && <section className='details-section'>
+                <article className='details-info'>
+                    <h3>Created date</h3>
+                    {createdDate}
+                    <h3>Created time</h3>
+                    {createdTime}
+                    <h3>Audio file ID</h3>
+                    {audioFile.audioFileId}
+                    <h3>File name</h3>
+                    {audioFile.originalFileName}
+                    <h3>demo Id</h3>
+                    {audioFile.demo.demoId}
+                    <h3>demo title</h3>
+                    {audioFile.demo.title}
+                </article>
+                <article className='details-controls'>
+                    <audio controls>
+                        <source id="mp3Source" type="audio/mpeg"/>
+                        Your browser does not support the audio element.
+                    </audio>
+                    <Link to={`/admin/audiofiles/${audioFile.audioFileId}/edit`}>Rename this audio file</Link>
+                    <Button color='white' id="downloadBtn" type='button' onClick={downloadAudioFile}>Download mp3 file</Button>
+                    {mode === 'admin' &&
+                        <>
+                            <span>
+                                <DeleteButton
+                                    color='white'
+                                    entityName='demo'
+                                    entityId={audioFile.demo.demoId}
+                                    friendlyId={audioFile.demo.title}
+                                    mode={mode}
+                                >Delete
+                                </DeleteButton> the demo
+                        related to this file
+                            </span>
+                            <span>
+                                <DeleteButton
+                                    color='white'
+                                    entityName='audiofile'
+                                    entityId={audioFile.audioFileId}
+                                    friendlyId={audioFile.originalFileName}
+                                    mode={mode}>Delete</DeleteButton> this file. (the mp3 file will persist on disk until orphaned mp3 files are purged)
+                            </span>
+                        </>}
+
+                    {mode === 'admin' && <Link to="/admin/audiofiles">Back to file control page</Link>}
+                </article>
+            </section>}
+        </>
+    );
 }
 
 export default AudioFileDetails;

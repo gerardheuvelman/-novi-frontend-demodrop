@@ -1,6 +1,7 @@
 import styles from './AccountStateToggleButton.module.css';
 import React, {useEffect, useState} from 'react';
 import {GetRequest, PatchRequest} from "../../../../helpers/axiosHelper";
+import Button from "../Button/Button";
 
 function AccountStateToggleButton({user}) {
     console.log('user: ',user)
@@ -16,7 +17,7 @@ function AccountStateToggleButton({user}) {
             <span>
                 {console.log('accountStatus: ', accountStatus)}
                 {accountStatus? "Account is enabled " : "Account is disabled " }
-                <button type={"button"} onClick={() => submitAccountStatus(!accountStatus)}>{accountStatus? "Press to disable" : "Press to enable" }</button>
+                <Button color='white' type={"button"} onClick={() => submitAccountStatus(!accountStatus)}>{accountStatus? "Press to disable" : "Press to enable" }</Button>
             </span>
     );
 }

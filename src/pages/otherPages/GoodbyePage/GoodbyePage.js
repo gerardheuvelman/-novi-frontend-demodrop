@@ -1,22 +1,25 @@
 import React from 'react';
 import Header from "../../../components/otherComponents/structuralComponents/Header/Header";
-import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
 import Footer from "../../../components/otherComponents/structuralComponents/Footer/Footer";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
 
-function HttpErrorPage() {
+function GoodbyePage() {
+    const navigate = useNavigate();
     return (
         <>
             <Header>
-                <h3>Http error!</h3>
-                <h4>Something went wrong requesting data from the internet...</h4>
+                <h3>Goodbye!</h3>
+                <h4> We are sorry to see you go...</h4>
             </Header>
             <MainComponent className='outer-content-container'>
                 <div className='inner-content-container'>
                     <article className='notification-article'>
-                        ...and we are very sorry!
+                        It seems you are leaving us.
 
-                        Click <Link onClick={() => window.history.back()} to="#">{` <<Back`}</Link> to return to the page you came from.
+                        Perhaps we will meet again...
+
+                        Click <Link onClick={navigate('/')}>here</Link> to return to our home page page.
                     </article>
                 </div>
             </MainComponent>
@@ -26,4 +29,4 @@ function HttpErrorPage() {
     );
 }
 
-export default HttpErrorPage;
+export default GoodbyePage;

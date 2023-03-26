@@ -1,87 +1,382 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Roboto+Condensed:wght@300;400;700&display=swap');
 
 :root {
-  --primary: red;
-  /*--secondary: #e7613a;*/
-  /*--secondary-light: #FDF4F2;*/
-  --black: #292929;
-  --white: #FFFFFF;
+    --primary: red;
+    --black: #292929;
+    --white: #FFFFFF;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Quicksand', sans-serif;
+    font-family: 'Quicksand', sans-serif;
 }
 
 h1 {
-  font-size: 65px;
+    font-size: 65px;
 }
 
 h2 {
-  font-size: 42px;
+    font-size: 42px;
 }
 
 h3 {
-  font-size: 24px;
+    font-size: 24px;
 }
 
-a,
-a:link,
-a:visited {
-  color: var(--primary);
-  font-weight: 600;
+.back-button-link {
+    color: var(--white);
 }
+
 
 /* De buitenste container is altijd de volledige schermbreedte. Het is een flexbox container die zijn inhoud altijd netjes horizontaal centreert */
 .outer-content-container {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 /*De binnenste container is maximaal 1400px breed, zodat het er ook goed uitziet op brede schermen.
 Hij mag krimpen als het scherm minder breed wordt, maar niet groeien als er meer ruimte is.*/
 .inner-content-container {
-  flex-basis: 1200px;
-  flex-shrink: 1;
-  flex-grow: 0;
-  /*We voegen margin toe aan de linker- en rechterkant, zodat de content nooit helemaal tegen de rand gedrukt kan worden*/
-  margin: 0 20px;
-  /*We zorgen er ook voor dat deze flex-item op haar beurt ook weer een flexbox container is, waarin alle children onder elkaar komen te staan*/
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    flex-basis: 1200px;
+    flex-shrink: 1;
+    flex-grow: 0;
+    /*We voegen margin toe aan de linker- en rechterkant, zodat de content nooit helemaal tegen de rand gedrukt kan worden*/
+    margin: 0 20px;
+    /*We zorgen er ook voor dat deze flex-item op haar beurt ook weer een flexbox container is, waarin alle children onder elkaar komen te staan*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-html,body {
-  height: 100%;
-  font-family: 'Roboto Condensed', sans-serif;
-  font-weight: 300;
-  color: var(--black);
+
+html, body {
+    height: 100%;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: 300;
+    background-color: var(--black);
 }
 
 header {
-  height: 400px; /* adjust to your header's height */
-  background-color: var(--primary);
+    height: 120px; /* adjust to your header's height */
+    background-color: var(--primary);
+    position: sticky;
+    top: 0;
 }
 
 main {
-  min-height: calc(100% - 500px); /* adjust to your header and footer's height */
-  background-color: yellow;
+    min-height: calc(100% - 240px);
+    background-color: var(--black);
 }
 
 section {
-  background-color: gray;
+    background-color: var(--black);
 }
 
-article {
+article a {
+    color: var(--white);
+    font-weight: 600;
+
+}
+
+main div form {
+    background-color: var(--primary);
+    color: var(--white);
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
 }
 
 footer {
-  height: 100px; /* adjust to your footer's height */
-  color: var(--white);
-  background-color: var(--black);
-  padding: 20px 0;
-  text-align: center;
+    height: 120px; /* adjust to your footer's height */
+    color: var(--white);
+    background-color: var(--black);
+    padding: 20px 0;
+    text-align: center;
 }
+
+img {
+    width: 100%;
+}
+
+
+/*ENTITY LIST PAGES*/
+table {
+    background-color: var(--white);
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+}
+
+thead {
+    background-color: var(--primary);
+}
+
+td {
+    color: var(--black);
+    font-weight: 500;
+}
+
+tr a {
+    color: var(--primary);
+    font-weight: 600;
+}
+.white {
+    color: var(--white);
+}
+/*NOTIFICATION PAGES*/
+.notification-article {
+    flex-basis:  500px;
+    background-color: var(--primary);
+    color: var(--white);
+    border-radius: 10px;
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+/*ENTITY DETAILS PAGES*/
+.details-section {
+    background-color: var(--primary);
+    color: var(--white);
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.details-info {
+    flex-basis: 600px;
+    flex-shrink: 1;
+    background-color: var(--white);
+    color: var(--primary);
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.details-info h3 {
+    color: var(--black);
+}
+
+.details-info a {
+    color: var(--primary);
+}
+
+.details-controls {
+    flex-basis: 600px;
+    flex-shrink: 2;
+    height: 300px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+/* ENTITY FORM PAGES*/
+.form {
+    background-color: var(--primary);
+    color: var(--white);
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.form a {
+    color: var(--white);
+}
+
+.form-input {
+    flex-basis: 600px;
+    flex-shrink: 1;
+    background-color: var(--white);
+    color: var(--primary);
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-input h3 {
+    color: var(--black);
+}
+
+.form-controls {
+    flex-basis: 600px;
+    flex-shrink: 2;
+    height: 300px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+/*ADMIN PAGES*/
+.list-backdrop {
+    background-color: var(--primary);
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-controls {
+    width: 500px;
+    background-color: var(--primary);
+    border-radius: 10px;
+    margin: 10px ;
+    padding: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.panel-controls a {
+    color: var(--white);
+}
+
+/*SMART TABLE COLUMNS*/
+
+.priority-1 {
+    display: table-cell;
+}
+.priority-2 {
+    display: table-cell;
+}
+.priority-3 {
+    display: table-cell;
+}
+.priority-4 {
+    display: table-cell;
+}
+.priority-5 {
+    display: table-cell;
+}
+.priority-6 {
+    display: table-cell;
+}
+.priority-7 {
+    display: table-cell;
+}
+.priority-8 {
+    display: table-cell;
+}
+.priority-9 {
+    display: table-cell;
+}
+.priority-10 {
+    display: table-cell;
+}
+.priority-11 {
+    display: table-cell;
+}
+.priority-12 {
+    display: table-cell;
+}
+
+@media only screen and (max-width: 1200px) {
+    .priority-12 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .priority-11 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .priority-10 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .priority-9 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .priority-8 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .priority-7 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .priority-6 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .priority-5 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .priority-4 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 300px) {
+    .priority-3 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 200px) {
+    .priority-2 {
+        display: none;
+    }
+}
+@media only screen and (max-width: 100px) {
+    .priority-1 {
+        display: none;
+    }
+}
+
+
+

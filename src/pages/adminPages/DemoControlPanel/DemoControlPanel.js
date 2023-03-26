@@ -5,6 +5,7 @@ import {AuthContext} from '../../../context/AuthContext';
 import styles from './DemoControlPanel.module.css';
 import Footer from "../../../components/otherComponents/structuralComponents/Footer/Footer";
 import DemoList from "../../../components/listComponents/DemoList/DemoList";
+import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
 
 function DemoControlPanel({mode}) { // mode: 'admin'
 
@@ -14,15 +15,16 @@ function DemoControlPanel({mode}) { // mode: 'admin'
     return (
         <>
             <Header>
-                <h1>Demo control panel</h1>
-                <h2>Welcome, {user.username} </h2>
+                <h3>Demo control panel</h3>
+                <h4>Welcome, {user.username} </h4>
             </Header>
-            <main>
-                <section>
-                    <p><Link to={'/admin/demos/create'}>Create new demo</Link></p>
+            <MainComponent>
+                <section className='panel-controls'>
+                    <h3>Available actions</h3>
+                    <Link to={'/admin/demos/create'}>Create new demo</Link>
                 </section>
                 <DemoList mode={mode} limit={0} ></DemoList>
-            </main>
+            </MainComponent>
             <Footer/>
         </>
 

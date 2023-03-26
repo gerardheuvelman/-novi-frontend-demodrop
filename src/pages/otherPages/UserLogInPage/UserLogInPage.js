@@ -8,6 +8,8 @@ import InputComponent from "../../../components/otherComponents/others/InputComp
 import styles from './UserLogInPage.module.css';
 import Footer from "../../../components/otherComponents/structuralComponents/Footer/Footer";
 import {PostRequest} from "../../../helpers/axiosHelper";
+import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
+import Button from "../../../components/otherComponents/buttons/Button/Button";
 
 
 function UserLogInPage({redirect}) {
@@ -38,12 +40,12 @@ function UserLogInPage({redirect}) {
     return (
         <>
             <Header>
-                <h1>Log in</h1>
+                <h3>Log in</h3>
                 <h4> sign in to your acccount</h4>
             </Header>
-            <main>
-                {forbidden && <p>Oops... Wrong username/password combination!</p>}
-                <form onSubmit={handleSubmit(handleLoginSubmit)}>
+            <MainComponent>
+                <form className='form' onSubmit={handleSubmit(handleLoginSubmit)}>
+                    {forbidden && <p>Oops... Wrong username/password combination!</p>}
                     <InputComponent
                         inputType="text"
                         inputName="username"
@@ -89,11 +91,10 @@ function UserLogInPage({redirect}) {
                         register={register}
                         errors={errors}
                     />
-                    <button type="submit">Log in</button>
+                    <Button color='white' type="submit">Log in</Button>
+                    <span>Don't have an account yet? Please <Link to="/register">Register</Link> first.</span>
                 </form>
-                <p>Don't have an account yet? Please <Link to="/register">Register</Link> first.</p>
-                <p><Link onClick={() => window.history.back()} to="#">{` <<Back`}</Link></p>
-            </main>
+            </MainComponent>
             <Footer/>
         </>
     );

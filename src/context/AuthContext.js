@@ -18,24 +18,28 @@ function AuthContextProvider({children}) {
     }
 
     useEffect(() => {
-        const storedToken = localStorage.getItem('token')
-        if (storedToken) {
-            const decodedToken = jwt_decode(storedToken)
-            if (storedToken && (getUnixTimeCode() < decodedToken.exp * 1000)) {
-                console.log("The user is STILL logged in 🔓.")
-                void fetchUserData(storedToken, decodedToken.sub)
+        function initializeContext() {
+            const storedToken = localStorage.getItem('token')
+            if (storedToken) {
+                const decodedToken = jwt_decode(storedToken)
+                if (storedToken && (getUnixTimeCode() < decodedToken.exp * 1000)) {
+                    console.log("The user is STILL logged in 🔓.")
+                    void fetchUserData(storedToken, decodedToken.sub)
+                } else {
+                    console.log("The JSON Web Token has expired.")
+                    localStorage.removeItem('token')
+                }
             } else {
-                console.log("The JSON Web Token has expired.")
-                localStorage.removeItem('token')
+                setAuth({
+                    ...auth,
+                    isAuth: false,
+                    user: null,
+                    status: "done",
+                })
             }
-        } else {
-            setAuth({
-                ...auth,
-                isAuth: false,
-                user: null,
-                status: "done",
-            })
         }
+
+        void initializeContext();
     }, [])
 
     function login(jwt, redirect) {
@@ -46,10 +50,17 @@ function AuthContextProvider({children}) {
         void fetchUserData(jwt, decodedToken.sub, redirect);
     }
 
-
     async function fetchUserData(token, id, redirect) {
-        const response = await new GetRequest(`/users/${id}`).invoke();
-        setAuth({
+        console.log('fetchUserData redirect: ', redirect);
+        console.log('window.location: ', window.location);
+        if (window.location.pathname  === '/request-error') {
+            setAuth({
+                ...auth,
+                status: 'done'
+            })
+        } else {
+            const response = await new GetRequest(`/users/${id}`).invoke();
+            setAuth({
                 ...auth,
                 isAuth: true,
                 user: {
@@ -59,12 +70,13 @@ function AuthContextProvider({children}) {
                 },
                 status: 'done'
             });
+        }
         if (redirect) {
             navigate(redirect);
         }
     }
 
-    function logout() {
+    function logout(redirect) {
         console.log(" The user has been logged out 🔒.")
         localStorage.removeItem('token')
         setAuth({
@@ -73,7 +85,7 @@ function AuthContextProvider({children}) {
             user: null,
             status: "done"
         })
-        navigate("/")
+        navigate(redirect);
     }
 
     const contextData = {

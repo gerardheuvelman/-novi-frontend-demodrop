@@ -5,21 +5,21 @@ import Footer from "../../../components/otherComponents/structuralComponents/Foo
 import DemoTilesSection from "../../../components/otherComponents/homPageComponents/DemoTilesSection/DemoTilesSection";
 import CommendationsSection from "../../../components/otherComponents/homPageComponents/CommendationsSection/CommendationsSection";
 import GetStartedSection from "../../../components/otherComponents/homPageComponents/GetStartedSection/GetStartedSection";
-import HomePageMainComponent from "../../../components/otherComponents/homPageComponents/HomePageMainComponent/HomePageMainComponent";
+import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
 
 function HomePage() {
 
     return (
         <>
             <Header>
-                <h1>Welcome to DemoDrop!</h1>
-                <h2>the premier music demo trading platform</h2>
+                <h3>Welcome to DemoDrop!</h3>
+                <h4>the premier music demo trading platform</h4>
             </Header>
-            <HomePageMainComponent>
+            <MainComponent>
                 <DemoTilesSection/>
                 <CommendationsSection/>
                 <GetStartedSection/>
-            </HomePageMainComponent>
+            </MainComponent>
             <Footer/>
         </>
     );
