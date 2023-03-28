@@ -7,6 +7,7 @@ import axios from "axios";
 import DeleteButton from "../../otherComponents/buttons/DeleteButton/DeleteButton";
 import {DateTime} from "../../../helpers/dateTimeHelper";
 import Button from "../../otherComponents/buttons/Button/Button";
+import Audio from "../../otherComponents/Audio/Audio";
 
 function DemoDetails({demo, mode}) { // mode: 'anon', 'personal', 'owner' or 'admin'
     const {user} = useContext(AuthContext);
@@ -83,10 +84,7 @@ function DemoDetails({demo, mode}) { // mode: 'anon', 'personal', 'owner' or 'ad
                         {demo.audioFile.originalFileName}>
                     </article>
                     <article className='details-controls'>
-                        <audio controls>
-                            <source id="mp3Source" type="audio/mpeg"/>
-                            Your browser does not support the audio element.
-                        </audio>
+                        <Audio source={"mp3Source"} />
                         {user &&
                             <span><strong>Favorite list:</strong><FavButton color='white'
                                                                             demoId={demo.demoId}></FavButton></span>}

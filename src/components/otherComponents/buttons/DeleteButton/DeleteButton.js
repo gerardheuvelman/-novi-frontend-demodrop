@@ -28,6 +28,7 @@ function DeleteButton({color, entityName, entityId, friendlyId, mode, children})
     }
 
     async function confirmDelete() {
+        console.log('Now deleting user...');
         await deleteEntityAsync();
         if (entityName === 'user') {
             logout('byebye');

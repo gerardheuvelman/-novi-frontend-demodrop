@@ -13,6 +13,10 @@
     margin: 10px;
 }
 
+.commendation-article-text {
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
 /*Draai de volgorde van de afbeelding en tekst om bij de 1e, 3e, etc.*/
 .commendation-article:nth-of-type(odd) {
     flex-direction: row-reverse;

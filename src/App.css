@@ -58,10 +58,11 @@ html, body {
 }
 
 header {
-    height: 120px; /* adjust to your header's height */
+    height: 124px; /* adjust to your header's height */
     background-color: var(--primary);
     position: sticky;
     top: 0;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 main {
@@ -112,6 +113,7 @@ table {
     border-radius: 10px;
     margin: 10px;
     padding: 10px;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 thead {
@@ -166,6 +168,8 @@ tr a {
     background-color: var(--white);
     color: var(--primary);
     border-radius: 10px;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
+
 
     display: flex;
     flex-direction: column;
@@ -199,6 +203,8 @@ tr a {
     border-radius: 10px;
     margin: 10px;
     padding: 10px;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
+
 
     display: flex;
     flex-direction: row;
@@ -208,6 +214,14 @@ tr a {
 
 .form a {
     color: var(--white);
+}
+
+label {
+    margin: 5px;
+}
+
+article > span {
+    margin: 5px;
 }
 
 .form-input {
@@ -221,6 +235,7 @@ tr a {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .form-input h3 {
@@ -244,6 +259,7 @@ tr a {
     margin: 10px;
     padding: 10px;
     border-radius: 10px;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
 
     display: flex;
     flex-direction: column;
@@ -257,6 +273,7 @@ tr a {
     border-radius: 10px;
     margin: 10px ;
     padding: 10px;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
 
     display: flex;
     flex-direction: column;

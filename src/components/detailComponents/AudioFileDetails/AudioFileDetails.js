@@ -7,6 +7,7 @@ import DeleteButton from "../../otherComponents/buttons/DeleteButton/DeleteButto
 import {DateTime} from "../../../helpers/dateTimeHelper";
 import {GetRequest, PutRequest} from "../../../helpers/axiosHelper";
 import Button from "../../otherComponents/buttons/Button/Button";
+import Audio from "../../otherComponents/Audio/Audio";
 
 function AudioFileDetails({audioFile, mode}) { // mode: 'admin'
     const {user} = useContext(AuthContext);
@@ -75,10 +76,7 @@ function AudioFileDetails({audioFile, mode}) { // mode: 'admin'
                     {audioFile.demo.title}
                 </article>
                 <article className='details-controls'>
-                    <audio controls>
-                        <source id="mp3Source" type="audio/mpeg"/>
-                        Your browser does not support the audio element.
-                    </audio>
+                    <Audio source={"mp3Source"}/>
                     <Link to={`/admin/audiofiles/${audioFile.audioFileId}/edit`}>Rename this audio file</Link>
                     <Button color='white' id="downloadBtn" type='button' onClick={downloadAudioFile}>Download mp3 file</Button>
                     {mode === 'admin' &&

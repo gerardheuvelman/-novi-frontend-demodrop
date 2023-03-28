@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styles from './DemoTilesSection.module.css';
 import DemoTile from "../../others/DemoTile/DemoTile";
-import axios from "axios";
 import {GetRequest} from "../../../../helpers/axiosHelper";
 
 function DemoTilesSection({children}) {

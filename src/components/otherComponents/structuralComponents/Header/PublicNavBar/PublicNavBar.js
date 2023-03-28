@@ -2,9 +2,6 @@ import React, {useContext, useState} from 'react';
 import {useNavigate, NavLink, Link, useLocation} from 'react-router-dom';
 import authContext, {AuthContext} from '../../../../../context/AuthContext';
 import styles from './PublicNavBar.module.css';
-import {useHistory} from "react-router-dom";
-import logo from '../../../../../assets/DemoDropLogo.png';
-import InputComponent from "../../../others/InputComponent/InputComponent";
 import Button from "../../../buttons/Button/Button";
 
 
