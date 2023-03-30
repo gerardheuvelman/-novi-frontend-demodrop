@@ -1,34 +1,26 @@
-# KNOWN BUGS: 
-
-- Audiofile has a creagte form. This link should be removed in the admin audioFile control panel 
-- Renaming an audio file does not seem to work
-- deleting a demo does not work
-- after deleting your own account, you should be redirected to  a bye bye page
-
-# TODO:
-- demo control panel needs to have an action of creating a new conversation related to that demo
-- login, change password en change email moeten fle row krijgen bij een breed scherm en flex column bij een smal scherm.
-
-
-
 # DemoDrop- a general purpose online music demo marketplace (front end web project)
 
 ## About
-
 Welcome to DemoDrop. DemoDrop is a general purpose online marketplace where Misic producers can upload their material and sell the rights to DJ's and other parties that are interested in playing said music.
-
-DemoDrop is being developed by Gerard Heuvelman, as the final assignment of the bootcamp Full Stack Dveloper of Novi University, Utrecht, The Netherlands
+DemoDrop is being developed by Gerard Heuvelman, as the final assignment of the bootcamp Full Stack Dveloper of Novi University, Utrecht, The Netherlands.
 
 At this time, DemoDrop exists solely as a source-code only prototype, and as such still requires an IDE to run.
+
+### Version
+1.0
+
+### Known bugs
+None.
 
 ## Main usages
 DemoDrop offers the following functionality:
 - Uploading demos.
-- Searching for demos
-- Listening to a demo (online)
-- Downloading a demo
-- Sending a message to a demo owner
-- Replying to received messages
+- Searching for demos.
+- Listening to a demo (online).
+- Downloading a demo.
+- Sending a message to a demo owner.
+- Replying to received messages.
+- Extensive administrative functionality.
 
 ## Installation guide
 Steps below are only to install and deploy this (front end) portion of the Demo Drop Web application. You must also install and run the  back end project, which can be found at https://github.com/gerardheuvelman/novi-backend-demodrop.
@@ -40,12 +32,16 @@ Prerequisites:
 
 Installation steps:
 
-1. first, install and run the backend portion of this application (see link above.)
+1. First, install and run the backend portion of this application (see link above.)
 2. Clone this project (front end)
 3. load it into your IDE
-4. In the console, type  "npm install" to install dependencies
+4. In the console, type "npm install" to install dependencies
 5. In the .env file (located at the project root folder). fill in the following information:
    REACT_APP_SERVER_SCHEME=<http or https>
    REACT_APP_SERVER_DOMAIN=<eg: localhost>
    REACT_APP_SERVER_PORT=<eg: 8080, 80 or 443>
 6. Once done, type "npm start" in the console. A browser window will open, showing the web app.
+
+## Roadmap:
+- implement pagination for large list requests.
+- Accept other file formats other than .mp3.

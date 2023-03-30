@@ -94,12 +94,11 @@ function ConversationForm({mode, type, prefillConversation}) {  // modes: 'admin
                         />
 
                         <label htmlFor="body-field`">
-                            Body:
                             <textarea
                                 name="body"
                                 id="body-field"
-                                rows="4"
-                                cols="50"
+                                rows="20"
+                                cols="70"
                                 {...register("body", {
                                     required: {
                                         value: true,

@@ -95,10 +95,10 @@ function DemoList({mode, limit, genre, query}) { // modes:  'anon', 'user', 'per
             <SmartTable>
                 <thead>
                 <tr>
-                    <th className='priority-4'>Date</th>
-                    <th className='priority-6'>Time</th>
-                    <th className='priority-2'>Title</th>
-                    {(mode !== 'personal' && mode !== 'owner') && <th className='priority-2'>Producer</th>}
+                    <th className='priority-7'>Date</th>
+                    <th className='priority-8'>Time</th>
+                    <th className='priority-0'>Title</th>
+                    {(mode !== 'personal' && mode !== 'owner') && <th className='priority-6'>Producer</th>}
                     {(mode === 'admin') && <th className='priority-2'>Send message</th>}
                     <th className='priority-4'>Genre</th>
                     {mode !== 'admin' && <th className='priority-4'>BPM</th>}
@@ -113,23 +113,23 @@ function DemoList({mode, limit, genre, query}) { // modes:  'anon', 'user', 'per
                 {demos.map((demo) => {
                     const dateTimeCreated = new DateTime(demo.createdDate);
                     return <tr key={demo.demoId}>
-                        <td className='priority-4'>{dateTimeCreated.getDateString()}</td>
-                        <td className='priority-6'>{dateTimeCreated.getTimeString()}</td>
+                        <td className='priority-7'>{dateTimeCreated.getDateString()}</td>
+                        <td className='priority-8'>{dateTimeCreated.getTimeString()}</td>
                         {(mode === 'anon' || mode === 'user' || mode === 'fav' || mode === 'genre' || mode === 'query') &&
-                            <td className='priority-2'><Link to={`/demos/${demo.demoId}`}>{demo.title}</Link></td>}
+                            <td className='priority-0'><Link to={`/demos/${demo.demoId}`}>{demo.title}</Link></td>}
                         {mode === 'personal' &&
-                            <td className='priority-2'><Link
+                            <td className='priority-0'><Link
                                 to={`/users/${demo.user.username}/demos/${demo.demoId}`}>{demo.title}</Link></td>}
                         {mode === 'owner' &&
-                            <td className='priority-2'><Link
+                            <td className='priority-0'><Link
                                 to={`/users/${demo.user.username}/mydemos/${demo.demoId}`}>{demo.title}</Link>
                             </td>}
-                        {mode === 'admin' && <td className='priority-2'>{demo.title}</td>}
+                        {mode === 'admin' && <td className='priority-0'>{demo.title}</td>}
                         {(mode !== 'admin' && (mode !== 'personal' && mode !== 'owner')) &&
-                            <td className='priority-2'><Link
+                            <td className='priority-6'><Link
                                 to={`/users/${demo.user.username}/profile`}>{demo.user.username}</Link></td>}
                         {mode === 'admin' &&
-                            <td className='priority-2'><Link
+                            <td className='priority-6'><Link
                                 to={`/admin/users/${demo.user.username}`}>{demo.user.username}</Link></td>}
                         {(mode === 'admin') && <Link to={`/admin/demos/${demo.demoId}/sendmessage`}>New message</Link>}
                         <td className='priority-4'>{demo.genre.name}</td>

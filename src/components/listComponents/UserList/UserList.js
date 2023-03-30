@@ -51,7 +51,7 @@ function UserList({mode, limit}) { // currently, mode can only be "admin"
                         {mode === 'admin' && <td><Link to={`/admin/users/${user.username}/edit`}>Edit</Link></td>}
                     </tr>
                 })}
-                {users.length === 0 && <p>There are no users that match your search criteria...</p>}
+                {users.length === 0 && <td>There are no users that match your search criteria...</td>}
                 </tbody>
             </table>
         </>

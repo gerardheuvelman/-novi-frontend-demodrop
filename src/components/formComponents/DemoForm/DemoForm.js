@@ -145,7 +145,7 @@ function DemoForm({mode, type, prefillDemo}) { // modes : 'admin' or others; typ
                     <div className='form-input'>
                         <h3>Enter demo details</h3>
                         <InputComponent
-                            inputType="text" s
+                            inputType="text"
                             inputName="title"
                             inputId="title-field"
                             inputLabel="Title:"
@@ -159,7 +159,7 @@ function DemoForm({mode, type, prefillDemo}) { // modes : 'admin' or others; typ
                                     message: 'Title must be at least 2 characters long',
                                 },
                                 maxLength: {
-                                    value: 1000,
+                                    value: 30,
                                     message: 'Title may be a maximum of 1000 characters ',
                                 },
                             }}

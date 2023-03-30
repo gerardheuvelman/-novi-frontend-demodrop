@@ -24,7 +24,6 @@ function ConversationDetails({conversation, mode}) { // modes: 'owner' or 'admin
                         </span>
                         <h3>Subject</h3>
                         <input disabled={true} value={conversation.subject}></input>
-                        <h3>Body</h3>
                         <textarea rows={10} cols={100} disabled={true} value={conversation.body}/>
                     </article>
                     <article className='details-controls'>
