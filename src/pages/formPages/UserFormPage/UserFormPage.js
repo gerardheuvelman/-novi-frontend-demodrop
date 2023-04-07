@@ -15,7 +15,7 @@ function UserFormPage({mode, type}) { // modes : 'anon' or 'admin; types: 'creat
 
     useEffect(() => {
         async function fetchUser() {
-            const response = await new GetRequest(`/users/${username}`).invoke();
+            const response = await new GetRequest(`/users/${username}/private`).invoke();
             setUser(response.data);
         }
 

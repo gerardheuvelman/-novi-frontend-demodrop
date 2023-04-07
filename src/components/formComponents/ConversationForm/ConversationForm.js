@@ -7,8 +7,7 @@ import {PostRequest, PutRequest} from "../../../helpers/axiosHelper";
 import {useParams} from "react-router-dom";
 import Button from "../../otherComponents/buttons/Button/Button";
 
-function ConversationForm({mode, type, prefillConversation}) {  // modes: 'admin' or others; types: 'create' or 'update'
-    const {user} = useContext(AuthContext);
+function ConversationForm({mode, type, prefillConversation, hasDemo}) {  // modes: 'admin' or others; types: 'create' or 'update'
     const {conversationId} = useParams();
     const [createSuccess, toggleCreateSuccess] = useState(false);
     const [updateSuccess, toggleUpdateSuccess] = useState(false);
@@ -41,9 +40,11 @@ function ConversationForm({mode, type, prefillConversation}) {  // modes: 'admin
 
     async function createConversation({subject, body}) {
         const response = await new PostRequest(`/conversations`, {
+            hasDemo: hasDemo,
             subject: subject,
             body: body,
-            demo: {demoId: prefillConversation.demo.demoId}
+            correspondent: prefillConversation.correspondent,
+            demo: prefillConversation.demo
         }).invoke();
         if (response.status === 201) {
             toggleCreateSuccess(true);
@@ -69,7 +70,7 @@ function ConversationForm({mode, type, prefillConversation}) {  // modes: 'admin
             {prefillConversation &&
                 <form className='form' onSubmit={handleSubmit(handleFormSubmit)}>
                     <div className='form-input'>
-                        <h3>send a message</h3>
+                        <h3>Prepare your message</h3>
                         <InputComponent
                             inputType="text"
                             inputName="subject"
@@ -118,7 +119,8 @@ function ConversationForm({mode, type, prefillConversation}) {  // modes: 'admin
                         </label>
                     </div>
                     <div className='form-controls'>
-                        {<Button color='white' type="submit">Send</Button>}
+                        <h3>Available actions</h3>
+                        {<Button color='white' type="submit">Send message</Button>}
                         {createSuccess === true && <p>Message has been sent!</p>}
                         {updateSuccess === true && <p>Your reply has been sent!</p>}
                     </div>

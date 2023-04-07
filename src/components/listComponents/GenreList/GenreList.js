@@ -6,6 +6,7 @@ import FavButton from "../../otherComponents/buttons/FavButton/FavButton";
 import styles from './GenreList.module.css';
 import {GetRequest} from "../../../helpers/axiosHelper";
 import DeleteButton from "../../otherComponents/buttons/DeleteButton/DeleteButton";
+import SmartTable from "../../otherComponents/SmartTable/SmartTable";
 
 function GenreList({mode, limit}) { // Values for Mode: :  'anon', 'admin'
     const [genres, setGenres] = useState([]);
@@ -27,11 +28,11 @@ function GenreList({mode, limit}) { // Values for Mode: :  'anon', 'admin'
 
     return (
         <>
-            <table>
+            <SmartTable>
                 <thead>
                 <tr>
-                    <th>Genre name</th>
-                    {(mode === 'admin') && <th>View</th>}
+                    <th className='priority-1'>Genre name</th>
+                    {(mode === 'admin') && <th className='priority-1'>View</th>}
                 </tr>
                 </thead>
                 <tbody>
@@ -40,14 +41,14 @@ function GenreList({mode, limit}) { // Values for Mode: :  'anon', 'admin'
                         console.log('genre: ', genre)
                     }
                     return <tr key={genre.name}>
-                        {mode !== 'admin' && <td><Link to={`/demos/bygenre?genre=${genre.name}&limit=0`}>{genre.name}</Link></td>}
-                        {mode === 'admin' && <td>{genre.name}</td>}
-                        {(mode === 'admin') && <td><Link to={`/admin/genres/${genre.name}`}>View</Link></td>}
+                        {mode !== 'admin' && <td className='priority-1'><Link to={`/demos/bygenre?genre=${genre.name}&limit=0`}>{genre.name}</Link></td>}
+                        {mode === 'admin' && <td className='priority-1'>{genre.name}</td>}
+                        {(mode === 'admin') && <td className='priority-1'><Link to={`/admin/genres/${genre.name}`}>View</Link></td>}
                     </tr>
                 })}
                 {genres.length === 0 && <p>There are no genres that match your search criteria...</p>}
                 </tbody>
-            </table>
+            </SmartTable>
         </>
     );
 }

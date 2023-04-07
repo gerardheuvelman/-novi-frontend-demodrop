@@ -8,10 +8,11 @@ function GenreDetails({genreDetails, mode}) { // modes:'admin'
         {genreDetails &&
             <section className='details-section'>
                 <article className='details-info'>
-                    <h3>Genre details</h3>
+                    <h4>Genre details</h4>
                     <p><strong>Genre name: </strong>{genreDetails.name}</p>
                 </article>
                 <article className='details-controls'>
+                    <h3>Available actions</h3>
                     {mode === 'admin' &&
                         <DeleteButton
                             color='white'
@@ -19,6 +20,7 @@ function GenreDetails({genreDetails, mode}) { // modes:'admin'
                             entityId={genreDetails.name}
                             friendlyId={genreDetails.name}
                             mode={mode}
+                            type='single'
                         >
                             Delete genre (permanently!)
                         </DeleteButton>}

@@ -27,7 +27,7 @@ function DemoDetailsPage({mode}) { // modes: 'anon', 'personal', 'owner' or 'adm
                     <Header>
                         {(mode === 'anon' || mode === 'personal' || mode === 'owner') && <h3>Demo specifications</h3>}
                         {mode === 'admin' && <h3>Demo specifications (admin mode)</h3>}
-                        <h4>{` ...for demo "${demo.title}" by ${demo.user.username}`}</h4>
+                        <h4>{` ...for demo "${demo.title}" by ${demo.producer.username}`}</h4>
                     </Header>
                     <MainComponent>
                         {demo ? <DemoDetails demo={demo} mode={mode}/> : <p>Loading...</p>}

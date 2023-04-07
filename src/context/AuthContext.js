@@ -59,7 +59,7 @@ function AuthContextProvider({children}) {
                 status: 'done'
             })
         } else {
-            const response = await new GetRequest(`/users/${id}`).invoke();
+            const response = await new GetRequest(`/users/${id}/private`).invoke();
             setAuth({
                 ...auth,
                 isAuth: true,

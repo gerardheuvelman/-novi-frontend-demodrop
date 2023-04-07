@@ -11,6 +11,7 @@ import ModalConfirmWindow from "../../../components/otherComponents/Modals/Modal
 import ModalMessageWindow from "../../../components/otherComponents/Modals/ModalMessageWindow/ModalMessageWindow";
 import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
 import Button from "../../../components/otherComponents/buttons/Button/Button";
+import DeleteButton from "../../../components/otherComponents/buttons/DeleteButton/DeleteButton";
 
 function AudioFileControlPanel({mode}) { // mode: 'admin'
     const [purgeResponse, setPurgeResponse] = useState("Sorry, no response yet...");
@@ -36,7 +37,7 @@ function AudioFileControlPanel({mode}) { // mode: 'admin'
         setShowMessage(false);
     }
 
-    const handeCancel = ()=> {
+    const handeCancel = () => {
         setShowConfirm(false);
     }
 
@@ -55,8 +56,9 @@ function AudioFileControlPanel({mode}) { // mode: 'admin'
             <MainComponent>
                 <section className='panel-controls'>
                     <h3>Available actions</h3>
-                        <Link to={'/admin/audiofiles/create'}>Create new audio file (Not on disk)</Link>
-                        <Button color='white' type='button' onClick={showConfirmModal}>Purge orphaned mp3 files</Button>
+                    <Link to={'/admin/audiofiles/create'}>Create new audio file (Not on disk)</Link>
+                    <Button color='white' type='button' onClick={showConfirmModal}>Purge orphaned mp3 files</Button>
+                    {/*<DeleteButton color='white' entityName='AudioFile' mode={mode} type='all'>Delete orphaned audio files</DeleteButton>*/}
                 </section>
                 <AudioFileList mode={mode} limit={0}></AudioFileList>
             </MainComponent>

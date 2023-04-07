@@ -6,8 +6,7 @@ export class DateTime{
     }
 
     getDateString() {
-        const reversedDate = this.timeStamp.substring(0,9);
-        // reverse the notation:
+        const reversedDate = this.timeStamp.substring(0,10);
         const dateArray = reversedDate.split('-');
         const reversedDateArray = dateArray.reverse();
         return reversedDateArray.join('-');

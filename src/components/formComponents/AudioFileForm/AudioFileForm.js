@@ -96,11 +96,12 @@ function AudioFileForm({mode, type, prefillAudioFile}) { // modes : 'admin; type
                         />
                     </div>
                     <div className='form-controls'>
+                        <h3>Available actions</h3>
                         <Button color='white' type='submit'>
                             {capitalizeFirstLetter(type)}
                         </Button>
-                        {createSuccess === true && <p>A new audio file has been created!</p>}
-                        {updateSuccess === true && <p>This audio file has been successfully updated!</p>}
+                        {createSuccess === true && <p>A new audio file has been created.</p>}
+                        {updateSuccess === true && <p>This audio file has been successfully updated.</p>}
                     </div>
                 </form>}
         </>

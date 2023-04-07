@@ -277,15 +277,15 @@ function DemoForm({mode, type, prefillDemo}) { // modes : 'admin' or others; typ
                             />}
                     </div>
                     <div className='form-controls'>
+                        <h3>Available actions</h3>
                         {previewUrl && <audio controls>
                             <source src={previewUrl} type="audio/mpeg" id="myAudio"/>
                         </audio>}
-
                         {type === 'create' && <Button color='white' type="submit">Create</Button>}
                         {type === 'update' && <Button color='white' type="submit">Update</Button>}
-                        {createSuccess === true && <p>A new demo has been created!</p>}
-                        {updateSuccess === true && <p>This demo has been successfully updated!</p>}
-                        {assignResponse && <p>A new audio file has been assigned to this demo!</p>}
+                        {createSuccess === true && <p>A new demo has been created.</p>}
+                        {updateSuccess === true && <p>This demo has been successfully updated.</p>}
+                        {assignResponse && <p>A new audio file has been assigned.</p>}
                     </div>
                 </form>
             }

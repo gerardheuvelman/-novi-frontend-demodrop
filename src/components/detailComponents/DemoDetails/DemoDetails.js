@@ -62,42 +62,42 @@ function DemoDetails({demo, mode}) { // mode: 'anon', 'personal', 'owner' or 'ad
             {demo &&
                 <section className='details-section'>
                     <article className='details-info'>
-                        <h3>Created</h3>
+                        <h4>Created</h4>
                         <span>
                             {createdDate}  {createdTime}
                         </span>
-                        <h3>Title</h3>
+                        <h4>Title</h4>
                         {demo.title}
-                        <h3>producer</h3>
+                        <h4>producer</h4>
                         {mode !== 'owner' &&
-                            <Link to={`/users/${demo.user.username}/profile`}>{demo.user.username}</Link>}
-                        {mode === 'owner' && <span>{demo.user.username}</span>}
-                        <h3>Length</h3>
+                            <Link to={`/users/${demo.producer.username}/profile`}>{demo.producer.username}</Link>}
+                        {mode === 'owner' && <span>{demo.producer.username}</span>}
+                        <h4>Length</h4>
                         {demo.length}
-                        <h3>BPM</h3>
+                        <h4>BPM</h4>
                         {demo.bpm}
-                        <h3>Genre</h3>
+                        <h4>Genre</h4>
                         {demo.genre.name}
-                        <h3>audio file ID</h3>
+                        <h4>audio file ID</h4>
                         {demo.audioFile.audioFileId}
-                        <h3>Filename</h3>
+                        <h4>Filename</h4>
                         {demo.audioFile.originalFileName}>
                     </article>
                     <article className='details-controls'>
+                        <h3>Available actions</h3>
                         <Audio source={"mp3Source"} />
                         {user &&
-                            <span><strong>Favorite list:</strong><FavButton color='white'
-                                                                            demoId={demo.demoId}></FavButton></span>}
+                            <span><strong>Favorite list:</strong><FavButton color='white' demoId={demo.demoId}></FavButton></span>}
                         {/*Only show this link if You arre logged in and the demo it is YOUR demo*/}
-                        {(user && (user.username === demo.user.username)) &&
+                        {(user && (user.username === demo.producer.username)) &&
                             <Link to={`/demos/${demo.demoId}/edit`}>Edit this demo</Link>}
                         {/*only show this link if you are logged in and it is NOT your demo*/}
-                        {(user && (user.username !== demo.user.username)) &&
+                        {(user && (user.username !== demo.producer.username)) &&
                             <Link to={`/demos/${demo.demoId}/inquire`}>Inquire about this demo</Link>}
                         <Button color='white' id="downloadBtn" type='button' onClick={downloadDemo}>Download mp3
                             file</Button>
                         {(mode === 'admin') &&
-                            <td><Link to={`/admin/demos/${demo.demoId}/edit`}>Edit this demo</Link></td>}
+                            <Link to={`/admin/demos/${demo.demoId}/edit`}>Edit this demo</Link>}
                         {(mode === 'owner' || mode === 'admin') &&
                             <DeleteButton
                                 color='white'
@@ -105,10 +105,13 @@ function DemoDetails({demo, mode}) { // mode: 'anon', 'personal', 'owner' or 'ad
                                 entityId={demo.demoId}
                                 friendlyId={demo.title}
                                 mode={mode}
+                                type='single'
                             >
                                 Delete this demo
                             </DeleteButton>}
-                    </article>
+                        {(mode !== 'owner' || mode !== 'admin') &&
+                            <Link to={`/demos/${demo.demoId}/report`}>Report this demo</Link>}
+                            </article>
                 </section>}
         </>);
 }

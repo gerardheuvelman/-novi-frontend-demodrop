@@ -150,10 +150,11 @@ function UserForm({mode, type, prefillUser}) { // modes : 'anon' or 'admin; type
                         />
                     </div>
                     <div className='form-controls'>
+                        <h3>Available actions</h3>
                         {mode !== 'admin' && <Button color='white' type="submit">Register</Button>}
                         {mode === 'admin' && <Button color='white' type="submit">Save user</Button>}
-                        {createSuccess === true && <p>A new user has been created!</p>}
-                        {updateSuccess === true && <p>This user has been successfully updated!</p>}
+                        {createSuccess === true && <p>A new user has been created.</p>}
+                        {updateSuccess === true && <p>This user has been successfully updated.</p>}
 
                         {mode !== 'admin' && <span>Have an account already? Sign in <Link to="/login">here</Link>.</span>}
 

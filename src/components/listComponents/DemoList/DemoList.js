@@ -99,52 +99,92 @@ function DemoList({mode, limit, genre, query}) { // modes:  'anon', 'user', 'per
                     <th className='priority-8'>Time</th>
                     <th className='priority-0'>Title</th>
                     {(mode !== 'personal' && mode !== 'owner') && <th className='priority-6'>Producer</th>}
-                    {(mode === 'admin') && <th className='priority-2'>Send message</th>}
+
+                    {(mode === 'admin') && <th className='priority-9'>Send message</th>}
                     <th className='priority-4'>Genre</th>
-                    {mode !== 'admin' && <th className='priority-4'>BPM</th>}
-                    {mode !== 'admin' && <th className='priority-6'>Length</th>}
-                    {mode === 'admin' && <th className='priority-8'>File Name</th>}
-                    {mode === 'admin' && <th className='priority-2'>View</th>}
+
+                    {mode !== 'admin' && <th className='priority-5'>BPM</th>}
+                    {mode !== 'admin' && <th className='priority-8'>Length</th>}
+
+                    {mode === 'admin' && <th className='priority-10'>File Name</th>}
+                    {(isAuth && mode !== 'admin' && mode !== 'owner') && <th className='priority-5'>Favorite</th>}
+                    <th className='priority-1'>View</th>
                     {mode === 'admin' && <th className='priority-4'>Edit</th>}
-                    {(isAuth && mode !== 'admin' && mode !== 'owner') && <th className='priority-6'>Favorite?</th>}
+
+
                 </tr>
                 </thead>
                 <tbody>
                 {demos.map((demo) => {
                     const dateTimeCreated = new DateTime(demo.createdDate);
                     return <tr key={demo.demoId}>
+
+                        {/*Date*/}
                         <td className='priority-7'>{dateTimeCreated.getDateString()}</td>
+
+                        {/*Time*/}
                         <td className='priority-8'>{dateTimeCreated.getTimeString()}</td>
+
+                        {/*Title*/}
                         {(mode === 'anon' || mode === 'user' || mode === 'fav' || mode === 'genre' || mode === 'query') &&
                             <td className='priority-0'><Link to={`/demos/${demo.demoId}`}>{demo.title}</Link></td>}
                         {mode === 'personal' &&
                             <td className='priority-0'><Link
-                                to={`/users/${demo.user.username}/demos/${demo.demoId}`}>{demo.title}</Link></td>}
+                                to={`/users/${demo.producer.username}/demos/${demo.demoId}`}>{demo.title}</Link>
+                            </td>
+                        }
                         {mode === 'owner' &&
                             <td className='priority-0'><Link
-                                to={`/users/${demo.user.username}/mydemos/${demo.demoId}`}>{demo.title}</Link>
+                                to={`/users/${demo.producer.username}/mydemos/${demo.demoId}`}>{demo.title}</Link>
                             </td>}
                         {mode === 'admin' && <td className='priority-0'>{demo.title}</td>}
-                        {(mode !== 'admin' && (mode !== 'personal' && mode !== 'owner')) &&
-                            <td className='priority-6'><Link
-                                to={`/users/${demo.user.username}/profile`}>{demo.user.username}</Link></td>}
-                        {mode === 'admin' &&
-                            <td className='priority-6'><Link
-                                to={`/admin/users/${demo.user.username}`}>{demo.user.username}</Link></td>}
-                        {(mode === 'admin') && <Link to={`/admin/demos/${demo.demoId}/sendmessage`}>New message</Link>}
-                        <td className='priority-4'>{demo.genre.name}</td>
-                        {mode !== 'admin' && <td className='priority-4'>{demo.bpm}</td>}
-                        {mode !== 'admin' && <td className='priority-6'>{demo.length}</td>}
-                        {mode === 'admin' && <td className='priority-8'>{demo.audioFile.originalFileName}</td>}
+
+
+                        {/*Producer*/}
+                        {mode !== 'admin'&& demo.producer ?
+                                    <>
+                                        {mode !== 'personal' && mode !== 'owner' &&
+                                        <td className='priority-6'><Link
+                                            to={`/users/${demo.producer.username}/profile`}>{demo.producer.username}</Link></td>}
+                                        {mode === 'admin' &&
+                                            <td className='priority-6'><Link
+                                                to={`/admin/users/${demo.producer.username}`}>{demo.producer.username}</Link></td>}
+                                    </>
+                                    :<td>null</td>}
+
+                        {/*Send Message*/}
                         {(mode === 'admin') &&
-                            <td className='priority-2'><Link to={`/admin/demos/${demo.demoId}`}>View</Link></td>}
-                        {(mode === 'admin') &&
-                            <td className='priority-4'><Link to={`/admin/demos/${demo.demoId}/edit`}>Edit</Link></td>}
+                            <td className='priority-9'><Link to={`/admin/demos/${demo.demoId}/sendmessage`}>Create</Link></td>}
+
+                        {/*Genre*/}
+                        {demo.genre ? <td className='priority-4'>{demo.genre.name}</td> : <td>null</td>}
+
+                        {/*BPM*/}
+                        {mode !== 'admin' && <td className='priority-5'>{demo.bpm}</td>}
+
+                        {/*Length*/}
+                        {mode !== 'admin' && <td className='priority-8'>{demo.length}</td>}
+
+                        {/*File Name*/}
+                        {mode === 'admin' && <td className='priority-10'>{demo.audioFile.originalFileName}</td>}
+
+                        {/*Favorite?*/}
                         {(isAuth && mode !== 'admin' && mode !== 'owner') &&
-                            <td className='priority-6'>
-                                {(isAuth && user.username !== demo.user.username) &&
+                            <td className='priority-5'>
+                                {(isAuth && user.username !== demo.producer.username) &&
                                     <FavButton color='red' demoId={demo.demoId}/>}
                             </td>}
+
+                        {/*View*/}
+                        {(mode !== 'admin') &&
+                            <td className='priority-1'><Link to={`/demos/${demo.demoId}`}>View</Link></td>}
+                        {(mode === 'admin') &&
+                            <td className='priority-1'><Link to={`/admin/demos/${demo.demoId}`}>View</Link></td>}
+
+                        {/*Edit*/}
+                        {(mode === 'admin') &&
+                            <td className='priority-4'><Link to={`/admin/demos/${demo.demoId}/edit`}>Edit</Link></td>}
+
                     </tr>
                 })}
                 {demos.length === 0 && mode === 'anon' &&

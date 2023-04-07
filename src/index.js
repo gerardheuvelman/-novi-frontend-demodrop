@@ -6,6 +6,7 @@ import App from './App';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import * as ReactDOMClient from 'react-dom/client';
+import SelectContextProvider from "./context/SelectionContext";
 
 const container = document.getElementById('root');
 
@@ -17,7 +18,9 @@ root.render(
     <React.StrictMode>
         <Router>
             <AuthContextProvider>
-                <App/>
+                <SelectContextProvider>
+                    <App/>
+                </SelectContextProvider>
             </AuthContextProvider>
         </Router>
     </React.StrictMode>

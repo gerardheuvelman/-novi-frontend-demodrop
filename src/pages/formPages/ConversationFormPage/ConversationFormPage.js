@@ -7,8 +7,9 @@ import Footer from "../../../components/otherComponents/structuralComponents/Foo
 import {GetRequest} from "../../../helpers/axiosHelper";
 import MainComponent from "../../../components/otherComponents/structuralComponents/MainComponent/MainComponent";
 
-function ConversationFormPage({mode, type}) { // modes: 'admin' or others; types: 'create' or 'update'
+function ConversationFormPage({mode, type, hasDemo}) { // modes: 'admin',  or others; types: 'create' or 'update'
     const {demoId} = useParams();
+    const {username} = useParams()
     const {conversationId} = useParams();
     console.log('mode in ConversationFromPage: ', mode);
     console.log('type in ConversationFromPage: ', type);
@@ -17,28 +18,41 @@ function ConversationFormPage({mode, type}) { // modes: 'admin' or others; types
     const [conversation, setConversation] = useState(null);
 
     useEffect(() => {
-        async function fetchDemoDetails() {
-            console.log('Now making GET request to fetch the demo details: ')
-            const response = await new GetRequest(`/demos/${demoId}`).invoke();
-            console.log('fetchDemoDetails() response: ', response);
-            setConversation(
-                {
-                    subject: `inq: "${response.data.title}"`,
-                    body: "",
-                    demo:
-                        {
-                            demoId: response.data.demoId,
-                            title: response.data.title
-                        }
-                }
-            )
+        async function createEmptyConversation() {
+            if (demoId) {
+                const response = await new GetRequest(`/demos/${demoId}`).invoke();
+                setConversation(
+                    {
+                        correspondent: {username},
+                        subject: `inq: "${response.data.title}"`,
+                        body: "",
+                        hasDemo: true,
+                        demo:
+                            {
+                                demoId: response.data.demoId,
+                                title: response.data.title
+                            },
+                        producer: response.data.producer
+                    }
+                )
+            } else {
+                setConversation(
+                    {
+                        correspondent: {username},
+                        subject: "",
+                        body: "",
+                        hasDemo: false,
+                        demo: null,
+                        producer: username
+                    }
+                )
+            }
         }
 
         if (type === 'create') {
-            void fetchDemoDetails();
+            void createEmptyConversation();
         }
     }, []);
-
 
     useEffect(() => {
         async function fetchConversation() {
@@ -92,21 +106,77 @@ function ConversationFormPage({mode, type}) { // modes: 'admin' or others; types
                     <Header>
                         {type === 'create' &&
                             <>
-                                {mode !== 'admin' && <h3>Inquire about a demo</h3>}
-                                {mode !== 'admin' && <h4>{`... for demo "${conversation.demo.title}"`}</h4>}
-                                {mode === 'admin' && <h3>{`Send message to producer`}</h3>}
-                                {mode === 'admin' && <h4>{`about demo "${conversation.demo.title}"`}</h4>}
-                            </>}
+                                {mode !== 'admin' && // Any other mode but 'admin'
+                                    <>
+                                        {conversation.hasDemo === true &&
+                                            <>
+                                                <h3>{`Send message to producer`}</h3>
+                                                <h4>{`of demo "${conversation.demo.title}"`}</h4>
+                                            </>}
+                                        {conversation.hasDemo === false &&
+                                            <>
+                                                <h3>{`New message`}</h3>
+                                                <h4>{`to user "${username}"`}</h4>
+                                            </>
+                                        }
+                                    </>
+                                }
+                                {mode === 'admin' &&
+                                    <>
+                                        {conversation.hasDemo === true &&
+                                            <>
+                                                <h3>{`Send message to user`}</h3>
+                                                <h4>{`about demo "${conversation.demo.title}"`}</h4>
+                                            </>
+                                        }
+                                        {conversation.hasDemo === false &&
+                                            <>
+                                                <h3>{`Send new admin message`}</h3>
+                                                <h4>{`to user "${username}"`}</h4>
+                                            </>
+                                        }
+                                    </>
+                                }
+                            </>
+                        }
                         {type === 'update' &&
                             <>
-                                {mode !== 'admin' && <h3>reply to a message</h3>}
-                                {mode !== 'admin' && <h4>{`... for demo "${conversation.demo.title}"`}</h4>}
-                                {mode === 'admin' && <h3>{`reply to producer`}</h3>}
-                                {mode === 'admin' && <h4>{`concerning demo "${conversation.demo.title}"`}</h4>}
-                            </>}
+                                {mode !== 'admin' && // Any other mode but 'admin'
+                                    <>
+                                        {conversation.hasDemo === true &&
+                                            <>
+                                                <h3>{`Reply to conversation "${conversation.subject}"`}</h3>
+                                                <h4>{`about demo "${conversation.demo.title}"`}</h4>
+                                            </>}
+                                        {conversation.hasDemo === false &&
+                                            <>
+                                                <h3>{`Reply to conversation "${conversation.subject}"`}</h3>
+                                                <h4>{`with user "${conversation.correspondent.username}"`}</h4>
+                                            </>
+                                        }
+                                    </>
+                                }
+                                {mode === 'admin' &&
+                                    <>
+                                        {conversation.hasDemo === true &&
+                                            <>
+                                                <h3>{`Reply to user "${conversation.correspondent.username}"`}</h3>
+                                                <h4>{`about demo "${conversation.demo.title}"`}</h4>
+                                            </>
+                                        }
+                                        {conversation.hasDemo === false &&
+                                            <>
+                                                <h3>{`Follow up conversation "${conversation.subject}"`}</h3>
+                                                <h4>{`with user "${conversation.correspondent.username}"`}</h4>
+                                            </>
+                                        }
+                                    </>
+                                }
+                            </>
+                        }
                     </Header>
                     <MainComponent>
-                        {conversation && <ConversationForm mode={mode} type={type} prefillConversation={conversation}/>}
+                        {conversation && <ConversationForm mode={mode} type={type} prefillConversation={conversation} hasDemo={conversation.hasDemo}/>}
                     </MainComponent>
                     <Footer/>
                 </>

@@ -42,7 +42,7 @@ Hij mag krimpen als het scherm minder breed wordt, maar niet groeien als er meer
     flex-shrink: 1;
     flex-grow: 0;
     /*We voegen margin toe aan de linker- en rechterkant, zodat de content nooit helemaal tegen de rand gedrukt kan worden*/
-    margin: 0 20px;
+    margin: 10px 0 0 0;
     /*We zorgen er ook voor dat deze flex-item op haar beurt ook weer een flexbox container is, waarin alle children onder elkaar komen te staan*/
     display: flex;
     flex-direction: column;
@@ -58,11 +58,11 @@ html, body {
 }
 
 header {
-    height: 124px; /* adjust to your header's height */
+    height: 195px; /* adjust to your header's height */
     background-color: var(--primary);
     position: sticky;
     top: 0;
-    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
+    /*box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);*/
 }
 
 main {
@@ -120,7 +120,12 @@ thead {
     background-color: var(--primary);
 }
 
+th {
+    padding: 5px;
+}
+
 td {
+    padding: 0px 5px 0px 5px;
     color: var(--black);
     font-weight: 500;
 }
@@ -167,6 +172,7 @@ tr a {
     flex-shrink: 1;
     background-color: var(--white);
     color: var(--primary);
+    padding: 10px;
     border-radius: 10px;
     box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
 
@@ -177,7 +183,7 @@ tr a {
     align-items: center;
 }
 
-.details-info h3 {
+.details-info h4 {
     color: var(--black);
 }
 
@@ -194,6 +200,10 @@ tr a {
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+}
+
+.details-controls > h3 {
+    color: var(--black);
 }
 
 /* ENTITY FORM PAGES*/
@@ -255,6 +265,12 @@ article > span {
     justify-content: space-evenly;
     align-items: center;
 }
+
+.form-controls > h3 {
+    color: var(--black);
+}
+
+
 
 /*ADMIN PAGES*/
 .list-backdrop {

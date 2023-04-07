@@ -83,12 +83,12 @@ function GenreForm({mode, type, prefillGenre}) { // modes : 'admin; types: 'crea
                         />
                     </div>
                     <div className='form-controls'>
-
+                        <h3>Available actions</h3>
                         <Button color='white' type='submit'>
                             {capitalizeFirstLetter(type)}
                         </Button>
-                        {createSuccess === true && <p>A new genre has been created!</p>}
-                        {updateSuccess === true && <p>This genre has been successfully updated!</p>}
+                        {createSuccess === true && <p>A new genre has been created.</p>}
+                        {updateSuccess === true && <p>This genre has been successfully updated.</p>}
 
                     </div>
                 </form>}

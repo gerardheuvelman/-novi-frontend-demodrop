@@ -18,18 +18,21 @@ function ConversationDetails({conversation, mode}) { // modes: 'owner' or 'admin
             {conversation &&
                 <section className='details-section'>
                     <article className='details-info'>
-                        <h3>Last updated</h3>
+                        <h4>Last updated</h4>
                         <span>
                               {lastUpdateDate}  {lastUpdateTime}
                         </span>
-                        <h3>Subject</h3>
+                        <h4>Subject</h4>
                         <input disabled={true} value={conversation.subject}></input>
-                        <textarea rows={10} cols={100} disabled={true} value={conversation.body}/>
+                        <textarea rows={10} cols={50} disabled={true} value={conversation.body}/>
                     </article>
                     <article className='details-controls'>
+                        <h3>Available actions</h3>
                         {mode === 'owner' &&
                             <>
                                 <Link to={`/conversations/${conversationId}/reply`}>Reply</Link>
+                                {(mode !== 'anon' && mode && mode !== 'admin') &&
+                                    <Link to={`/conversations/${conversationId}/report`}>Report this conversation</Link>}
                                 <Link to={`/users/${user.username}/conversations`}>{`<<Back to Inbox`}</Link>
                             </>}
                         {mode === 'admin' &&

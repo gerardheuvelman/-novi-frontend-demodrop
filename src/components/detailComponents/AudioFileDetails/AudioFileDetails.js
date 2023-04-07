@@ -62,20 +62,21 @@ function AudioFileDetails({audioFile, mode}) { // mode: 'admin'
         <>
             {audioFile && <section className='details-section'>
                 <article className='details-info'>
-                    <h3>Created date</h3>
+                    <h4>Created date</h4>
                     {createdDate}
-                    <h3>Created time</h3>
+                    <h4>Created time</h4>
                     {createdTime}
-                    <h3>Audio file ID</h3>
+                    <h4>Audio file ID</h4>
                     {audioFile.audioFileId}
-                    <h3>File name</h3>
+                    <h4>File name</h4>
                     {audioFile.originalFileName}
-                    <h3>demo Id</h3>
+                    <h4>demo Id</h4>
                     {audioFile.demo.demoId}
-                    <h3>demo title</h3>
+                    <h4>demo title</h4>
                     {audioFile.demo.title}
                 </article>
                 <article className='details-controls'>
+                    <h3>Available actions</h3>
                     <Audio source={"mp3Source"}/>
                     <Link to={`/admin/audiofiles/${audioFile.audioFileId}/edit`}>Rename this audio file</Link>
                     <Button color='white' id="downloadBtn" type='button' onClick={downloadAudioFile}>Download mp3 file</Button>
@@ -88,6 +89,7 @@ function AudioFileDetails({audioFile, mode}) { // mode: 'admin'
                                     entityId={audioFile.demo.demoId}
                                     friendlyId={audioFile.demo.title}
                                     mode={mode}
+                                    type='single'
                                 >Delete
                                 </DeleteButton> the demo
                         related to this file
@@ -98,7 +100,11 @@ function AudioFileDetails({audioFile, mode}) { // mode: 'admin'
                                     entityName='audiofile'
                                     entityId={audioFile.audioFileId}
                                     friendlyId={audioFile.originalFileName}
-                                    mode={mode}>Delete</DeleteButton> this file. (the mp3 file will persist on disk until orphaned mp3 files are purged)
+                                    mode={mode}
+                                    type='single'
+                                >
+                                    Delete
+                                </DeleteButton> this file. (the mp3 file will persist on disk until orphaned mp3 files are purged)
                             </span>
                         </>}
 
